@@ -1,0 +1,185 @@
+/*================================================================================
+	Item Name: Modern Admin - Clean Bootstrap 4 Dashboard HTML Template
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.btn-primary {
+    border-color: #dc0000 !important;
+    background-color: #dc0000 !important;
+    color: #FFFFFF;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+	border-color: #dc0000 !important;
+	background-color: #dc0000 !important;
+}
+
+.material-vertical-layout .main-menu .main-menu-content .navigation li.active > a {
+	background-color: #dc0000 !important;
+}
+
+.btn-primary.btn-glow {
+	box-shadow: 0px 1px 20px 1px rgba(245, 0, 0, 0.6);
+}
+
+.table-striped {
+	margin-top: 20px !important;
+}
+
+.material-vertical-layout .app-content .content-header .content-header-dark .content-header-left, .material-vertical-layout .app-content .content-header .content-header-dark .content-header-right, .material-horizontal-layout .app-content .content-header .content-header-dark .content-header-left, .material-horizontal-layout .app-content .content-header .content-header-dark .content-header-right {
+    background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.material-vertical-layout .app-content .content-header .content-header-dark .breadcrumb-item a, .material-horizontal-layout .app-content .content-header .content-header-dark .breadcrumb-item a {
+	color: #dc0000;
+}
+
+.material-vertical-layout .app-content .content-header .content-header-dark .breadcrumb-item + .breadcrumb-item::before, .material-horizontal-layout .app-content .content-header .content-header-dark .breadcrumb-item + .breadcrumb-item::before {
+	color: #dc0000;
+}
+
+.material-vertical-layout .app-content .content-header .content-header-dark .breadcrumb-item a:hover, .material-horizontal-layout .app-content .content-header .content-header-dark .breadcrumb-item a:hover {
+	color: #f50000;
+}
+
+footer.footer-light {
+	background: #000000;
+}
+
+.brand-text {
+	color: #dc0000 !important;
+	font-weight: bold;
+}
+
+footer a {
+	color: #dc0000 !important;
+}
+
+footer a:hover {
+	color: #f50000 !important;
+}
+
+.blue-grey.lighten-2 {
+	color: #ffffff !important;
+}
+
+.navbar-semi-dark .navbar-header {
+	background: #ffffff;
+}
+
+.main-menu.menu-dark {
+	background: #1a1a1a;	
+}
+
+.main-menu.menu-dark .navigation {
+    background: #1a1a1a;	
+}
+
+input.form-control, select.form-control {
+	border-bottom: none;
+	border:1px solid #cccccc;
+}
+
+.card-header {
+	background: #dc0000;
+}
+
+.card-header .card-title {
+	color: #ffffff;	
+}
+
+.main-menu.menu-dark .navigation > li.open > a {
+	border-right: 4px solid #dc0000;
+}
+
+.main-menu.menu-dark .navigation > li > ul {
+	background: #333333;
+}
+
+.menu-content a:hover {
+	background: #292929;
+}
+
+.dropdown .dropdown-menu {
+	overflow: hidden;
+}
+
+.material-vertical-layout .main-menu.menu-dark .company-logo {
+    background: url(../img/logo-bg.png) center center no-repeat;
+	min-height: 175px;
+}
+
+.logo-type {
+	margin-top: 25px;
+}
+
+.logo-type-mobile { 
+	display: none; 
+	max-width: 180px;
+	margin-top: 10px;
+}
+
+.login-form {
+	max-width: 500px;
+	margin: 0px auto;
+}
+
+html body.bg-full-screen-image {
+	background-image:url(../img/bg.jpg);
+}
+
+html body .content {
+	min-height: calc(100% - 44px);
+}
+
+.main-menu.menu-dark .navigation > li > a {
+	line-height: 36px;
+}
+
+@media (max-width:430px) {
+	.landing-logo-mobile {
+		display: block;
+	}
+
+	.landing-logo {
+		display: none;
+	}
+
+	.login-form {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	html body.bg-full-screen-image {
+		background-image:url(../img/bg-mobile.jpg) !important;
+	}
+}
+
+@media (min-width:431px) {
+	.landing-logo-mobile {
+		display: none;
+	}
+
+	.landing-logo {
+		display: block;
+	}
+}
+
+@media (max-width: 991px) {
+	.logo-type { display: none; }
+	.logo-type-mobile { display: block; }
+}
+
+@media (max-width: 991.98px) {
+	[data-menu="vertical-menu-modern"] .navbar-dark .navbar-header .navbar-nav .nav-link, [data-menu="vertical-menu-modern"] .navbar-semi-dark .navbar-header .navbar-nav .nav-link {
+		color: #000000;
+	}
+}
