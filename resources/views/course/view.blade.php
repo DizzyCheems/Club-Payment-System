@@ -7,7 +7,7 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
 			    
-			    <h1 class="app-page-title">View User</h1>
+			    <h1 class="app-page-title">View Course</h1>
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
@@ -15,51 +15,46 @@
 
                         <form class="form" action="#" method="POST" novalidate>
                         @csrf
-                        <input type="hidden" name="id" value ="{{$user['id']}}">
+                        <input type="hidden" name="id" value="{{$courses['id']}}">
                     <div>
+
 	                   @if(Session::has('success'))
                              <div class="alert alert-success">
                                 {{Session::get('success')}} 
                              </div>
                       @endif
                    </div>
-                   <input type="hidden" name="id" value="{{$user['id']}}">
                         <div class="form-body">
                             <div class="form-group">
-                             <h5>FullName<span class="required"></span></h5>
+                             <h5>Course Name<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="name" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{$user['fullname']}}" readonly>
+                                    <input type="text" name="name" class="form-control mb-1" value="{{$courses['name']}}" readonly>
                                 </div>
                          </div>
                          
                          <div class="form-group">
-                             <h5>Email<span class="required"></span></h5>
+                             <h5>Year Level<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="email" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{$user['email']}}" readonly>
+                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$user['year_level']}}" readonly>
+
                                 </div>
                          </div>
 
                          <div class="form-group">
-                          <h5> Role <span class="required"></span></h5>
+                             <h5>Section<span class="required"></span></h5>
                                 <div class="controls">
-                                <select name="role" id="lang" class="form-control" required class="form-control mb-1" value="{{$user['role']}}" readonly>
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                            </select> </div>
-                         </div>
+                                    <input type="text" name="section" class="form-control mb-1" value="{{$user['section']}}" readonly>
 
-                         <div class="form-group">
-                             <h5>Password<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="password" name="password" class="form-control mb-1" required data-validation-required-message="• This field is required" readonly >
                                 </div>
                          </div>
-                    
-                            </div>
+
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('user.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('courses.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-check-square-o"></i> Save
+                            </button>
                         </div>
                     </form>
 						    </div><!--//app-card-footer-->
