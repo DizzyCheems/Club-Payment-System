@@ -36,3 +36,10 @@ Route::get('/courses/view/{id}', [App\Http\Controllers\CourseController::class, 
 Route::post('/courses/updated', [App\Http\Controllers\CourseController::class, 'update'])->name('course.update');
 Route::get('/courses/delete', [App\Http\Controllers\CourseController::class, 'delete'])->name('course/destroy');
 
+Route::get('/students', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+Route::get('/students/add', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
+Route::post('/students/create/registered', [App\Http\Controllers\StudentController::class, 'store'])->name('student.post');
+Route::get('/students/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
+Route::get('/students/view/{id}', [App\Http\Controllers\StudentController::class, 'view'])->name('student.view');
+Route::post('/students/updated', [App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
+Route::get('/students/delete', [App\Http\Controllers\StudentController::class, 'delete'])->name('student/destroy');

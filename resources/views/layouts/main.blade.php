@@ -17,6 +17,7 @@
     
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/portal.css') }}">
+    <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/custom.css') }}">
 
 </head> 
 <!-- END: Head-->

@@ -1,0 +1,15 @@
+.badge-bscs {
+	background-color: purple;
+}
+
+.badge-bsit {
+	background-color: aquamarine;
+}
+
+.badge-blis {
+	background-color: red;
+}
+
+.badge-pill {
+	border-radius: 10px;
+}

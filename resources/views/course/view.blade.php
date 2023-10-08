@@ -28,7 +28,7 @@
                             <div class="form-group">
                              <h5>Course Name<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="name" class="form-control mb-1" value="{{$courses['name']}}" readonly>
+                                    <input type="text" name="course_name" class="form-control mb-1" value="{{$courses['course_name']}}" readonly>
                                 </div>
                          </div>
                          
@@ -49,7 +49,7 @@
                          </div>
 
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('courses.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('course.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">

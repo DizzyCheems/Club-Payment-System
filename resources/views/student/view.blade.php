@@ -7,16 +7,17 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
 			    
-			    <h1 class="app-page-title">Create Course</h1>
+			    <h1 class="app-page-title">View Student Info</h1>
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="{{ route ('course.post') }}" method="POST" novalidate>
+                        <form class="form" action="#" method="POST" novalidate>
                         @csrf
-                        
+                        <input type="hidden" name="id" value="{{$students['id']}}">
                     <div>
+
 	                   @if(Session::has('success'))
                              <div class="alert alert-success">
                                 {{Session::get('success')}} 
@@ -25,35 +26,39 @@
                    </div>
                         <div class="form-body">
                             <div class="form-group">
-                             <h5>Course Name<span class="required"></span></h5>
+                             <h5>Student Name<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="course_name" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                    <input type="text" name="name" class="form-control mb-1" value="{{$students['name']}}" required data-validation-required-message="• This field is required" readonly>
                                 </div>
                          </div>
                          
                          <div class="form-group">
-                          <h5> Year Level <span class="required"></span></h5>
+                             <h5>ID Number<span class="required"></span></h5>
                                 <div class="controls">
-                                <select name="year_level" id="lang" class="form-control" required class="form-control mb-1">
-                                        <option value="1">1st Year</option>
-                                        <option value="2">2nd Year</option>
-                                        <option value="3">3rd Year</option>
-                                        <option value="4">4th Year</option>
-                                  
-                                    </select> 
+                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$students['id_num']}}" required data-validation-required-message="• This field is required" readonly>
+
                                 </div>
                          </div>
 
                          <div class="form-group">
-                             <h5>Section<span class="required"></span></h5>
+                             <h5>FB Account<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="section" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                    <input type="text" name="social_acc" class="form-control mb-1" value="{{$students['social_acc']}}" required data-validation-required-message="• This field is required" readonly>
+
+                                </div>
+                         </div>
+
+                         
+                         <div class="form-group">
+                             <h5>G Cash Account<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input type="text" name="payment_acc" class="form-control mb-1" value="{{$students['payment_acc']}}" required data-validation-required-message="• This field is required" readonly>
 
                                 </div>
                          </div>
 
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('course.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('students.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">

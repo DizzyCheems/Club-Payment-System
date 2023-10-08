@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -13,6 +14,8 @@ class StudentController extends Controller
     public function index()
     {
         //
+        $students = Student::with('courses')->get();
+        return view('student.list', compact('students'));
     }
 
     /**
@@ -21,6 +24,8 @@ class StudentController extends Controller
     public function create()
     {
         //
+        $courses = Course::all();
+        return view ('student.create',['courses'=>$courses]);
     }
 
     /**
@@ -29,22 +34,46 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         //
+        $message=[
+            'required' => 'This field is required!'
+             ];
+                          
+            $request->validate([      
+            'course_id', 
+            'name'=>'required',
+            'id_num'=>'required',
+            'social_acc'=>'required',
+            'payment_acc'=>'required',
+            ],$message);
+                          
+            Student::create([
+            'name' => $request->name, 
+            'id_num' => $request->id_num,
+            'social_acc' => $request->social_acc,
+            'payment_acc' => $request->payment_acc,
+            ]);
+            return redirect()->route('student.index')->with('success', 'Student Registered Successfully');    
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function view($id)
     {
         //
+        $data=Student::find($id);
+        return view ('student.view',['students'=>$data]);   
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
         //
+        $data=Student::find($id);
+        return view ('student.edit',['students'=>$data]);   
     }
 
     /**
@@ -53,13 +82,33 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         //
+        $message=[
+            'required' => 'This credential field is required!'
+        ]; 
+        $request->validate([
+            'name'=>'required',
+            'id_num'=>'required',
+            'social_acc'=>'required',
+            'payment_acc'=>'required',
+
+        ],$message);
+        $student=Student::find($request->id);
+        $student->name=$request->name;
+        $student->id_num=$request->id_num;
+        $student->social_acc=$request->social_acc;
+        $student->payment_acc=$request->payment_acc;                
+        $student->save();
+        return redirect()->route('student.list')
+        ->with('success', 'Student, Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student)
+    public function delete(Request $request) 
     {
-        //
-    }
+       $id = $request->id;
+       $emp = Student::find($id);
+       Student::destroy($id);
+   }
 }

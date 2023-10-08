@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -13,7 +14,7 @@ class CourseController extends Controller
     public function index()
     {
         //
-        $course = Course::all(); 
+        $courses = Course::all(); 
         return view('course.list', compact('courses'));
     }
 
@@ -37,19 +38,18 @@ class CourseController extends Controller
              ];
                           
             $request->validate([      
-            'name'=>'required',
+            'course_name'=>'required',
             'year_level'=>'required',
             'section'=>'required',
             ],$message);
                           
             Course::create([
-            'name' => $request->name, 
-            'year_level' => $request->year_level,
+            'course_name' => $request->course_name, 
+            'year_level'  => Str::upper($request->year_level),
             'section' => $request->section,
             ]);
-            return redirect()->route('course.list')->with('success', 'Course Registered Successfully');    
+            return redirect()->route('course.index')->with('success', 'Course Registered Successfully');    
 
-   
     }
 
     /**
@@ -82,17 +82,17 @@ class CourseController extends Controller
                     'required' => 'This credential field is required!'
                 ]; 
                 $request->validate([
-                    'name'=>'required',
+                    'course_name'=>'required',
                     'year_level'=>'required',
                     'section'=>'required',
         
                 ],$message);
                 $course=Course::find($request->id);
-                $course->name=$request->name;
+                $course->course_name=$request->course_name;
                 $course->year_level=$request->year_level;
                 $course->section=$request->section;        
                 $course->save();
-                return redirect()->route('course.list')
+                return redirect()->route('course.index')
                 ->with('success', 'Course, Updated Successfully');
     }
 

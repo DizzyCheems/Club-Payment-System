@@ -13,7 +13,7 @@
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="{{ route ('courses.update', array('id', => $courses->id))}}" method="POST" novalidate>
+                        <form class="form" action="{{ route ('course.update', array('id', => $courses->id))}}" method="POST" novalidate>
                         @csrf
                         <input type="hidden" name="id" value="{{$courses['id']}}">
                     <div>
@@ -28,14 +28,14 @@
                             <div class="form-group">
                              <h5>Course Name<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="name" class="form-control mb-1" value="{{$courses['name']}}" required data-validation-required-message="• This field is required">
+                                    <input type="text" name="course_name" class="form-control mb-1" value="{{$courses['course_name']}}" required data-validation-required-message="• This field is required">
                                 </div>
                          </div>
                          
                          <div class="form-group">
                              <h5>Year Level<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$user['year_level']}}" required data-validation-required-message="• This field is required">
+                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$courses['year_level']}}" required data-validation-required-message="• This field is required">
 
                                 </div>
                          </div>
@@ -43,13 +43,13 @@
                          <div class="form-group">
                              <h5>Section<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="section" class="form-control mb-1" value="{{$user['section']}}" required data-validation-required-message="• This field is required">
+                                    <input type="text" name="section" class="form-control mb-1" value="{{$courses['section']}}" required data-validation-required-message="• This field is required">
 
                                 </div>
                          </div>
 
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('courses.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('course.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">
