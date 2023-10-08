@@ -43,7 +43,15 @@
                                                 @foreach($students as $student)                 
                                                 <tr>    
                                                         <td>{{ $student->name }}</td>
-                                                        <td>{{ $student->courses->course_name }}</td>
+                                                        <td>
+                                                            @if($student->courses->course_name  == 'BSCS')   
+                                                                <span class="badge badge-pill badge-bscs">BSCS</span>
+                                                            @elseif ($student->courses->course_name == 'BSIT') 
+                                                                <span class="badge badge-pill badge-bsit">BSIT</span>
+                                                            @else 
+                                                                <span class="badge badge-pill badge-blis">BLIS</span>
+                                                            @endif
+                                                        </td>
                                                         <td>{{ $student->id_num }}</td>
                                                         <td>{{ $student->social_acc }}</td>
                                                         <td>{{ $student->payment_acc }}</td>
