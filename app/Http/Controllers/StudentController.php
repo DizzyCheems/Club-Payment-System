@@ -98,7 +98,7 @@ class StudentController extends Controller
         $student->social_acc=$request->social_acc;
         $student->payment_acc=$request->payment_acc;                
         $student->save();
-        return redirect()->route('student.list')
+        return redirect()->route('student.index')
         ->with('success', 'Student, Updated Successfully');
     }
 

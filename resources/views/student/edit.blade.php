@@ -13,7 +13,7 @@
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="{{ route ('student.update', array('id', => $students->id))}}" method="POST" novalidate>
+                        <form class="form" action="{{ route ('student.update', array('id' => $students->id))}}" method="POST" novalidate>
                         @csrf
                         <input type="hidden" name="id" value="{{$students['id']}}">
                     <div>
@@ -35,7 +35,7 @@
                          <div class="form-group">
                              <h5>ID Number<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$students['id_num']}}" required data-validation-required-message="• This field is required">
+                                    <input type="number" name="id_num" class="form-control mb-1" value="{{$students['id_num']}}" required data-validation-required-message="• This field is required">
 
                                 </div>
                          </div>
@@ -58,7 +58,7 @@
                          </div>
 
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('students.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('student.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">

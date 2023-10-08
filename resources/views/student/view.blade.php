@@ -58,7 +58,7 @@
                          </div>
 
                         <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('students.index')}}">
+                            <a class="btn btn-warning mr-1" href="{{route('student.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">
