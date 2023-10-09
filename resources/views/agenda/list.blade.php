@@ -44,14 +44,18 @@
                                                         <td>{{ $agenda->agenda_name }}</td>
                                                         <td>{{ $agenda->deadline }}</td>
                                                         <td>{{ $agenda->total_fund }}</td>
+                                                        @if($agenda->students_paid == 0)
+                                                        <td>0</td>
+                                                        @else
                                                         <td>{{ $agenda->students_paid }}</td>
+                                                        @endif
                                                         <td>
                                                             <span class="dropdown">
                                                                 <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="ft-settings"></i></button>
                                                                 <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">                                            
-                                                                    <a href="{{route('agenda.edit', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-pencil"></i> Agenda Course</a>                                                                                        
-                                                                    <a href="{{route('agenda.view', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-eye"></i> Agenda Course</a>                                                                                                                                  
-                                                                    <a href="#" id="{{$agenda ['id']}}" class="dropdown-item dropdown-user-delete" id="confirm-color"><i class="la la-trash"></i> Agenda Course</a>
+                                                                    <a href="{{route('agenda.edit', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-pencil"></i> Agenda Edit</a>                                                                                        
+                                                                    <a href="{{route('agenda.view', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-eye"></i> Agenda View</a>                                                                                                                                  
+                                                                    <a href="#" id="{{$agenda ['id']}}" class="dropdown-item dropdown-user-delete" id="confirm-color"><i class="la la-trash"></i> Agenda Delete</a>
                                                                 </span>
                                                             </span>
                                                         </td>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('agenda_name');
             $table->string('deadline');
             $table->string('total_fund');
-            $table->integer('students_paid');
+            $table->integer('students_paid')->nullable();
             $table->timestamps();
         });
     }        
