@@ -47,7 +47,7 @@
                         </div>
                     
                         <div class="form-group">
-                            <h5> Course <span class="required"></span></h5>
+                            <h5> Student <span class="required"></span></h5>
                                 <div class="controls">
                                     <select name="student_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($students as $student)
@@ -69,7 +69,7 @@
                             <h5> Payment Type  <span class="required"></span></h5>
                                 <div class="controls">
                                     <select name="type" id="lang" class="form-control" required class="form-control mb-1">
-                                    <option value="Online Payment">Online Payment</option>
+                                    <option value="Online">Online Payment</option>
                                     <option value="Cash">Cash</option>
                                     </select> 
                                 </div>
@@ -80,8 +80,8 @@
                             <h5> Payment Method  <span class="required"></span></h5>
                                 <div class="controls">
                                     <select name="method" id="lang" class="form-control" required class="form-control mb-1">
-                                    <option value="Full Payment">Full Payment</option>
-                                    <option value="Partial Payment">Partial Payment</option>
+                                    <option value="Full">Full Payment</option>
+                                    <option value="Partial">Partial Payment</option>
                                     </select> 
                                 </div>
                     </div>

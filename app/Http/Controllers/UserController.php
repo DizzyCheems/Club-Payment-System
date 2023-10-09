@@ -104,7 +104,7 @@ class UserController extends Controller
         $user=User::find($request->id);
         $user->name=$request->name;
         $user->email=$request->email;
-        $user->role=$request->role;
+        $user->role= Str::upper($request->role);
         $user->password=Hash::make($request->password);
         $user->save();
         return redirect()->route('user.index')

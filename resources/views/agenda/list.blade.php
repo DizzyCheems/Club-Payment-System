@@ -7,11 +7,11 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
 			    
-			    <h1 class="app-page-title">Courses Members</h1>
+			    <h1 class="app-page-title">Agendas</h1>
 
  
                 <div class="app-card-footer p-4 mt-auto">
-                    <a class="btn app-btn-secondary" href="{{ route('course.create') }}">Add Course Members</a>
+                    <a class="btn app-btn-secondary" href="{{ route('agenda.create') }}">Add Agenda</a>
                 </div><!--//app-card-footer-->
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
@@ -97,7 +97,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('course/destroy')}}',
+                    url: '{{route('agenda/destroy')}}',
                     method: 'get',
                     data: {
                         id: id,
@@ -110,7 +110,7 @@
                             'Your file has been deleted.',
                             'success'
                         )
-                        location.replace('{{route('course.index')}}');
+                        location.replace('{{route('agenda.index')}}');
                     }
                 });
             }

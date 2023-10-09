@@ -13,6 +13,8 @@ class AgendaController extends Controller
     public function index()
     {
         //
+        $agendas = Agenda::all();
+        return view('agenda.list', compact('agendas'));
     }
 
     /**
@@ -21,6 +23,7 @@ class AgendaController extends Controller
     public function create()
     {
         //
+        return view('agenda.create');
     }
 
     /**
@@ -29,22 +32,45 @@ class AgendaController extends Controller
     public function store(Request $request)
     {
         //
+                $message=[
+                    'required' => 'This field is required!'
+                     ];
+                                  
+                    $request->validate([      
+                    'agenda_name'=>'required',
+                    'deadline'=>'required',
+                    'total_fund'=>'required',
+                    'students_paid'=>'required',
+                    ],$message);
+                                  
+                    Agenda::create([
+                    'agenda_name' => $request->agenda_name, 
+                    'deadline' => $request->deadline,
+                    'total_fund' => $request->total_fund,
+                    'students_paid' => $request->students_paid,
+                    ]);
+                    return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Agenda $agenda)
+    public function view($id)
     {
         //
+        $data=Agenda::find($id);
+        return view ('agenda.view',['agendas'=>$data]);   
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Agenda $agenda)
+    public function edit($id)
     {
         //
+        $data=Agenda::find($id);
+        return view ('agenda.edit',['agendas'=>$data]);   
     }
 
     /**
@@ -53,13 +79,33 @@ class AgendaController extends Controller
     public function update(Request $request, Agenda $agenda)
     {
         //
+        $message=[
+            'required' => 'This credential field is required!'
+        ]; 
+        $request->validate([
+            'agenda_name'=>'required',
+            'deadline'=>'required',
+            'total_fund'=>'required',
+            'students_paid'=>'required',
+
+        ],$message);
+        $agenda=Agenda::find($request->id);
+        $agenda->agenda_name=$request->agenda_name;
+        $agenda->deadline=$request->deadline;
+        $agenda->total_fund=$request->total_fund;                
+        $agenda->save();
+        return redirect()->route('agenda.index')
+        ->with('success', 'Agenda, Updated Successfully');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Agenda $agenda)
+    public function delete(Request $request) 
     {
-        //
-    }
+       $id = $request->id;
+       $emp = Agenda::find($id);
+       Agenda::destroy($id);
+   }
 }

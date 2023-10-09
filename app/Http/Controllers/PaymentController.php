@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Payment;
 use App\Models\Agenda;
 use App\Models\Student;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -25,9 +27,10 @@ class PaymentController extends Controller
     public function create()
     {
         //
+        $courses = Course::all();
         $agendas = Agenda::all();
         $students = Student::all();
-        return view ('payment.create',['agendas'=>$agendas], ['students'=>$agendas]);
+        return view('payment.create', compact('courses', 'agendas', 'students'));
     }
 
     /**
@@ -50,8 +53,8 @@ class PaymentController extends Controller
                           
             Student::create([
             'amount' => $request->amount, 
-            'type' => $request->type,
-            'method' => $request->method,
+            'type' => Str::upper($request->type),
+            'method' => Str::upper($request->method),
             ]);
             return redirect()->route('payment.index')->with('success', 'Payment Registered Successfully');    
 
@@ -97,8 +100,8 @@ class PaymentController extends Controller
         ],$message);
         $student=Payment::find($request->id);
         $student->amount=$request->amount;
-        $student->type=$request->type;
-        $student->method=$request->method;                
+        $student->type=Str::upper($request->type);
+        $student->method=Str::upper($request->method);            
         $student->save();
         return redirect()->route('payment.index')
         ->with('success', 'Payment, Updated Successfully');
@@ -110,7 +113,7 @@ class PaymentController extends Controller
     public function delete(Request $request) 
     {
        $id = $request->id;
-       $emp = Student::find($id);
-       Student::destroy($id);
+       $emp = Payment::find($id);
+       Payment::destroy($id);
    }
 }
