@@ -40,14 +40,12 @@ class AgendaController extends Controller
                     'agenda_name'=>'required',
                     'deadline'=>'required',
                     'total_fund'=>'required',
-                    'students_paid'=>'required',
                     ],$message);
                                   
                     Agenda::create([
                     'agenda_name' => $request->agenda_name, 
                     'deadline' => $request->deadline,
                     'total_fund' => $request->total_fund,
-                    'students_paid' => $request->students_paid,
                     ]);
                     return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
         
@@ -86,7 +84,7 @@ class AgendaController extends Controller
             'agenda_name'=>'required',
             'deadline'=>'required',
             'total_fund'=>'required',
-            'students_paid'=>'required',
+          
 
         ],$message);
         $agenda=Agenda::find($request->id);

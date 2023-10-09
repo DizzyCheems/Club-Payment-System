@@ -48,15 +48,6 @@
                                 </div>
                          </div>
 
-                         
-                         <div class="form-group">
-                             <h5>Students Paid<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="number" name="students_paid" class="form-control mb-1" required data-validation-required-message="• This field is required">
-
-                                </div>
-                         </div>
-
                         <div class="form-actions center">
                             <a class="btn btn-warning mr-1" href="{{route('agenda.index')}}">
                                 <i class="ft-x"></i> Cancel
