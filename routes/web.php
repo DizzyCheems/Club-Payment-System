@@ -51,3 +51,11 @@ Route::get('/payments/edit/{id}', [App\Http\Controllers\PaymentController::class
 Route::get('/payments/view/{id}', [App\Http\Controllers\PaymentController::class, 'view'])->name('payment.view');
 Route::post('/payments/updated', [App\Http\Controllers\PaymentController::class, 'update'])->name('payment.update');
 Route::get('/payments/delete', [App\Http\Controllers\PaymentController::class, 'delete'])->name('payment/destroy');
+
+Route::get('/agendas', [App\Http\Controllers\AgendaController::class, 'index'])->name('agenda.index');
+Route::get('/agendas/add', [App\Http\Controllers\AgendaController::class, 'create'])->name('agenda.create');
+Route::post('/agendas/create/registered', [App\Http\Controllers\AgendaController::class, 'store'])->name('agenda.post');
+Route::get('/agendas/edit/{id}', [App\Http\Controllers\AgendaController::class, 'edit'])->name('agenda.edit');
+Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 'view'])->name('agenda.view');
+Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
+Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
