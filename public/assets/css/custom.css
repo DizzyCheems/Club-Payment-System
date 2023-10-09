@@ -9,6 +9,21 @@
 .badge-blis {
 	background-color: red;
 }
+.badge-online {
+	background-color: blue;
+}
+
+.badge-cash {
+	background-color: yellow;
+}
+
+.badge-full {
+	background-color: green;
+}
+
+.badge-partial {
+	background-color: red;
+}
 
 .badge-pill {
 	border-radius: 10px;

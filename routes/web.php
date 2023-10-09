@@ -43,3 +43,11 @@ Route::get('/students/edit/{id}', [App\Http\Controllers\StudentController::class
 Route::get('/students/view/{id}', [App\Http\Controllers\StudentController::class, 'view'])->name('student.view');
 Route::post('/students/updated', [App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
 Route::get('/students/delete', [App\Http\Controllers\StudentController::class, 'delete'])->name('student/destroy');
+
+Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payments/add', [App\Http\Controllers\PaymentController::class, 'create'])->name('payment.create');
+Route::post('/payments/create/registered', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.post');
+Route::get('/payments/edit/{id}', [App\Http\Controllers\PaymentController::class, 'edit'])->name('payment.edit');
+Route::get('/payments/view/{id}', [App\Http\Controllers\PaymentController::class, 'view'])->name('payment.view');
+Route::post('/payments/updated', [App\Http\Controllers\PaymentController::class, 'update'])->name('payment.update');
+Route::get('/payments/delete', [App\Http\Controllers\PaymentController::class, 'delete'])->name('payment/destroy');
