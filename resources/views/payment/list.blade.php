@@ -42,8 +42,8 @@
                                             <tbody>
                                             @foreach($payments as $payment)                 
                                                 <tr>    
-                                                        <td>{{ $payment->agenda_name }}</td>
-                                                        <td>{{ $payment->student_name }}</td>
+                                                        <td>{{ $payment->agendas->agenda_name }}</td>
+                                                        <td>{{ $payment->students->name }}</td>
                                                         <td>{{ $payment->amount }}</td>
                                                         <td>
                                                             @if($payment->type  == 'ONLINE')   

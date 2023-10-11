@@ -78,6 +78,72 @@
 	    
     </div><!--//app-wrapper-->    	
 
+
+    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+				    <div class="inner">
+					    <div class="app-card-body p-3 p-lg-4">
+
+                            @if (Session::has('success'))
+                                <div x-data="{show: true}" x-init="setTimeout(() => show = false, 2000)" x-show="show">
+                                    <div class="alert alert-success">
+                                        {{ Session::get('success') }}
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="card-content collapse show">
+                                <div class="card-body card-dashboard">            
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered zero-configuration">
+                                            <thead>
+                                                <tr>
+                                                    <th>Agenda</th>
+                                                    <th>Student</th>
+                                                    <th>Amount</th>
+                                                    <th>Type</th>
+                                                    <th>Method</th>
+                                                    <th class="col-actions">Actions</th>                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($payments as $payment)                 
+                                                <tr>    
+                                                        <td>{{ $payment->agendas->agenda_name }}</td>
+                                                        <td>{{ $payment->students->name }}</td>
+                                                        <td>{{ $payment->amount }}</td>
+                                                        <td>
+                                                            @if($payment->type  == 'ONLINE')   
+                                                                <span class="badge badge-pill badge-online">ONLINE</span>
+                                                            @else ($payment->type == 'CASH') 
+                                                                <span class="badge badge-pill badge-cash">CASH</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if($payment->type  == 'PARTIAL')   
+                                                                <span class="badge badge-pill badge-partial">PARTIAL</span>
+                                                            @else ($payment->type == 'FULL') 
+                                                                <span class="badge badge-pill badge-full">FULL</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <span class="dropdown">
+                                                                <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="ft-settings"></i></button>
+                                                                <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">                                            
+                                                                    <a href="{{route('payment.edit', array('id' => $payment->id))}}" class="dropdown-item"><i class="la la-pencil"></i> Edit Payment Info</a>                                                                                        
+                                                                    <a href="{{route('payment.view', array('id' => $payment->id))}}" class="dropdown-item"><i class="la la-eye"></i> View Payment Info</a>                                                                                                                                  
+                                                                    <a href="#" id="{{$payment ['id']}}" class="dropdown-item dropdown-user-delete" id="confirm-color"><i class="la la-trash"></i> Delete Payment Info</a>
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>                    
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
  <!-- BEGIN: Page JS-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
  <script src="{{asset('app-assets/js/scripts/tables/datatables/datatable-basic.js')}}"></script>

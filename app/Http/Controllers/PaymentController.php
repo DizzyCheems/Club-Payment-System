@@ -51,7 +51,7 @@ class PaymentController extends Controller
             'method'=>'required',
             ],$message);
                           
-            Student::create([
+            Payment::create([
             'amount' => $request->amount, 
             'type' => Str::upper($request->type),
             'method' => Str::upper($request->method),
@@ -67,8 +67,11 @@ class PaymentController extends Controller
     public function view($id)
     {
         //
-        $data=Student::find($id);
-        return view ('payment.view',['students'=>$data]);   
+        $courses = Course::all();
+        $agendas = Agenda::all();
+        $students = Student::all();
+        $payments=Payment::find($id);
+        return view('payment.view', compact('courses', 'agendas', 'students', 'payments'));
     }
 
     /**
@@ -77,8 +80,12 @@ class PaymentController extends Controller
     public function edit($id)
     {
         //
-        $data=Payment::find($id);
-        return view ('payment.edit',['payments'=>$data]);   
+        $courses = Course::all();
+        $agendas = Agenda::all();
+        $students = Student::all();
+        $payments=Payment::find($id);
+        return view('payment.edit', compact('courses', 'agendas', 'students', 'payments'));
+   
     }
 
     /**
