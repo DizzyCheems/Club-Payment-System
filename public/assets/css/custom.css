@@ -13,6 +13,18 @@
 	background-color: blue;
 }
 
+.badge-primary {
+	background-color: #007bff;
+}
+
+.badge-danger {
+	background-color: #dc3545;
+}
+
+.badge-pill {
+	border-radius: 10px;
+}
+
 .badge-cash {
 	background-color: yellow;
 }

@@ -38,27 +38,29 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $message=[
-            'required' => 'This field is required!'
-             ];
-                          
-            $request->validate([      
-            'agenda_id',
-            'student_id', 
-            'amount'=>'required',
-            'type'=>'required',
-            'method'=>'required',
-            ],$message);
-                          
-            Payment::create([
-            'amount' => $request->amount, 
+        $message = [
+            'required' => 'This field is required!',
+        ];
+    
+        $request->validate([
+            'agenda_id' => 'required',
+            'student_id' => 'required',
+            'amount' => 'required',
+            'type' => 'required',
+            'method' => 'required',
+        ], $message);
+    
+        Payment::create([
+            'student_id' => $request->student_id,
+            'agenda_id' => $request->agenda_id,
+            'amount' => $request->amount,
             'type' => Str::upper($request->type),
             'method' => Str::upper($request->method),
-            ]);
-            return redirect()->route('payment.index')->with('success', 'Payment Registered Successfully');    
-
+        ]);
+    
+        return redirect()->route('payment.index')->with('success', 'Payment Registered Successfully');
     }
+    
 
 
     /**

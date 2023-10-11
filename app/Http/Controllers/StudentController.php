@@ -40,7 +40,7 @@ class StudentController extends Controller
              ];
                           
             $request->validate([      
-            'course_id', 
+            'course_id' => 'required', 
             'name'=>'required',
             'id_num'=>'required',
             'social_acc'=>'required',
@@ -48,6 +48,7 @@ class StudentController extends Controller
             ],$message);
                           
             Student::create([
+            'course_id' => $request->course_id,
             'name' => $request->name, 
             'id_num' => $request->id_num,
             'social_acc' => $request->social_acc,

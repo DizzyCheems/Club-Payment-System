@@ -29,7 +29,7 @@
                                 <div class="controls">
                                     <select name="agenda_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($agendas as $agenda)
-                                    <option value="agenda_id">{{$agenda->agenda_name}}</option>
+                                    <option value="{{ $agenda->id }}">{{$agenda->agenda_name}}</option>
                                     @endforeach
                                     </select> 
                                 </div>
@@ -40,7 +40,7 @@
                                 <div class="controls">
                                     <select name="course_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($courses as $course)
-                                    <option value="course_id">{{$course->course_name}}</option>
+                                    <option value="{{ $course->id }}">{{$course->course_name}}</option>
                                     @endforeach
                                     </select> 
                                 </div>
@@ -51,7 +51,7 @@
                                 <div class="controls">
                                     <select name="student_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($students as $student)
-                                    <option value="course_id">{{$student->name}}</option>
+                                    <option value="{{ $student->id }}">{{$student->name}}</option>
                                     @endforeach
                                     </select> 
                                 </div>

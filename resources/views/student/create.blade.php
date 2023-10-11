@@ -30,7 +30,7 @@
                                 <div class="controls">
                                     <select name="course_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($courses as $course)
-                                    <option value="course_id">{{$course->course_name}}</option>
+                                    <option value="{{ $course->id }}">{{$course->course_name}}</option>
                                     @endforeach
                                     </select> 
                                 </div>
@@ -64,7 +64,7 @@
                          <div class="form-group">
                              <h5>G Cash Number<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="payment_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                    <input type="number" name="payment_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
 
                                 </div>
                          </div>

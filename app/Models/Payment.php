@@ -10,8 +10,8 @@ class Payment extends Model
     use HasFactory;
     protected $fillable = 
     [
-        //'agenda_id',
-        //'student_id',
+        'agenda_id',
+        'student_id',
         'amount',
         'type',
         'method'

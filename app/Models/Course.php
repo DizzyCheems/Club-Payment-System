@@ -16,7 +16,7 @@ class Course extends Model
         'section'
     ];
 
-    public function items()
+    public function students()
     {
         return $this->hasMany(Student::class);
     }
