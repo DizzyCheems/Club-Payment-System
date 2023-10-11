@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pay extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = 
     [
         //'payment_id',
@@ -22,5 +22,6 @@ class Pay extends Model
     {
         return $this->belongsTo(Payment::class, 'student_id');
     }
-
 }
+
+

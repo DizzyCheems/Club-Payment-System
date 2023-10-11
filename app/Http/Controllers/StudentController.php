@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -62,8 +63,10 @@ class StudentController extends Controller
     public function view($id)
     {
         //
+        $payments=Payment::all();
         $data=Student::find($id);
-        return view ('student.view',['students'=>$data]);   
+        return view ('student.view',['students'=>$data], ['payments' =>$payments]);   
+        
     }
 
     /**

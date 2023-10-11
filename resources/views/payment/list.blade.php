@@ -13,7 +13,8 @@
                 <div class="app-card-footer p-4 mt-auto">
                     <a class="btn app-btn-secondary" href="{{ route('payment.create') }}">Add Payment</a>
                 </div><!--//app-card-footer-->
-			    
+	
+    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">

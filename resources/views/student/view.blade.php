@@ -74,12 +74,18 @@
 		    </div><!--//container-fluid-->
 	    </div><!--//app-content-->
 	    
-
-	    
     </div><!--//app-wrapper-->    	
 
+    
 
-    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+    <!--Start-Body-->
+    <div class="app-wrapper">
+	    
+	    <div class="app-content pt-3 p-md-3 p-lg-4">
+		    <div class="container-xl">
+			    
+    
+			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
@@ -143,6 +149,16 @@
                             </div>
                         </div>
 
+
+                    </div><!--//app-card-footer-->
+                </div><!--//app-card-->
+            </div><!--//col-->
+        </div><!--//row-->
+
+    </div><!--//container-fluid-->
+</div><!--//app-content-->
+
+</div><!--//app-wrapper-->    
 
  <!-- BEGIN: Page JS-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
