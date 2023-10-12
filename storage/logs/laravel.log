@@ -20120,3 +20120,30 @@
 #53 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\xampp\\\\htdocs...')
 #54 {main}
 "} 
+[2023-10-12 08:22:46] local.ERROR: Undefined array key 1 {"exception":"[object] (ErrorException(code: 0): Undefined array key 1 at C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ServeCommand.php:312)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'C:\\\\xampp\\\\htdocs...', 312)
+#1 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ServeCommand.php(312): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'C:\\\\xampp\\\\htdocs...', 312)
+#2 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ServeCommand.php(277): Illuminate\\Foundation\\Console\\ServeCommand->getDateFromLine('45 2023] 127.0....')
+#3 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(236): Illuminate\\Foundation\\Console\\ServeCommand->Illuminate\\Foundation\\Console\\{closure}('45 2023] 127.0....', 0)
+#4 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ServeCommand.php(293): Illuminate\\Support\\Collection->each(Object(Closure))
+#5 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\process\\Process.php(1276): Illuminate\\Foundation\\Console\\ServeCommand->Illuminate\\Foundation\\Console\\{closure}('err', '45 2023] 127.0....')
+#6 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\process\\Process.php(1376): Symfony\\Component\\Process\\Process->Symfony\\Component\\Process\\{closure}('err', '45 2023] 127.0....')
+#7 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\process\\Process.php(1296): Symfony\\Component\\Process\\Process->readPipes(false, false)
+#8 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\process\\Process.php(840): Symfony\\Component\\Process\\Process->updateStatus(false)
+#9 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ServeCommand.php(92): Symfony\\Component\\Process\\Process->isRunning()
+#10 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Console\\ServeCommand->handle()
+#11 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#12 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#13 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#14 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#15 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#16 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#17 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#18 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\console\\Application.php(1081): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#19 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\console\\Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Foundation\\Console\\ServeCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#20 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\symfony\\console\\Application.php(174): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#21 C:\\xampp\\htdocs\\Club-Payment-System\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#22 C:\\xampp\\htdocs\\Club-Payment-System\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#23 {main}
+"} 
