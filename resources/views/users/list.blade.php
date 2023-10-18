@@ -12,16 +12,19 @@
                 <div class="col-auto">
                     <div class="page-utilities">
                         <div class="row align-items-center">
-                            <div class="col-md-auto">
-                                <div class="form-group mb-0">
-                                    <div class="input-group">
-                                        <input type="text" style="width:400px;" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit"  class="btn app-btn-secondary">Search</button>
-                                        </div>
+                        <div class="col-md-auto">
+                            <div class="form-group mb-0">
+                                <div class="input-group">
+                                    <input type="text" style="width:400px;" id="myInput" name="searchorders" onkeyup="myFunction()" class="form-control search-orders" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn app-btn-secondary">Search</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+
+
                                 <div class="col-md-auto">
                                     <select class="form-select w-auto" id="elements-select">
                                         <option value="10">10</option>
@@ -31,7 +34,19 @@
                                     </select>
                                 </div>
 
+                                
                             <div class="col-md-auto">
+                                
+                            
+                            <a class="btn app-btn-secondary" href="{{route('user.create')}}">
+                                    <i width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-add me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                        <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                                    </i>
+                                    Add User
+                                </a>
+
+                            
                                 <a class="btn app-btn-secondary" href="#">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
@@ -39,6 +54,7 @@
                                     </svg>
                                     Download CSV
                                 </a>
+
                             </div>
                         </div><!--//row-->
                     </div><!--//table-utilities-->
@@ -189,31 +205,28 @@
         filterRows(event.target.value);
     });
 
-    // Event listener for the search form
-    const searchInput = document.getElementById('search-orders');
-    const userTable = document.getElementById('userTable');
-    const adminTable = document.getElementById('adminTable');
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("userTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
 
-    searchInput.addEventListener('input', () => {
-        const searchValue = searchInput.value.toLowerCase();
-
-        // Function to filter rows based on search input
-        function filterSearch(table) {
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach((row) => {
-                const name = row.querySelector('.cell:first-child').textContent.toLowerCase();
-                if (name.includes(searchValue)) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        filterSearch(userTable);
-        filterSearch(adminTable);
-    });
 </script>
+
+
 
 
 <script>
@@ -234,6 +247,8 @@
         });
     });
 </script>
+
+
 
 
 

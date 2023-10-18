@@ -29,7 +29,7 @@
                             <div class="col-md-auto">
                                 <div class="form-group mb-0">
                                     <div class="input-group">
-                                        <input type="text" style="width:400px;" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
+                                    <input type="text" style="width:400px;" id="myInput" name="searchorders" onkeyup="myFunction()" class="form-control search-orders" placeholder="Search">
                                         <div class="input-group-append">
                                             <button type="submit"  class="btn app-btn-secondary">Search</button>
                                         </div>
@@ -116,12 +116,13 @@
                                                                 <span class="badge badge-pill badge-partial">PARTIAL</span>
                                                             @else
                                                                 <span class="badge badge-pill badge-full">FULL</span>                                                            
-                                                        </td>
+                                    
+                                                            @endif
+                                                            </td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
                                     <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>            
                                 </tr>
-                                    @endif
                                     @endforeach       
                                     </tbody>
                                 </table>
@@ -158,14 +159,14 @@
                                                             @else ($payment->type == 'CASH') 
                                                                 <span class="badge badge-pill badge-cash">CASH</span>
                                                         </td>
-                                                        <td>
-                                                                <span class="badge badge-pill badge-partial">FULL</span>                     
-                                                        </td>
+                                                        @endif
+                                                        <td><span class="badge badge-pill badge-full">{{ $payment->method }}</span></td>
+                                                 
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
                                     <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>
                                     </tr>
-                                    @endif
+                                    
                                     @endif
                                     @endforeach       
                                     </tbody>
@@ -203,14 +204,13 @@
                                                             @else ($payment->type == 'CASH') 
                                                                 <span class="badge badge-pill badge-cash">CASH</span>
                                                         </td>
-                                                        <td>
-                                                                <span class="badge badge-pill badge-full">PARTIAL</span>
-                                                        </td>
+                                                        @endif
+                                                        <td><span class="badge badge-pill badge-partial">{{ $payment->method }}</span></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
                                     <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>
                                     </tr>
-                                    @endif
+                                    
                                     @endif
                                     @endforeach       
                                     </tbody>
@@ -245,30 +245,33 @@
         filterRows(event.target.value);
     });
 
-    // Event listener for the search form
-    const searchInput = document.getElementById('search-orders');
-    const userTable = document.getElementById('userTable');
-    const adminTable = document.getElementById('adminTable');
+    function myFunction() {
+  var input, filter, table, tr, td, i, j, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("userTable");
+  tr = table.getElementsByTagName("tr");
 
-    searchInput.addEventListener('input', () => {
-        const searchValue = searchInput.value.toLowerCase();
-
-        // Function to filter rows based on search input
-        function filterSearch(table) {
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach((row) => {
-                const name = row.querySelector('.cell:first-child').textContent.toLowerCase();
-                if (name.includes(searchValue)) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+  for (i = 0; i < tr.length; i++) {
+    var found = false;
+    for (j = 0; j < tr[i].cells.length - 1; j++) {
+      td = tr[i].getElementsByTagName("td")[j];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
         }
+      }
+    }
 
-        filterSearch(userTable);
-        filterSearch(adminTable);
-    });
+    if (found) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+}
 </script>
 
 
@@ -290,7 +293,6 @@
         });
     });
 </script>
-
 
 <!-- BEGIN: Page JS-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
