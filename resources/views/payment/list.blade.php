@@ -87,7 +87,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
-                        <table class="table app-table-hover mb-0 text-left" id="userTable">
+                        <table class="table app-table-hover mb-0 text-left" >
                             <thead>
                                 <tr>
                                     <th class="cell">Agenda</th>
@@ -98,7 +98,7 @@
                                     <th class="col-actions">Actions</th>   
                                 </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="userTable">
                                     @foreach($payments as $payment)                 
                                                  <tr data-method="{{ $payment->method }}">   
                                                         <td>{{ $payment->agendas->agenda_name }}</td>
