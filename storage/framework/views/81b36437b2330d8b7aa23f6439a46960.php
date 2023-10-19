@@ -73,7 +73,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
-                        <table class="table app-table-hover mb-0 text-left" id="userTable">
+                        <table class="table app-table-hover mb-0 text-left">
                             <thead>
                                 <tr>
                                     <th class="cell">Name</th>
@@ -83,7 +83,7 @@
                                     <th class="cell">Action</th>
                                 </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="userTable">
             
                                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr data-role="<?php echo e($user->role); ?>">
@@ -204,22 +204,31 @@
         filterRows(event.target.value);
     });
 
-function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
+    function myFunction() {
+  var input, filter, table, tr, td, i, j, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("userTable");
   tr = table.getElementsByTagName("tr");
+
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
+    var found = false;
+    for (j = 0; j < tr[i].cells.length - 1; j++) {
+      td = tr[i].getElementsByTagName("td")[j];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
+        }
       }
-    }       
+    }
+
+    if (found) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
   }
 }
 
