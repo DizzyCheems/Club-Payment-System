@@ -90,9 +90,9 @@
                                             <td class="cell"><?php echo e($user->name); ?></td>
                                             <td class="cell"><span class="truncate"><?php echo e($user->email); ?></span></td>
                                             <?php if($user->role == "ADMIN"): ?>
-                                                <td class="cell"><span class="badge bg-danger"><?php echo e($user->role); ?></span></td>
+                                                <td class="cell"><span class="badge badge-pill badge-blis"><?php echo e($user->role); ?></span></td>
                                             <?php else: ?>
-                                                <td class="cell"><span class="badge bg-success"><?php echo e($user->role); ?></span></td>
+                                                <td class="cell"><span class="badge badge-pill badge-online"><?php echo e($user->role); ?></span></td>
                                             <?php endif; ?>
                                             <td class="cell">
                                                 <span><?php echo e(date('j M', strtotime($user->created_at))); ?></span>
@@ -128,7 +128,7 @@
                                         <tr data-role="<?php echo e($user->role); ?>">
                                             <td class="cell"><?php echo e($user->name); ?></td>
                                             <td class="cell"><span class="truncate"><?php echo e($user->email); ?></span></td>
-                                            <td class="cell"><span class="badge bg-danger"><?php echo e($user->role); ?></span></td>
+                                            <td class="cell"><span class="badge badge-pill badge-blis"><?php echo e($user->role); ?></span></td>
                                             <td class="cell">
                                                 <span><?php echo e(date('j M', strtotime($user->created_at))); ?></span>
                                                 <span class="note"><?php echo e(date('g:i A', strtotime($user->created_at))); ?></span>
@@ -164,7 +164,7 @@
                                         <tr data-role="<?php echo e($user->role); ?>">
                                             <td class="cell"><?php echo e($user->name); ?></td>
                                             <td class="cell"><span class="truncate"><?php echo e($user->email); ?></span></td>
-                                            <td class="cell"><span class="badge bg-success"><?php echo e($user->role); ?></span></td>
+                                            <td class="cell"><span class="badge badge-pill badge-online"><?php echo e($user->role); ?></span></td>
                                             <td class="cell">
                                                 <span><?php echo e(date('j M', strtotime($user->created_at))); ?></span>
                                                 <span class="note"><?php echo e(date('g:i A', strtotime($user->created_at))); ?></span>

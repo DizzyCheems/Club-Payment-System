@@ -91,9 +91,9 @@
                                             <td class="cell">{{ $user->name }}</td>
                                             <td class="cell"><span class="truncate">{{ $user->email }}</span></td>
                                             @if($user->role == "ADMIN")
-                                                <td class="cell"><span class="badge bg-danger">{{ $user->role }}</span></td>
+                                                <td class="cell"><span class="badge badge-pill badge-blis">{{ $user->role }}</span></td>
                                             @else
-                                                <td class="cell"><span class="badge bg-success">{{ $user->role }}</span></td>
+                                                <td class="cell"><span class="badge badge-pill badge-online">{{ $user->role }}</span></td>
                                             @endif
                                             <td class="cell">
                                                 <span>{{ date('j M', strtotime($user->created_at)) }}</span>
@@ -129,7 +129,7 @@
                                         <tr data-role="{{ $user->role }}">
                                             <td class="cell">{{ $user->name }}</td>
                                             <td class="cell"><span class="truncate">{{ $user->email }}</span></td>
-                                            <td class="cell"><span class="badge bg-danger">{{ $user->role }}</span></td>
+                                            <td class="cell"><span class="badge badge-pill badge-blis">{{ $user->role }}</span></td>
                                             <td class="cell">
                                                 <span>{{ date('j M', strtotime($user->created_at)) }}</span>
                                                 <span class="note">{{ date('g:i A', strtotime($user->created_at)) }}</span>
@@ -165,7 +165,7 @@
                                         <tr data-role="{{ $user->role }}">
                                             <td class="cell">{{ $user->name }}</td>
                                             <td class="cell"><span class="truncate">{{ $user->email }}</span></td>
-                                            <td class="cell"><span class="badge bg-success">{{ $user->role }}</span></td>
+                                            <td class="cell"><span class="badge badge-pill badge-online">{{ $user->role }}</span></td>
                                             <td class="cell">
                                                 <span>{{ date('j M', strtotime($user->created_at)) }}</span>
                                                 <span class="note">{{ date('g:i A', strtotime($user->created_at)) }}</span>
