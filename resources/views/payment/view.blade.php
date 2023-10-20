@@ -7,7 +7,7 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
 			    
-			    <h1 class="app-page-title">Update Payment Info</h1>
+			    <h1 class="app-page-title">View Payment Info</h1>
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
@@ -91,9 +91,6 @@
                             <a class="btn btn-warning mr-1" href="{{route('student.index')}}">
                                 <i class="ft-x"></i> Cancel
                             </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="la la-check-square-o"></i> Save
-                            </button>
                         </div>
                     </form>
 						    </div><!--//app-card-footer-->

@@ -87,7 +87,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
-                        <table class="table app-table-hover mb-0 text-left" >
+                        <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" >
                             <thead>
                                 <tr>
                                     <th class="cell">Agenda</th>
@@ -95,6 +95,7 @@
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
+                                    <th class="cell">Date Paid</th>
                                     <th class="col-actions cell">Actions</th>   
                                 </tr>
                                     </thead>
@@ -111,14 +112,22 @@
                                                                 <span class="badge badge-pill badge-cash">CASH</span>
                                                             @endif
                                                         </td>
+                                                    
+
+
                                                         <td>
                                                             @if($payment->method  == 'PARTIAL')   
                                                                 <span class="badge badge-pill badge-partial">PARTIAL</span>
                                                             @else
                                                                 <span class="badge badge-pill badge-full">FULL</span>                                                            
-                                    
                                                             @endif
-                                                            </td>
+                                                        </td>
+
+                                                        <td class="cell">
+                                                            <span>{{ date('j M', strtotime($payment->created_at)) }}</span>
+                                                            <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
+                                                        </td>
+
                                                             <td>              
                                                                 <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
                                                                 <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
@@ -137,7 +146,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                            <table class="table app-table-hover mb-0 text-left" id="adminTable">
+                            <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                             <thead>
                                 <tr>
                                     <th class="cell">Agenda</th>
@@ -145,6 +154,7 @@
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
+                                    <th class="cell">Date Paid</th>
                                     <th class="col-actions">Actions</th>   
                                 </tr>
                                     </thead>
@@ -163,6 +173,12 @@
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-full">{{ $payment->method }}</span></td>
+                            
+                                                        <td class="cell">
+                                                            <span>{{ date('j M', strtotime($payment->created_at)) }}</span>
+                                                            <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
+                                                        </td>
+
                                 <td>              
                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
@@ -183,7 +199,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                            <table class="table app-table-hover mb-0 text-left" id="userTable">
+                            <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="userTable">
                             <thead>
                                 <tr>
                                     <th class="cell">Agenda</th>
@@ -191,6 +207,7 @@
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
+                                    <th class="cell">Date Paid</th>
                                     <th class="col-actions">Actions</th>   
                                 </tr>
                                     </thead>
@@ -209,8 +226,15 @@
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-partial">{{ $payment->method }}</span></td>
-                                         <td>
-                                                        <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
+                                     
+                                                        <td class="cell">
+                                                            <span>{{ date('j M', strtotime($payment->created_at)) }}</span>
+                                                            <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
+                                                        </td>
+
+
+                                        <td>
+                                             <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
                                              <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
                                              <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                         </td>

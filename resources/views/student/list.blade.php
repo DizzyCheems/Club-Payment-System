@@ -73,7 +73,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
-                        <table class="table app-table-hover mb-0 text-left">
+                        <table class="table app-table-hover mb-0 text-left table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th class="cell">Name</th>
@@ -118,7 +118,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="adminTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                                     <thead>
                                         <tr>
                                             <th class="cell">Name</th>
@@ -159,7 +159,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="userTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="userTable">
                                     <thead>
                                         <tr>
                                             <th class="cell">Name</th>
@@ -200,7 +200,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="adminTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                                     <thead>
                                         <tr>
                                             <th class="cell">Name</th>
