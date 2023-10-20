@@ -29,7 +29,7 @@
                                         <option value="50">50</option>
                                         <option value="100">100</option>
                                         <option value="200">200</option>
-                                    </select>
+                                    </select>   
                                 </div>
 
                                 
@@ -204,10 +204,11 @@
                                     <thead>
                                         <tr>
                                             <th class="cell">Name</th>
-                                            <th class="cell">E-mail</th>
-                                            <th class="cell">Role</th>
-                                            <th class="cell">Date</th>
-                                            <th class="cell">Action</th>
+                                            <th class="cell">Course</th>
+                                            <th class="cell">School ID Number</th>
+                                            <th class="cell">Facebook Account</th>
+                                            <th class="cell">G cash/Contact Number</th>
+                                            <th class="col-actions cell">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="userTable">
