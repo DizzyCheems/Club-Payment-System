@@ -322,7 +322,7 @@
 
 <script>    
     // delete Branch ajax request
-    $(document).on('click', '.dropdown-user-delete', function(e) {
+    $(document).on('click', '.app-btn-secondary-delete', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
         let csrf = '{{ csrf_token() }}';

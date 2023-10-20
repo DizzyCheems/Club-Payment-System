@@ -119,10 +119,12 @@
                                     
                                                             @endif
                                                             </td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
-                                    <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>            
-                                </tr>
+                                                            <td>              
+                                                                <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
+                                                                <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
+                                                                <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
+                                                            </td>    
+                                                        </tr>
                                     @endforeach       
                                     </tbody>
                                 </table>
@@ -161,11 +163,12 @@
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-full">{{ $payment->method }}</span></td>
-                                                 
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
-                                    <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>
-                                    </tr>
+                                <td>              
+                                    <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
+                                    <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
+                                    <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
+                                </td>    
+                                </tr>
                                     
                                     @endif
                                     @endforeach       
@@ -206,9 +209,11 @@
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-partial">{{ $payment->method }}</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a></td>
-                                    <td class="cell"><a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a></td>
+                                         <td>
+                                                        <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
+                                             <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
+                                             <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
+                                        </td>
                                     </tr>
                                     
                                     @endif
