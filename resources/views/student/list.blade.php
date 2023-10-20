@@ -90,11 +90,11 @@
                                                         <td>{{ $student->name }}</td>
                                                         <td>
                                                             @if($student->courses->course_name  == 'BSCS')   
-                                                                <span class="badge badge-pill badge-bscs">BSCS</span>
+                                                                <span class="badge badge-pill badge-bscs">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                             @elseif ($student->courses->course_name == 'BSIT') 
-                                                                <span class="badge badge-pill badge-bsit">BSIT</span>
+                                                                <span class="badge badge-pill badge-bsit">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                             @else 
-                                                                <span class="badge badge-pill badge-blis">BLIS</span>
+                                                                <span class="badge badge-pill badge-blis">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                             @endif
                                                         </td>
                                                         <td>{{ $student->id_num }}</td>
@@ -135,7 +135,7 @@
                                                   @if($student->courses->course_name  == 'BSCS')   
                                                         <td>{{ $student->name }}</td>
                                                         <td>   
-                                                                <span class="badge badge-pill badge-bscs">{{ $student->courses->course_name}}</span>
+                                                                <span class="badge badge-pill badge-bscs">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                         </td>
                                                         <td>{{ $student->id_num }}</td>
                                                         <td>{{ $student->social_acc }}</td>
@@ -176,7 +176,7 @@
                                                   @if($student->courses->course_name  == 'BLIS')   
                                                         <td>{{ $student->name }}</td>
                                                         <td>
-                                                                <span class="badge badge-pill badge-blis">{{ $student->courses->course_name}}</span>
+                                                                <span class="badge badge-pill badge-blis">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                         </td>
                                                         <td>{{ $student->id_num }}</td>
                                                         <td>{{ $student->social_acc }}</td>
@@ -217,7 +217,7 @@
                                                   @if($student->courses->course_name  == 'BSIT')   
                                                         <td>{{ $student->name }}</td>
                                                         <td>   
-                                                                <span class="badge badge-pill badge-bsit">{{ $student->courses->course_name}}</span>
+                                                                <span class="badge badge-pill badge-bsit">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
                                                         </td>
                                                         <td>{{ $student->id_num }}</td>
                                                         <td>{{ $student->social_acc }}</td>
