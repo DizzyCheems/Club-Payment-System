@@ -95,7 +95,7 @@
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
-                                    <th class="col-actions">Actions</th>   
+                                    <th class="col-actions cell">Actions</th>   
                                 </tr>
                                     </thead>
                                     <tbody id="userTable">
