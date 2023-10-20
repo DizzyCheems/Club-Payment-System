@@ -64,6 +64,7 @@
                 <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true" onclick="filterRows('all')">All</a>
                 <a class="flex-sm-fill text-sm-center nav-link" id="orders-admin-tab" data-bs-toggle="tab" href="#orders-admin" role="tab" aria-controls="orders-admin" aria-selected="false" onclick="filterRows('admin')">BSCS</a>
                 <a class="flex-sm-fill text-sm-center nav-link" id="orders-user-tab" data-bs-toggle="tab" href="#orders-user" role="tab" aria-controls="orders-user" aria-selected="false" onclick="filterRows('user')">BLIS</a>
+                <a class="flex-sm-fill text-sm-center nav-link" id="orders-other-tab" data-bs-toggle="tab" href="#orders-other" role="tab" aria-controls="orders-other" aria-selected="false" onclick="filterRows('other')">BSIT</a>
             </nav>
             <!--END Tab Selections -->
 
@@ -195,7 +196,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="orders-admin" role="tabpanel" aria-labelledby="orders-admin-tab">
+                <div class="tab-pane fade" id="orders-other" role="tabpanel" aria-labelledby="orders-other-tab">
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
@@ -212,10 +213,10 @@
                                     <tbody id="userTable">
                                         @foreach($students as $student)                 
                                                 <tr>    
-                                                  @if($student->courses->course_name  == 'BLIS')   
+                                                  @if($student->courses->course_name  == 'BSIT')   
                                                         <td>{{ $student->name }}</td>
                                                         <td>   
-                                                                <span class="badge badge-pill badge-blis">{{ $student->courses->course_name}}</span>
+                                                                <span class="badge badge-pill badge-bsit">{{ $student->courses->course_name}}</span>
                                                         </td>
                                                         <td>{{ $student->id_num }}</td>
                                                         <td>{{ $student->social_acc }}</td>
@@ -246,7 +247,7 @@
         const rows = document.querySelectorAll('tr[data-role]');
         rows.forEach((row) => {
             const role = row.getAttribute('data-role');
-            if (filter === 'all' || role === filter || filter === 'admin' || role === filter || filter === 'user' || role === filter) {
+            if (filter === 'all' || role === filter || filter === 'admin' || role === filter || filter === 'user' || role === filter || filter === 'other' || role === filter) {
                 row.style.display = 'table-row';
             } else {
                 row.style.display = 'none';
