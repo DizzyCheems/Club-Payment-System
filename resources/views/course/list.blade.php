@@ -76,7 +76,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
-                        <table class="table app-table-hover mb-0 text-left">
+                        <table class="table app-table-hover mb-0 text-left table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th class= "cell">Course</th>
@@ -117,7 +117,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="adminTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                                     <thead>
                                         <tr>
                                             <th class= "cell">Course</th>
@@ -154,7 +154,7 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="userTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="userTable">
                                    <thead>
                                         <tr>
                                             <th class= "cell">Course</th>
@@ -186,43 +186,43 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="orders-admin" role="tabpanel" aria-labelledby="orders-admin-tab">
+
+                <div class="tab-pane fade" id="orders-other" role="tabpanel" aria-labelledby="orders-other-tab">
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="adminTable">
+                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                                     <thead>
                                         <tr>
                                             <th class= "cell">Course</th>
                                             <th class= "cell">Year</th>
                                             <th class= "cell">Section</th>
-                                            <th class="col-actions cell">Actions</th>   
+                                            <th class="col-actions cell">Actions</th>  
                                         </tr>
                                     </thead>
                                     <tbody id="userTable">
-                                    @foreach($courses as $course)                 
-                                                    <tr>    
+                                        @foreach($courses as $course)                 
+                                                <tr>    
+                                                  @if($course->course_name  == 'BSIT')   
                                                         <td>
-                                                            @if($course->course_name == 'BSIT')   
-                                                                <span class="badge badge-pill badge-bscs">{{$course->course_name}}</span>
+                                                            <span class="badge badge-pill badge-blis">{{$course->course_name}}</span>
                                                         </td>
                                                         <td>{{ $course->year_level }}</td>
                                                         <td>{{ $course->section }}</td>
-                                                        <td>
+                                                        <td class="cell">
                                                             <a class="btn-sm app-btn-secondary" href="{{route('course.edit', array('id' => $course->id))}}">Edit</a>
                                                             <a class="btn-sm app-btn-secondary" href="{{route('course.view', array('id' => $course->id))}}">View</a>
-                                                            <a id="{{$course ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Course Info</a>          
-                                                        </td>
+                                                            <a id="{{$course ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                                        </td> 
                                                     </tr>
-                                    @endif
-                                    @endforeach
+                                                  @endif
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
