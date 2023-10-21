@@ -13,13 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*--Route::get('/', function () {
-    return view('welcome');
-}); */
+Route::get('/tests/main', function () {
+    return view('tests/main');
+});
 
+Route::get('/tests/auth', function () {
+    return view('tests/auth');
+});
 
-Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Auth::routes([
+    'register' => false,
+    'verify' => false,
+    'reset' => false
+]);
 
+Route::middleware(['auth'])->group(function() {
+   
+    Route::get('/', function () {
+        return view('dashboard.dashboard');
+    });
+
+Route::get('/Home', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
+    
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
 Route::get('/user/add', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
 Route::post('/user/create/registered', [App\Http\Controllers\UserController::class, 'store'])->name('user.post');
@@ -59,3 +74,5 @@ Route::get('/agendas/edit/{id}', [App\Http\Controllers\AgendaController::class, 
 Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 'view'])->name('agenda.view');
 Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
+
+});
