@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -52,14 +53,17 @@ class CourseController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function view($id)
     {
-        //
-        $data=Course::find($id);
-        return view ('course.view',['courses'=>$data]);   
+        $data = Course::find($id);
+        
+        if (!$data) {
+            return redirect()->route('courses.index')->with('error', 'Courses not found');
+        }
+    
+        $students = Student::where('course_id', $id)->get();
+        
+        return view('course.view', ['courses' => $data, 'students' => $students]);
     }
 
     /**
