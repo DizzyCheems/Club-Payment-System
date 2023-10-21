@@ -5,15 +5,14 @@
     <div class="app-wrapper">
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">
-			    
-			    <h1 class="app-page-title">Update Course</h1>
-			    
-			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+        <div class="container-xl">
+                 <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" >
+				    <div class="inner">
+                       <h1 class="app-page-title">Edit Course Details</h1>
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="{{ route ('course.update', array('id', => $courses->id))}}" method="POST" novalidate>
+                        <form class="form" action="{{route('course.update', array('id' => $courses->id))}}" method="POST" novalidate>
                         @csrf
                         <input type="hidden" name="id" value="{{$courses['id']}}">
                     <div>

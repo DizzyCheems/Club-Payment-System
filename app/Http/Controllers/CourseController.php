@@ -59,7 +59,7 @@ class CourseController extends Controller
     {
         //
         $data=Course::find($id);
-        return view ('course.view',['course'=>$data]);   
+        return view ('course.view',['courses'=>$data]);   
     }
 
     /**
@@ -69,7 +69,7 @@ class CourseController extends Controller
     {
         //
         $data=Course::find($id);
-        return view ('course.edit',['course'=>$data]);   
+        return view ('course.edit',['courses'=>$data]);   
     }
 
     /**

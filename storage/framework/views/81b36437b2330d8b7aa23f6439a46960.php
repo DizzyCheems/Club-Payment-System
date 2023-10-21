@@ -98,7 +98,12 @@
                                                 <span><?php echo e(date('j M', strtotime($user->created_at))); ?></span>
                                                 <span class="note"><?php echo e(date('g:i A', strtotime($user->created_at))); ?></span>
                                             </td>
-                                            <td class="cell"><a class="btn-sm app-btn-secondary" href="<?php echo e(route('user.view', array('id' => $user->id))); ?>">View</a></td>
+                                            <td class="cell">
+                                                    <a class="btn-sm app-btn-secondary" href="<?php echo e(route('user.edit', array('id' => $user->id))); ?>">Edit</a>
+                                                    <a class="btn-sm app-btn-secondary" href="<?php echo e(route('user.view', array('id' => $user->id))); ?>">View</a>
+                                                    <a id="<?php echo e($user ['id']); ?>" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                               
+                                            </td>
                                         </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>

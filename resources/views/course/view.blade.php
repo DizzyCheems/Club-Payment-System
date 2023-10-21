@@ -5,11 +5,10 @@
     <div class="app-wrapper">
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">
-			    
-			    <h1 class="app-page-title">View Course</h1>
-			    
-			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+        <div class="container-xl">
+                 <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" >
+				    <div class="inner">
+                       <h1 class="app-page-title">View Course Details</h1>
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
@@ -35,7 +34,7 @@
                          <div class="form-group">
                              <h5>Year Level<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$user['year_level']}}" readonly>
+                                    <input type="number" name="year_level" class="form-control mb-1" value="{{$courses['year_level']}}" readonly>
 
                                 </div>
                          </div>
@@ -43,7 +42,7 @@
                          <div class="form-group">
                              <h5>Section<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="section" class="form-control mb-1" value="{{$user['section']}}" readonly>
+                                    <input type="text" name="section" class="form-control mb-1" value="{{$courses['section']}}" readonly>
 
                                 </div>
                          </div>

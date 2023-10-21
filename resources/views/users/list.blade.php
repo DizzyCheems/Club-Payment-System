@@ -99,7 +99,12 @@
                                                 <span>{{ date('j M', strtotime($user->created_at)) }}</span>
                                                 <span class="note">{{ date('g:i A', strtotime($user->created_at)) }}</span>
                                             </td>
-                                            <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('user.view', array('id' => $user->id))}}">View</a></td>
+                                            <td class="cell">
+                                                    <a class="btn-sm app-btn-secondary" href="{{route('user.edit', array('id' => $user->id))}}">Edit</a>
+                                                    <a class="btn-sm app-btn-secondary" href="{{route('user.view', array('id' => $user->id))}}">View</a>
+                                                    <a id="{{$user ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                               
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -14,10 +14,10 @@
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
-            <div class="row g-3 mb-4 align-items-center justify-content-between">
-                <div class="col-auto">
-                    <h1 class="app-page-title mb-0">Agendas</h1>
-                </div>
+        <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" >
+				<div class="inner">
+                    <h1 class="app-page-title">Agendas</h1>
+					    <div class="app-card-body p-3 p-lg-4">
 
                 <div class="col-auto">
                     <div class="page-utilities">
@@ -107,14 +107,9 @@
                                                         @endif
                                                         <td>PAID OR NOT</td>
                                                         <td>
-                                                            <span class="dropdown">
-                                                                <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="ft-settings"></i></button>
-                                                                <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">                                            
-                                                                    <a href="{{route('agenda.edit', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-pencil"></i> Agenda Edit</a>                                                                                        
-                                                                    <a href="{{route('agenda.view', array('id' => $agenda->id))}}" class="dropdown-item"><i class="la la-eye"></i> Agenda View</a>                                                                                                                                  
-                                                                    <a href="#" id="{{$agenda ['id']}}" class="dropdown-item dropdown-user-delete" id="confirm-color"><i class="la la-trash"></i> Agenda Delete</a>
-                                                                </span>
-                                                            </span>
+                                                            <a class="btn-sm app-btn-secondary" href="{{route('agenda.edit', array('id' => $agenda->id))}}">Edit</a>
+                                                            <a class="btn-sm app-btn-secondary" href="{{route('agenda.view', array('id' => $agenda->id))}}">View</a>                                 
+                                                            <a id="{{$agenda ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Course Info</a>        
                                                         </td>
                                                     </tr>
                                     @endforeach
@@ -250,7 +245,7 @@
 
 <script>    
     // delete Branch ajax request
-    $(document).on('click', '.dropdown-user-delete', function(e) {
+    $(document).on('click', '.app-btn-secondary-delete', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
         let csrf = '{{ csrf_token() }}';
