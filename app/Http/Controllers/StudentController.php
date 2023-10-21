@@ -63,12 +63,17 @@ class StudentController extends Controller
      */
     public function view($id)
     {
-        //
-        $payments=Payment::all();
-        $data=Student::find($id);
-        return view ('student.view',['students'=>$data], ['payments' =>$payments]);   
+        $data = Student::find($id);
         
+        if (!$data) {
+            return redirect()->route('student.index')->with('error', 'Student not found');
+        }
+    
+        $payments = Payment::where('student_id', $id)->get();
+        
+        return view('student.view', ['students' => $data, 'payments' => $payments]);
     }
+    
 
     /**
      * Show the form for editing the specified resource.

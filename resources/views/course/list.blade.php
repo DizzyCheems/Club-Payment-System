@@ -205,7 +205,7 @@
                                                 <tr>    
                                                   @if($course->course_name  == 'BSIT')   
                                                         <td>
-                                                            <span class="badge badge-pill badge-blis">{{$course->course_name}}</span>
+                                                            <span class="badge badge-pill badge-bsit">{{$course->course_name}}</span>
                                                         </td>
                                                         <td>{{ $course->year_level }}</td>
                                                         <td>{{ $course->section }}</td>
