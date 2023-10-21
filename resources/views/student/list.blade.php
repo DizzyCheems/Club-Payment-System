@@ -4,10 +4,10 @@
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
-            <div class="row g-3 mb-4 align-items-center justify-content-between">
-                <div class="col-auto">
-                    <h1 class="app-page-title mb-0">Students</h1>
-                </div>
+        <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" >
+				<div class="inner">
+                    <h1 class="app-page-title">Students</h1>
+					    <div class="app-card-body p-3 p-lg-4">
 
                 <div class="col-auto">
                     <div class="page-utilities">
