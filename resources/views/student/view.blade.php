@@ -150,7 +150,7 @@
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
                                     <th class="cell">Date Paid</th>
-                   
+                                    
                                 </tr>
                                     </thead>
                                     <tbody id="userTable">
