@@ -180,13 +180,39 @@
 					        <a class="nav-link" href="charts.html">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	  <path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
-	</svg>
-						         </span>
-		                         <span class="nav-link-text">Summary</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-					    
+								<path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+								</svg>
+															</span>
+															<span class="nav-link-text">Summary</span>
+														</a><!--//nav-link-->
+													</li><!--//nav-item-->
+													
+													<li class="nav-item">
+													<li class="nav-item">
+								<a class="nav-link" href="<?php echo e(route('agenda.index')); ?>">
+									<span class="nav-icon">
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 1 .5.5V2h-13v-.5a.5.5 0 0 1 1 0V2h1V1h1v1h6V1h1v1h1V1h1v.5a.5.5 0 0 1-1 0V1zM2 4h1V3h10v1h1V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v1zm0 2h12v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6z" stroke="black" stroke-width="1.5"/>
+										</svg>
+									</span>
+									<span class="nav-link-text">Agendas</span>
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo e(route('student.index')); ?>">
+									<span class="nav-icon">
+										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M9 6a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-1 2a3 3 0 1 0-3 3 3 3 0 0 0 3-3z" stroke="black" stroke-width="1.5"/>
+											<path fill-rule="evenodd" d="M9 11c1.5 0 2.5.5 3 1v1H6v-1c.5-.5 1.5-1 3-1z" stroke="black" stroke-width="1.5"/>
+										</svg>
+									</span>
+									<span class="nav-link-text">Students</span>
+								</a>
+							</li>
+
+
+
 
 				    </ul><!--//app-menu-->
 			    </nav><!--//app-nav-->
