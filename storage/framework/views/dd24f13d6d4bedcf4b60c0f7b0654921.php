@@ -10,21 +10,25 @@
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
-						    <h3 class="mb-3">Welcome, Guys!</h3>
+						<h3 class="mb-3">Welcome <?php echo e($user->name); ?></h3>
 						    <div class="row gx-5 gy-3">
 						        <div class="col-12 col-lg-9">
 							        
-							        <div>Have fun sa Project natun</div>
+								<div>
+									<?php if($user->role === 'ADMIN'): ?>
+										You are now Logged in as Administrator
+									<?php elseif($user->role === 'USER'): ?>
+										You are now Logged in as User
+									<?php else: ?>
+										You are now Logged in as <?php echo e($user->role); ?>
+
+									<?php endif; ?>
+								</div>
 							    </div><!--//col-->
 							    <div class="col-12 col-lg-3">
-								    <a class="btn app-btn-primary" href="https://github.com/DizzyCheems/Club-Payment-System">
-  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
-  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
-  <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z"/>
-</svg>Github Repo</a>
 							    </div><!--//col-->
 						    </div><!--//row-->
-						    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						    <!--<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
 					    </div><!--//app-card-body-->
 					    
 				    </div><!--//inner-->
@@ -35,7 +39,7 @@
 					    <div class="app-card app-card-stat shadow-sm h-100">
 						    <div class="app-card-body p-3 p-lg-4">
 							    <h4 class="stats-type mb-1">Net Budget</h4>
-							    <div class="stats-figure">₱0</div>
+							    <div class="stats-figure">₱<?php echo e($totalAmount); ?></div>
 							    <div class="stats-meta text-success">
 								    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
@@ -62,7 +66,7 @@
 					    <div class="app-card app-card-stat shadow-sm h-100">
 						    <div class="app-card-body p-3 p-lg-4">
 							    <h4 class="stats-type mb-1">Events/Agendas</h4>
-							    <div class="stats-figure">0</div>
+							    <div class="stats-figure"><?php echo e($agendaCount); ?></div>
 							    <div class="stats-meta">
 								    Open</div>
 						    </div><!--//app-card-body-->
@@ -89,86 +93,38 @@
 					        <div class="app-card-header p-3">
 						        <div class="row justify-content-between align-items-center">
 							        <div class="col-auto">
-						                <h4 class="app-card-title">Progress</h4>
+						                <h4 class="app-card-title">Budget Progress</h4>
 							        </div><!--//col-->
 							        <div class="col-auto">
 								        <div class="card-header-action">
-									        <a href="#">All projects</a>
+									        <a href="<?php echo e(route('agenda.index')); ?>">All Agendas</a>
 								        </div><!--//card-header-actions-->
 							        </div><!--//col-->
 						        </div><!--//row-->
-					        </div><!--//app-card-header-->
-					        <div class="app-card-body">
-							    <div class="item p-3">
-								    <div class="row align-items-center">
-									    <div class="col">
-										    <div class="title mb-1 ">Project 1</div>
-										    <div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-									    </div><!--//col-->
-									    <div class="col-auto">
-										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-									    </div><!--//col-->
-								    </div><!--//row-->
-								    <a class="item-link-mask" href="#"></a>
-							    </div><!--//item-->
-							    
-							    
-							     <div class="item p-3">
-								    <div class="row align-items-center">
-									    <div class="col">
-                                        <div class="title mb-1 ">Project 2</div>
-										    <div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: 34%;" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-									    </div><!--//col-->
-									    <div class="col-auto">
-										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-									    </div><!--//col-->
-								    </div><!--//row-->
-								    <a class="item-link-mask" href="#"></a>
-							    </div><!--//item-->
-							    
-							    <div class="item p-3">
-								    <div class="row align-items-center">
-									    <div class="col">
-                                        <div class="title mb-1 ">Project 3</div>
-										    <div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: 68%;" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-									    </div><!--//col-->
-									    <div class="col-auto">
-										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-									    </div><!--//col-->
-								    </div><!--//row-->
-								    <a class="item-link-mask" href="#"></a>
-							    </div><!--//item-->
-							    
-							    <div class="item p-3">
-								    <div class="row align-items-center">
-									    <div class="col">
-                                        <div class="title mb-1 ">Project 4</div>
-										    <div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: 52%;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-									    </div><!--//col-->
-									    <div class="col-auto">
-										    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-									    </div><!--//col-->
-								    </div><!--//row-->
-								    <a class="item-link-mask" href="#"></a>
-							    </div><!--//item-->
-		
-					        </div><!--//app-card-body-->
+								</div><!--//app-card-header-->
+									<div class="app-card-body">
+										<?php $__currentLoopData = $recentAgendas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agenda): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<div class="item p-3">
+												<div class="row align-items-center">
+													<div class="col">
+														<div class="title mb-1"><?php echo e($agenda->agenda_name); ?></div>
+														<div class="progress">
+															<?php
+																$progressPercentage = $agenda->total_payments_amount / $agenda->total_fund * 100;
+															?>
+															<div class="progress-bar bg-success" role="progressbar" style="width: <?php echo e($progressPercentage); ?>%;" aria-valuenow="<?php echo e($progressPercentage); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+														</div>
+													</div><!--//col-->
+													<div class="col-auto">
+														<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+															<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+														</svg>
+													</div><!--//col-->
+												</div><!--//row-->
+												<a class="item-link-mask" href="#"></a>
+											</div><!--//item-->
+										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+									</div><!--//app-card-body-->
 				        </div><!--//app-card-->
 			        </div><!--//col-->
 			        <div class="col-12 col-lg-6">

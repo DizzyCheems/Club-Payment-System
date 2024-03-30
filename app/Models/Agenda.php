@@ -21,4 +21,15 @@ class Agenda extends Model
     {
         return $this->hasMany(Student::class);
     }
+        
+        public function getPaymentsCountAttribute()
+        {
+            return Payment::where('agenda_id', $this->id)->count();
+        }
+
+            // Define a method to get the total amount of payments for this agenda
+    public function getTotalPaymentsAmountAttribute()
+    {
+        return Payment::where('agenda_id', $this->id)->sum('amount');
+    }
 }
