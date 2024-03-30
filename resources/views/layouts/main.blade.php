@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="description" content="Portal - Bootstrap 5 Admin Dashboard Template For Developers">
+    <meta name="description" content="CSD System">
     <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
     <link rel="shortcut icon" href="favicon.ico"> 
     
@@ -18,7 +18,8 @@
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/portal.css') }}">
     <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/custom.css') }}">
-
+<!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head> 
 <!-- END: Head-->
 
@@ -125,7 +126,7 @@
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
 					        <a class="nav-link" href="docs.html">
 						        <span class="nav-icon">
-								<i class="bi bi-people"></i>
+						
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-account" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"/>
   <path fill-rule="evenodd" d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"/>
@@ -159,7 +160,7 @@
 	  <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
 	</svg>
 						         </span>
-		                         <span class="nav-link-text">Account/Profile</span>
+		                         <span class="nav-link-text">Settings</span>
 		                         <span class="submenu-arrow">
 		                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 	  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
@@ -169,47 +170,29 @@
 					        <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
 								<li class="submenu-item"><a class="submenu-link" href="{{route('user.index')}}">Users</a></li>
-							  	<li class="submenu-item"><a class="submenu-link" href="reset-password.html">Reset password</a></li>
+							  	<li class="submenu-item"><a class="submenu-link" href="{{route('course.index')}}">Courses/Sections</a></li>
 						        </ul>
 					        </div>
 					    </li><!--//nav-item-->
 
 					   
-					    <li class="nav-item">
-					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link" href="charts.html">
-						        <span class="nav-icon">
-						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								<path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
-								</svg>
-															</span>
-															<span class="nav-link-text">Summary</span>
-														</a><!--//nav-link-->
-													</li><!--//nav-item-->
-													
-													<li class="nav-item">
-													<li class="nav-item">
-								<a class="nav-link" href="{{ route('agenda.index') }}">
-									<span class="nav-icon">
-										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-											<path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 1 .5.5V2h-13v-.5a.5.5 0 0 1 1 0V2h1V1h1v1h6V1h1v1h1V1h1v.5a.5.5 0 0 1-1 0V1zM2 4h1V3h10v1h1V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v1zm0 2h12v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6z" stroke="black" stroke-width="1.5"/>
-										</svg>
-									</span>
-									<span class="nav-link-text">Agendas</span>
-								</a>
-							</li>
+						<li class="nav-item">
+    <a class="nav-link" href="{{ route('agenda.index') }}">
+        <span class="nav-icon">
+            <i class="bi bi-calendar-event text-black fs-5"></i>
+        </span>
+        <span class="nav-link-text">Agendas</span>
+    </a>
+</li>
 
-							<li class="nav-item">
-								<a class="nav-link" href="{{ route('student.index') }}">
-									<span class="nav-icon">
-										<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-											<path fill-rule="evenodd" d="M9 6a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-1 2a3 3 0 1 0-3 3 3 3 0 0 0 3-3z" stroke="black" stroke-width="1.5"/>
-											<path fill-rule="evenodd" d="M9 11c1.5 0 2.5.5 3 1v1H6v-1c.5-.5 1.5-1 3-1z" stroke="black" stroke-width="1.5"/>
-										</svg>
-									</span>
-									<span class="nav-link-text">Students</span>
-								</a>
-							</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('student.index') }}">
+        <span class="nav-icon">
+            <i class="bi bi-person text-black fs-5"></i>
+        </span>
+        <span class="nav-link-text">Students</span>
+    </a>
+</li>
 
 
 
