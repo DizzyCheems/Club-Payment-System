@@ -260,7 +260,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -277,17 +276,17 @@
                             </a>
                         </div>
                         <div class="auth-form-container text-start">
-                           <form method="POST" action="{{ route('add.auth') }}" class="login-form">
+                            <form id="loginForm" method="POST" action="{{ route('add.auth') }}" class="login-form">
                                 @csrf
                                 @include('layouts/alerts')
                                 <div class="email mb-3">
                                     <label class="sr-only" for="signin-email">Email</label>
-                                    <input id="input-email" type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" required>
+                                    <input id="input-email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" >
                                 </div>
                                 <!--//form-group-->
                                 <div class="password mb-3">
                                     <label class="sr-only" for="signin-password">Password</label>
-                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" required>
+                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" >
                                 </div>
                                 <!--//form-group-->
                                 <!--//extra-->
@@ -314,6 +313,7 @@
     </div>
 </div>
 
+
 <!-- student-list.blade.php -->
 <table border="1">
     <thead>
@@ -322,8 +322,6 @@
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Created At</th>
-            <th>Updated At</th>
         </tr>
     </thead>
     <tbody id="usersTableBody"></tbody>
@@ -449,11 +447,39 @@
     document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault(); 
 
-        if (loggedInUser.role !== 'SUPER ADMIN') {
+        const emailInput = document.getElementById('input-email').value.trim();
+        const passwordInput = document.getElementById('input-password').value.trim();
+
+        if (emailInput === '' || passwordInput === '') {
             Swal.fire({
                 icon: 'error',
-                title: 'Access Denied',
-                text: 'You do not have permission to access this page.',
+                title: 'Empty Fields',
+                text: 'Please fill in all required fields.',
+            });
+            return; 
+        }
+
+        const usersTableBody = document.getElementById('usersTableBody');
+
+        let found = false;
+
+        // Loop through the table rows to check for matching credentials
+        usersTableBody.querySelectorAll('tr').forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const email = cells[2].textContent.trim();
+            const password = cells[3].textContent.trim(); // Assuming the password is stored here
+
+            if (email === emailInput && password === passwordInput) {
+                found = true;
+                return;
+            }
+        });
+
+        if (!found) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Credentials',
+                text: 'Please enter valid email and password.',
             });
             return; 
         }
@@ -461,6 +487,7 @@
         this.submit();
     });
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -474,8 +501,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                         <td>${user.role}</td>
-                        <td>${user.created_at}</td>
-                        <td>${user.updated_at}</td>
                     </tr>`;
                     usersTableBody.insertAdjacentHTML('beforeend', row);
                 });

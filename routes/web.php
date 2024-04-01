@@ -75,6 +75,6 @@ Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, '
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
 
 
-Route::get('/loadadmin', [App\Http\Controllers\StudentController::class, 'loadadmin'])->name('users.loadadmin');
+Route::get('/loadadmin', [App\Http\Controllers\StudentController::class, 'load_auth_user'])->name('users.loadadmin');
 
 });
