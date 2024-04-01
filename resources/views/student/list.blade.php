@@ -1,6 +1,24 @@
 @extends('layouts.main')
 @section('content')
 
+<style>
+    /* Style for the fade-in animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Apply the animation to the modal */
+    .modal.fade .modal-dialog {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>
+
+
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
@@ -36,13 +54,14 @@
                             <div class="col-md-auto">
                                 
                             
-                            <a class="btn app-btn-secondary" href="{{route('student.create')}}">
-                                    <i width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-add me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                                        <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                    </i>
-                                    Add Student
-                                </a>
+                            <a class="btn app-btn-secondary" href="#" data-toggle="modal" data-target="#loginModal">
+    <i width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-add me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+        <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+    </i>
+    Add Student
+</a>
+
 
                             
                                 <a class="btn app-btn-secondary" href="#">
@@ -242,6 +261,75 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalTitle">Administrator Approval Required</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="app-auth-branding mb-4 d-flex justify-content-center align-items-center">
+                            <a class="app-logo" href="index.html">
+                                <img class="logo-icon me-2" src="assets/images/logo.jpg" alt="logo" style="max-width: 100px;">
+                            </a>
+                        </div>
+                        <div class="auth-form-container text-start">
+                           <form method="POST" action="{{ route('add.auth') }}" class="login-form">
+                                @csrf
+                                @include('layouts/alerts')
+                                <div class="email mb-3">
+                                    <label class="sr-only" for="signin-email">Email</label>
+                                    <input id="input-email" type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" required>
+                                </div>
+                                <!--//form-group-->
+                                <div class="password mb-3">
+                                    <label class="sr-only" for="signin-password">Password</label>
+                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" required>
+                                </div>
+                                <!--//form-group-->
+                                <!--//extra-->
+                                <div class="text-center">
+                                    <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
+                                </div>
+                            </form>
+                            <div class="auth-option text-center pt-5"> <a class="text-link" href="signup.html"></a>.</div>
+                        </div>
+                        <!--//auth-form-container-->
+                    </div>
+                    <!--//col-md-6-->
+                    <div class="col-md-6">
+                        <!-- Add any additional content for the modal body's right side -->
+                    </div>
+                    <!--//col-md-6-->
+                </div>
+                <!--//row-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- student-list.blade.php -->
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+    </thead>
+    <tbody id="usersTableBody"></tbody>
+</table>
+
+
 <script>
     // Function to filter rows based on the selected filter
     function filterRows(filter) {
@@ -355,6 +443,44 @@
                 });
             }
         })
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        event.preventDefault(); 
+
+        if (loggedInUser.role !== 'SUPER ADMIN') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Access Denied',
+                text: 'You do not have permission to access this page.',
+            });
+            return; 
+        }
+
+        this.submit();
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+        fetch('{{ route("users.loadadmin") }}')
+            .then(response => response.json())
+            .then(data => {
+                const usersTableBody = document.getElementById('usersTableBody');
+                data.users.forEach(user => {
+                    const row = `<tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
+                        <td>${user.created_at}</td>
+                        <td>${user.updated_at}</td>
+                    </tr>`;
+                    usersTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
     });
 </script>
 

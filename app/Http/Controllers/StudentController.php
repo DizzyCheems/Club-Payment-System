@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -17,6 +18,20 @@ class StudentController extends Controller
         //
         $students = Student::with('courses')->get();
         return view('student.list', compact('students'));
+    }
+
+    public function loadadmin()
+    {
+        $users = User::all();
+        return response()->json(['users' => $users]);
+    }
+    
+
+    public function addstudent_auth(Request $request)
+    {
+        if (Auth::check() && Auth::user()->role === 'SUPER ADMIN') {
+            return redirect()->route('student.create');
+        }
     }
 
     /**

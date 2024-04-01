@@ -50,6 +50,7 @@ Route::post('/courses/updated', [App\Http\Controllers\CourseController::class, '
 Route::get('/courses/delete', [App\Http\Controllers\CourseController::class, 'delete'])->name('course/destroy');
 
 Route::get('/students', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+Route::post('/add/auth', [App\Http\Controllers\StudentController::class, 'addstudent_auth'])->name('add.auth'); // auth for admin approval
 Route::get('/students/add', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
 Route::post('/students/create/registered', [App\Http\Controllers\StudentController::class, 'store'])->name('student.post');
 Route::get('/students/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
@@ -72,5 +73,8 @@ Route::get('/agendas/edit/{id}', [App\Http\Controllers\AgendaController::class, 
 Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 'view'])->name('agenda.view');
 Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
+
+
+Route::get('/loadadmin', [App\Http\Controllers\StudentController::class, 'loadadmin'])->name('users.loadadmin');
 
 });
