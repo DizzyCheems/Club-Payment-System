@@ -28,10 +28,8 @@ Auth::routes([
 ]);
 
 Route::middleware(['auth'])->group(function() {
-   
-    Route::get('/', function () {
-        return view('dashboard.dashboard');
-    });
+    Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::get('/Home', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
     

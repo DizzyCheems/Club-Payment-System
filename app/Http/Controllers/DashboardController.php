@@ -24,7 +24,7 @@ class DashboardController extends Controller
             $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
         }
 
-        return view('dashboard.dashboard', compact('totalAmount', 'agendaCount', 'user', 'recentAgendas'));
+        return view('dashboard.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas'));
     }
     /**
      * Show the form for creating a new resource.
