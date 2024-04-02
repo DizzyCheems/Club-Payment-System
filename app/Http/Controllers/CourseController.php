@@ -28,7 +28,7 @@ class CourseController extends Controller
         return view ('course.create');
     }
 
-    /**
+    /***
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
