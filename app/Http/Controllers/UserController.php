@@ -12,6 +12,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    
+    public function custom_login(Request $request)
+    {
+        $credentials = $request->only('email', 'password', 'role');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/students/add'); 
+        }
+
+        return back()->withInput()->withErrors(['email' => 'Invalid credentials']); 
+    }
     /**
      * Display a listing of the resource.
      */

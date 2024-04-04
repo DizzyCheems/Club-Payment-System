@@ -276,20 +276,32 @@
                             </a>
                         </div>
                         <div class="auth-form-container text-start">
-                            <form id="loginForm" method="POST" action="{{ route('add.auth') }}" class="login-form">
+                        <form method="POST" action="{{ route('custom_login') }}" class="login-form">
                                 @csrf
+
                                 @include('layouts/alerts')
+
                                 <div class="email mb-3">
                                     <label class="sr-only" for="signin-email">Email</label>
-                                    <input id="input-email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" >
+                                    <input id="input-email" type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" required>
                                 </div>
-                                <!--//form-group-->
+
                                 <div class="password mb-3">
                                     <label class="sr-only" for="signin-password">Password</label>
-                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" >
+                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" required>
+                                    <input type="hidden" name="role" class="form-control" placeholder="Password" value="ADMIN" required>
+                                    <div class="extra mt-3 row justify-content-between">
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="RememberPassword" name="remember">
+                                                <label class="form-check-label" for="RememberPassword">
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--//form-group-->
-                                <!--//extra-->
+
                                 <div class="text-center">
                                     <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
                                 </div>
@@ -312,21 +324,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- student-list.blade.php -->
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <tbody id="usersTableBody"></tbody>
-</table>
-
 
 <script>
     // Function to filter rows based on the selected filter
@@ -377,9 +374,6 @@
 }
 
 </script>
-
-
-
 
 <script>
     const elementsSelect = document.getElementById('elements-select');
@@ -459,7 +453,6 @@
             return; 
         }
 
-        const usersTableBody = document.getElementById('usersTableBody');
 
         let found = false;
 
@@ -488,25 +481,6 @@
     });
 });
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
-        fetch('{{ route("users.loadadmin") }}')
-            .then(response => response.json())
-            .then(data => {
-                const usersTableBody = document.getElementById('usersTableBody');
-                data.users.forEach(user => {
-                    const row = `<tr>
-                        <td>${user.id}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role}</td>
-                    </tr>`;
-                    usersTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    });
 </script>
 
 <!-- Javascript -->          

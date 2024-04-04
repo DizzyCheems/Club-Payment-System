@@ -1,7 +1,11 @@
 @extends('layouts.main')
 @section('content')
 
-
+<style>
+    .small-width {
+    width: 500px; /* Adjust the width as needed */
+}
+    </style>
     <!--Start-Body-->
     <div class="app-wrapper">
 	    
@@ -58,15 +62,27 @@
                                 </div>
                         </div>
                          
-                        <div class="form-group">
-    <h5>Amount<span class="required"></span></h5>
-    <div class="controls">
-        <input type="number" name="amount" id="amountInput" class="form-control mb-1" required data-validation-required-message="This field is required" oninput="formatInput(event, {{ $agenda->indiv_contrib }})">
-        <span id="amountDisplay"></span>
-    </div>
-</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <h5>Amount<span class="required"></span></h5>
+                                    <div class="controls">
+                                        <input type="number" name="amount" id="amountInput1" class="form-control mb-1 small-width" required data-validation-required-message="This field is required" oninput="formatInput(event, {{ $agenda->indiv_contrib }})">
+                                        <span id="amountDisplay1"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Required Payment<span class="required"></span></h5>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <input type="number" name="requiredPayment" id="requiredPaymentInput" class="form-control mb-1" required data-validation-required-message="This field is required" value="{{ $agenda->indiv_contrib }}">
+                                        <span id="amountDisplay2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <button id="toggleButton">Toggle Contribution</button>
 
 
                          <div class="form-group">
@@ -77,8 +93,7 @@
                                     <option value="Cash">Cash</option>
                                     </select> 
                                 </div>
-                    </div>
-
+                         </div>
                          
                     <div class="form-group">
                             <h5> Payment Method  <span class="required"></span></h5>
@@ -118,47 +133,15 @@
 
 
 <script>
-    function formatInput(event, indivContrib) {
-        let inputAmount = event.target.value;
-        let formattedAmount = `${inputAmount} / ${indivContrib}`;
-        document.getElementById('amountDisplay').textContent = formattedAmount;
-
-        if (parseFloat(inputAmount) > parseFloat(indivContrib)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'You are Paying Too Much',
-                text: 'Do not pay greater than the contribution amount.',
-            });
-            return; 
+document.getElementById('amountInput1').addEventListener('input', function() {
+        var amountInput = parseFloat(document.getElementById('amountInput1').value);
+        var requiredPaymentInput = parseFloat(document.getElementById('requiredPaymentInput').value);
+        
+        if (amountInput > requiredPaymentInput) {
+            document.getElementById('amountInput1').value = requiredPaymentInput;
         }
-    }
+    });
 
-    const button = document.getElementById('toggleButton');
-const amountInput = document.getElementById('amountInput');
-const indivContrib = {{ $agenda->indiv_contrib }};
-let isToggled = false;
-let originalValue = null;
-
-button.addEventListener('click', () => {
-    // Set $agenda->indiv_contrib to 50% only if it's not toggled
-    if (!isToggled) {
-        // Store the original value before changing it
-        originalValue = amountInput.value;
-        const newContrib = indivContrib * 0.5;
-        amountInput.value = newContrib;
-        // Update the displayed value if needed
-        document.getElementById('amountDisplay').innerText = newContrib;
-        isToggled = true;
-    } else {
-        // Reset to the original value
-        amountInput.value = originalValue;
-        // Update the displayed value if needed
-        document.getElementById('amountDisplay').innerText = originalValue;
-        isToggled = false;
-    }
-});
-
-    
 </script>
 
 

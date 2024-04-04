@@ -47,7 +47,7 @@
                          <div class="form-group">
                              <h5>School ID Number<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="number" name="id_num" class="form-control mb-1" required data-validation-required-message="This field is required">
+                                    <input type="number" name="id_num" class="form-control mb-1" required data-validation-required-message="This field is required" maxlength="7" pattern="\d{1,7}">
 
                                 </div>
                          </div>
@@ -64,7 +64,7 @@
                          <div class="form-group">
                              <h5>G Cash Number<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="number" name="payment_acc" class="form-control mb-1" required data-validation-required-message="This field is required">
+                                    <input type="number" name="payment_acc" class="form-control mb-1" required data-validation-required-message="This field is required" maxlength="6" pattern="\d{1,6}>
 
                                 </div>
                          </div>

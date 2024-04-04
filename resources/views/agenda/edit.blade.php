@@ -39,13 +39,34 @@
                                 </div>
                          </div>
 
-                         <div class="form-group">
-                             <h5>Total Fund<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="text" name="total_fund" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{$agendas['total_fund']}}">
-
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <h5>Individual Contribution<span class="required"></span></h5>
+                                    <div class="controls">
+                                        <input type="number" name="individualContribution" id="individualContributionInput" class="form-control mb-1 small-width" required data-validation-required-message="This field is required">
+                                        <span id="individualContributionDisplay"></span>
+                                    </div>
                                 </div>
-                         </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h5>Number of Students<span class="required"></span></h5>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <input type="number" name="numberOfStudents" id="numberOfStudentsInput" class="form-control mb-1" required data-validation-required-message="This field is required" value="{{ $totalStudents }}" readonly>
+                                        <span id="numberOfStudentsDisplay"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Total Fund<span class="required"></span></h5>
+                            <div class="controls">
+                                <input type="text" name="total_fund" id="totalFundInput" class="form-control mb-1" required data-validation-required-message="This field is required" readonly>
+                            </div>
+                        </div>
 
                         <div class="form-actions center">
                             <a class="btn btn-warning mr-1" href="{{route('agenda.index')}}">
@@ -73,6 +94,25 @@
  <script src="{{asset('app-assets/js/scripts/tables/datatables/datatable-basic.js')}}"></script>
 <!-- END: Page JS-->
 
+<script>
+    document.getElementById('individualContributionInput').addEventListener('input', function() {
+        calculateTotalFund();
+    });
+
+    document.getElementById('numberOfStudentsInput').addEventListener('input', function() {
+        calculateTotalFund();
+    });
+
+    function calculateTotalFund() {
+        var individualContribution = parseFloat(document.getElementById('individualContributionInput').value);
+        var numberOfStudents = parseFloat(document.getElementById('numberOfStudentsInput').value);
+        var totalFund = individualContribution * numberOfStudents;
+
+        document.getElementById('totalFundInput').value = totalFund.toFixed(2); 
+    }
+
+    calculateTotalFund();
+</script>
 
 @endsection
 </html> 

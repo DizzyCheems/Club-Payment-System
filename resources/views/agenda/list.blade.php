@@ -103,7 +103,11 @@
                                             <td>{{ $agenda->deadline }}</td>
                                             <td>{{ $agenda->total_payments_amount }} / {{ $agenda->total_fund }}</td>
                                             <td>{{ $agenda->payments_count }}</td>
-                                            <td>PAID OR NOT</td>
+                                            @if($agenda->total_payments_amound == $agenda->total_fund)
+                                            <td><span class="badge badge-pill badge-cash">PAID</span></td>
+                                            @else
+                                            <td><span class="badge badge-pill badge-blis">UNDER PAYMENT</span></td>
+                                            @endif
                                             <td>
                                                 <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
                                                 <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
@@ -22,9 +23,10 @@ class AgendaController extends Controller
      */
     public function create()
     {
-        //
-        return view('agenda.create');
+        $totalStudents = Student::count();
+        return view('agenda.create', compact('totalStudents'));
     }
+    
 
     /**
      * Store a newly created resource in storage.

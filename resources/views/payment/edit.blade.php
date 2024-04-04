@@ -57,13 +57,26 @@
                                 </div>
                         </div>
                          
-                         <div class="form-group">
-                             <h5>Amount<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="number" name="amount" class="form-control mb-1" required data-validation-required-message="• This field is required"  value="{{$payments['amount']}}">
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <h5>Amount<span class="required"></span></h5>
+                                    <div class="controls">
+                                        <input type="number" name="amount" id="amountInput1" class="form-control mb-1 small-width" required data-validation-required-message="This field is required" oninput="formatInput(event, {{ $agenda->indiv_contrib }})">
+                                        <span id="amountDisplay1"></span>
+                                    </div>
                                 </div>
-                         </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Required Payment<span class="required"></span></h5>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <input type="number" name="requiredPayment" id="requiredPaymentInput" class="form-control mb-1" required data-validation-required-message="This field is required" value="{{ $agenda->indiv_contrib }}">
+                                        <span id="amountDisplay2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                          <div class="form-group">
                             <h5> Payment Type  <span class="required"></span></h5>
@@ -111,6 +124,20 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
  <script src="{{asset('app-assets/js/scripts/tables/datatables/datatable-basic.js')}}"></script>
 <!-- END: Page JS-->
+
+
+
+<script>
+document.getElementById('amountInput1').addEventListener('input', function() {
+        var amountInput = parseFloat(document.getElementById('amountInput1').value);
+        var requiredPaymentInput = parseFloat(document.getElementById('requiredPaymentInput').value);
+        
+        if (amountInput > requiredPaymentInput) {
+            document.getElementById('amountInput1').value = requiredPaymentInput;
+        }
+    });
+
+</script>
 
 
 @endsection

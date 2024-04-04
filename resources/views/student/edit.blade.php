@@ -32,12 +32,12 @@
                          </div>
                          
                          <div class="form-group">
-                             <h5>ID Number<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="number" name="id_num" class="form-control mb-1" value="{{$students['id_num']}}" required data-validation-required-message="• This field is required">
+                            <h5>School ID Number<span class="required"></span></h5>
+                            <div class="controls">
+                                <input type="text" name="id_num" class="form-control mb-1" value="{{$students['id_num']}}" required data-validation-required-message="• This field is required" maxlength="7" pattern="\d{1,7}">
+                            </div>
+                        </div>
 
-                                </div>
-                         </div>
 
                          <div class="form-group">
                              <h5>FB Account<span class="required"></span></h5>
@@ -51,7 +51,7 @@
                          <div class="form-group">
                              <h5>G Cash Account<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="payment_acc" class="form-control mb-1" value="{{$students['payment_acc']}}" required data-validation-required-message="• This field is required">
+                                    <input type="text" name="payment_acc" class="form-control mb-1" value="{{$students['payment_acc']}}" required data-validation-required-message="• This field is required" maxlength="11" pattern="\d{1,11}">
 
                                 </div>
                          </div>
