@@ -8,3 +8,4 @@ class FileUpload extends Model
 {
     protected $fillable = ['file_name', 'file_path'];
 }
+    

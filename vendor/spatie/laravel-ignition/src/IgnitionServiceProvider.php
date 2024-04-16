@@ -145,8 +145,7 @@ class IgnitionServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             Ignition::class,
-            fn () => (new Ignition())
-                ->applicationPath(base_path())
+            fn () => (new Ignition($this->app->make(Flare::class)))->applicationPath(base_path())
         );
     }
 
@@ -182,7 +181,7 @@ class IgnitionServiceProvider extends ServiceProvider
 
     public function configureTinker(): void
     {
-        if (! $this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             if (isset($_SERVER['argv']) && ['artisan', 'tinker'] === $_SERVER['argv']) {
                 app(Flare::class)->sendReportsImmediately();
             }

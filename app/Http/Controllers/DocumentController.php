@@ -1,65 +1,84 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\rc;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Models\FileUpload;
 
 class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function create(Request $request)
     {
-            return view('docs.list');
+        $query = $request->input('search');
+        $files = FileUpload::query();
+    
+        if ($query) {
+            $files = $files->where('file_name', 'like', "%$query%");
+        }
+    
+        $files = $files->get();
+    
+        return view('docs.list', compact('files'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'file' => 'required|mimes:pdf,docx|max:25000',
+            ]);
+
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+
+            FileUpload::create([
+                'file_name' => $fileName,
+                'file_path' => $filePath,
+            ]);
+
+            return redirect()->back()->with('success', 'File uploaded successfully.');
+        } catch (\Exception $e) {
+            // Log or dd the exception
+            \Log::error($e->getMessage());
+            dd($e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(rc $rc)
+
+    public function download($id)
     {
-        //
+        $file = FileUpload::findOrFail($id);
+        $filePath = storage_path('app/public/' . $file->file_path);
+        
+        return response()->download($filePath, $file->file_name);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(rc $rc)
+    public function destroy($id)
     {
-        //
+        try {
+            // Find the file by its ID
+            $file = FileUpload::findOrFail($id);
+
+            // Delete the file from storage
+            Storage::disk('public')->delete($file->file_path);
+
+            // Delete the file record from the database
+            $file->delete();
+
+            return redirect()->back()->with('success', 'File deleted successfully.');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            \Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete file.');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, rc $rc)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(rc $rc)
-    {
-        //
-    }
 }

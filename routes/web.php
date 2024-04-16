@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,10 +76,12 @@ Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 
 Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
 
-Route::get('/documents', [App\Http\Controllers\DocumentController::class, 'index'])->name('doc.index');
-
-Route::get('/fileupload/create', [FileUploadController::class, 'create']);
-Route::post('/fileupload/store', [FileUploadController::class, 'store'])->name('fileupload.store');
+Route::get('/fileupload/list', [DocumentController::class, 'create'])->name('doc.index');
+Route::post('/fileupload/store', [DocumentController::class, 'store'])->name('fileupload.store');
+Route::get('/file/download/{id}', [DocumentController::class, 'download'])->name('file.download');
+Route::delete('/fileupload/{id}', [DocumentController::class, 'destroy'])->name('file.delete');
+//Route::get('/fileupload/create', [FileUploadController::class, 'create']);
+//Route::post('/fileupload/store', [FileUploadController::class, 'store'])->name('fileupload.store');
 
 
 });
