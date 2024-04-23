@@ -244,7 +244,8 @@
                                                         <td class="cell">
                                                             <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
                                                             <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                                            <a id="{{$student['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" onclick="openLoginModal()">Delete Student Info</a>
+
                                                         </td> 
                                                     </tr>
                                                     @endif
@@ -276,24 +277,24 @@
                             </a>
                         </div>
                         <div class="auth-form-container text-start">
-                            <form id="loginForm" method="POST" action="{{ route('add.auth') }}" class="login-form">
-                                @csrf
-                                @include('layouts/alerts')
-                                <div class="email mb-3">
-                                    <label class="sr-only" for="signin-email">Email</label>
-                                    <input id="input-email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" >
-                                </div>
-                                <!--//form-group-->
-                                <div class="password mb-3">
-                                    <label class="sr-only" for="signin-password">Password</label>
-                                    <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" >
-                                </div>
-                                <!--//form-group-->
-                                <!--//extra-->
-                                <div class="text-center">
-                                    <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
-                                </div>
-                            </form>
+                        <form id="loginForm" method="POST" action="{{ route('add.auth') }}" class="login-form"> 
+                            @csrf
+                            @include('layouts/alerts')
+                            <div class="email mb-3">
+                                <label class="sr-only" for="signin-email">Email</label>
+                                <input id="input-email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" >
+                            </div>
+                            <!--//form-group-->
+                            <div class="password mb-3">
+                                <label class="sr-only" for="signin-password">Password</label>
+                                <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" >
+                            </div>
+                            <!--//form-group-->
+                            <!--//extra-->
+                            <div class="text-center">
+                                <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
+                            </div>
+                        </form>
                             <div class="auth-option text-center pt-5"> <a class="text-link" href="signup.html"></a>.</div>
                         </div>
                         <!--//auth-form-container-->
@@ -312,21 +313,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- student-list.blade.php -->
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <tbody id="usersTableBody"></tbody>
-</table>
-
 
 <script>
     // Function to filter rows based on the selected filter
@@ -348,57 +334,12 @@
         filterRows(event.target.value);
     });
 
-    function myFunction() {
-  var input, filter, table, tr, td, i, j, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("userTable");
-  tr = table.getElementsByTagName("tr");
 
-  for (i = 0; i < tr.length; i++) {
-    var found = false;
-    for (j = 0; j < tr[i].cells.length - 1; j++) {
-      td = tr[i].getElementsByTagName("td")[j];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          found = true;
-          break;
-        }
-      }
-    }
-
-    if (found) {
-      tr[i].style.display = "";
-    } else {
-      tr[i].style.display = "none";
-    }
-  }
-}
 
 </script>
 
 
 
-
-<script>
-    const elementsSelect = document.getElementById('elements-select');
-    const table = document.getElementById('userTable'); // Replace 'userTable' with the actual table ID
-
-    elementsSelect.addEventListener('change', function () {
-        const selectedValue = elementsSelect.value;
-        const rows = table.querySelectorAll('tbody tr');
-
-        // Show or hide rows based on the selected value
-        rows.forEach((row, index) => {
-            if (index < selectedValue) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-</script>
 
 
 <!-- BEGIN: Page JS-->
@@ -443,71 +384,7 @@
         })
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
-        event.preventDefault(); 
-
-        const emailInput = document.getElementById('input-email').value.trim();
-        const passwordInput = document.getElementById('input-password').value.trim();
-
-        if (emailInput === '' || passwordInput === '') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Empty Fields',
-                text: 'Please fill in all required fields.',
-            });
-            return; 
-        }
-
-        const usersTableBody = document.getElementById('usersTableBody');
-
-        let found = false;
-
-        // Loop through the table rows to check for matching credentials
-        usersTableBody.querySelectorAll('tr').forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const email = cells[2].textContent.trim();
-            const password = cells[3].textContent.trim(); // Assuming the password is stored here
-
-            if (email === emailInput && password === passwordInput) {
-                found = true;
-                return;
-            }
-        });
-
-        if (!found) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Invalid Credentials',
-                text: 'Please enter valid email and password.',
-            });
-            return; 
-        }
-
-        this.submit();
-    });
-});
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-        fetch('{{ route("users.loadadmin") }}')
-            .then(response => response.json())
-            .then(data => {
-                const usersTableBody = document.getElementById('usersTableBody');
-                data.users.forEach(user => {
-                    const row = `<tr>
-                        <td>${user.id}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role}</td>
-                    </tr>`;
-                    usersTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    });
-</script>
+ </script>
 
 <!-- Javascript -->          
 <script src="assets/plugins/popper.min.js"></script>
@@ -520,6 +397,55 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- Page Specific JS -->
 <script src="assets/js/app.js"></script> 
 
+<script>
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(event) {
+            event.preventDefault(); 
+
+            // Submit the form via AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Approval Verified.',
+                            text: response.message,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "{{ route('student.create') }}";
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Authorization Denied.',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Authorization Denied.',
+                        text: 'Invalid Credentials. This User is NOT an Admin.',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    function openLoginModal() {
+        $('#loginModal').modal('show');  // Show the modal with id 'loginModal'
+    }
+</script>
 @endsection
 </html>
 

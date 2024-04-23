@@ -50,7 +50,7 @@ Route::post('/courses/updated', [App\Http\Controllers\CourseController::class, '
 Route::get('/courses/delete', [App\Http\Controllers\CourseController::class, 'delete'])->name('course/destroy');
 
 Route::get('/students', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
-Route::post('/add/auth', [App\Http\Controllers\StudentController::class, 'addstudent_auth'])->name('add.auth'); // auth for admin approval
+Route::post('/add/auth', [App\Http\Controllers\StudentController::class, 'addstudent_auth'])->name('add.auth'); 
 Route::get('/students/add', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
 Route::post('/students/create/registered', [App\Http\Controllers\StudentController::class, 'store'])->name('student.post');
 Route::get('/students/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
@@ -67,6 +67,7 @@ Route::post('/payments/updated', [App\Http\Controllers\PaymentController::class,
 Route::get('/payments/delete', [App\Http\Controllers\PaymentController::class, 'delete'])->name('payment/destroy');
 
 Route::get('/agendas', [App\Http\Controllers\AgendaController::class, 'index'])->name('agenda.index');
+Route::post('/add/agenda/auth', [App\Http\Controllers\AgendaController::class, 'addagenda_auth'])->name('agenda.auth'); 
 Route::get('/agendas/add', [App\Http\Controllers\AgendaController::class, 'create'])->name('agenda.create');
 Route::post('/agendas/create/registered', [App\Http\Controllers\AgendaController::class, 'store'])->name('agenda.post');
 Route::get('/agendas/edit/{id}', [App\Http\Controllers\AgendaController::class, 'edit'])->name('agenda.edit');
@@ -74,7 +75,5 @@ Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 
 Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
 
-
-Route::get('/loadadmin', [App\Http\Controllers\StudentController::class, 'load_auth_user'])->name('users.loadadmin');
 
 });

@@ -27,6 +27,30 @@ class AgendaController extends Controller
         return view('agenda.create', ['totalStudents' => $totalStudents]);
     }
 
+    public function addagenda_auth(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully logged in!',
+            ]);
+        }
+    
+        // Authentication failed
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid credentials. Please try again.',
+        ]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

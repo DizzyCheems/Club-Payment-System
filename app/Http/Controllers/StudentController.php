@@ -28,11 +28,28 @@ class StudentController extends Controller
         return response()->json(['users' => $users]);
     }
     
+
     public function addstudent_auth(Request $request)
     {
-        if (Auth::check() && Auth::user()->role === 'SUPER ADMIN') {
-            return redirect()->route('student.create');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully logged in!',
+            ]);
         }
+    
+        // Authentication failed
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid credentials. Please try again.',
+        ]);
     }
 
     /**

@@ -1,7 +1,22 @@
 @extends('layouts.main')
 @section('content')
 
+<style>
+    /* Style for the fade-in animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
 
+    /* Apply the animation to the modal */
+    .modal.fade .modal-dialog {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>
             
 @if (Session::has('success'))
             <div x-data="{show: true}" x-init="setTimeout(() => show = false, 2000)" x-show="show">
@@ -47,7 +62,7 @@
                             <div class="col-md-auto">
                                 
                             
-                            <a class="btn app-btn-secondary" href="{{route('agenda.create')}}">
+                            <a class="btn app-btn-secondary" href="#" data-toggle="modal" data-target="#loginModal">
                                     <i width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-add me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                         <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
@@ -171,6 +186,58 @@
     </div>
 </div>
 
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalTitle">Administrator Approval Required</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="app-auth-branding mb-4 d-flex justify-content-center align-items-center">
+                            <a class="app-logo" href="index.html">
+                                <img class="logo-icon me-2" src="assets/images/logo.jpg" alt="logo" style="max-width: 100px;">
+                            </a>
+                        </div>
+                        <div class="auth-form-container text-start">
+                        <form id="loginForm" method="POST" action="{{ route('agenda.auth') }}" class="login-form"> 
+                            @csrf
+                            @include('layouts/alerts')
+                            <div class="email mb-3">
+                                <label class="sr-only" for="signin-email">Email</label>
+                                <input id="input-email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" >
+                            </div>
+                            <!--//form-group-->
+                            <div class="password mb-3">
+                                <label class="sr-only" for="signin-password">Password</label>
+                                <input id="input-password" type="password" name="password" class="form-control" placeholder="Password" value="" >
+                            </div>
+                            <!--//form-group-->
+                            <!--//extra-->
+                            <div class="text-center">
+                                <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
+                            </div>
+                        </form>
+                            <div class="auth-option text-center pt-5"> <a class="text-link" href="signup.html"></a>.</div>
+                        </div>
+                        <!--//auth-form-container-->
+                    </div>
+                    <!--//col-md-6-->
+                    <div class="col-md-6">
+                        <!-- Add any additional content for the modal body's right side -->
+                    </div>
+                    <!--//col-md-6-->
+                </div>
+                <!--//row-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Function to filter rows based on the selected filter
     function filterRows(filter) {
@@ -279,6 +346,53 @@
         })
     });
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(event) {
+            event.preventDefault(); 
+
+            // Submit the form via AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Approval Verified.',
+                            text: response.message,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "{{ route('agenda.create') }}";
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Authorization Denied.',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Authorization Denied.',
+                        text: 'Invalid Credentials. This User is NOT an Admin.',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+
 
 <!-- Javascript -->          
 <script src="assets/plugins/popper.min.js"></script>
