@@ -1,23 +1,6 @@
 @extends('layouts.main')
 @section('content')
-
-<style>
-    /* Style for the fade-in animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    /* Apply the animation to the modal */
-    .modal.fade .modal-dialog {
-        animation: fadeIn 0.3s ease-out;
-    }
-</style>
-            
+       
 @if (Session::has('success'))
             <div x-data="{show: true}" x-init="setTimeout(() => show = false, 2000)" x-show="show">
                  <div class="alert alert-success">
@@ -99,35 +82,40 @@
                 <div class="app-card-body">
                     <div class="table-responsive">
                       <!-- Table View -->
-                            <table class="table app-table-hover mb-0 text-left" id="userTable">
-                                <thead>
-                                    <tr>
-                                        <th>Agenda</th>
-                                        <th>Deadline</th>
-                                        <th>Budget</th>
-                                        <th>Students Paid</th>
-
-                                        <th>Status</th>
-                                        <th class="col-actions">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($agendas as $agenda)
-                                        <tr>
-                                            <td>{{ $agenda->agenda_name }}</td>
-                                            <td>{{ $agenda->deadline }}</td>
-                                            <td>{{ $agenda->total_payments_amount }} / {{ $agenda->total_fund }}</td>
-                                            <td>{{ $agenda->payments_count }}</td>
-                                            <td>PAID OR NOT</td>
-                                            <td>
-                                                <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
-                                                <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
-                                                <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                      <table class="table app-table-hover mb-0 text-left" id="userTable">
+    <thead>
+        <tr>
+            <th>Agenda</th>
+            <th>Deadline</th>
+            <th>Budget</th>
+            <th>Students Paid</th>
+            <th>Status</th>
+            <th class="col-actions">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($agendas as $agenda)
+            <tr>
+                <td>{{ $agenda->agenda_name }}</td>
+                <td>{{ $agenda->deadline }}</td>
+                <td>{{ $agenda->total_payments_amount }} / {{ $agenda->total_fund }}</td>
+                <td>{{ $agenda->payments_count }}</td>
+                <td>
+                    @if($agenda->total_payments_amount == $agenda->total_fund)
+                        <span class="badge badge-pill badge-full">PAID</span>
+                    @else
+                        <span class="badge badge-pill badge-blis">PENDING</span>
+                    @endif
+                </td>
+                <td>
+                    <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
+                    <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
+                    <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
                             </div>
                         </div>
@@ -138,53 +126,93 @@
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
                             <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="adminTable">
-                                    <thead>
-                                        <tr>
-                                        <th>Agenda</th>
-                                        <th>Deadline</th>
-                                        <th>Budget</th>
-                                        <th>Students Paid</th>
-                                        <th>Status</th>
-                                        <th class="col-actions">Actions</th>  
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                            <table class="table app-table-hover mb-0 text-left" id="userTable">
+    <thead>
+        <tr>
+            <th>Agenda</th>
+            <th>Deadline</th>
+            <th>Budget</th>
+            <th>Students Paid</th>
+            <th>Status</th>
+            <th class="col-actions">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($agendas as $agenda)
+          @if($agenda->total_payments_amount != $agenda->total_fund)
+            <tr>
+                <td>{{ $agenda->agenda_name }}</td>
+                <td>{{ $agenda->deadline }}</td>
+                <td>{{ $agenda->total_payments_amount }} / {{ $agenda->total_fund }}</td>
+                <td>{{ $agenda->payments_count }}</td>
+                <td>
+                    @if($agenda->total_payments_amount == $agenda->total_fund)
+                        <span class="badge badge-pill badge-full">PAID</span>
+                    @else
+                        <span class="badge badge-pill badge-blis">PENDING</span>
+                    @endif
+                </td>
+                <td>
+                    <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
+                    <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
+                    <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                </td>
+            </tr>
+            @endif
+        @endforeach
+    </tbody>
+</table>
 
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="orders-user" role="tabpanel" aria-labelledby="orders-user-tab">
-                    <div class="app-card app-card-orders-table shadow-sm mb-5">
-                        <div class="app-card-body">
-                            <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left" id="userTable">
-                                    <thead>
-                                        <tr>
-                                        <th>Agenda</th>
-                                        <th>Deadline</th>
-                                        <th>Budget</th>
-                                        <th>Students Paid</th>
-                                        <th>Status</th>
-                                        <th class="col-actions">Actions</th>  
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="app-card app-card-orders-table shadow-sm mb-5">
+        <div class="app-card-body">
+            <div class="table-responsive">
+                <table class="table app-table-hover mb-0 text-left" id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Agenda</th>
+                            <th>Deadline</th>
+                            <th>Budget</th>
+                            <th>Students Paid</th>
+                            <th>Status</th>
+                            <th class="col-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($agendas as $agenda)
+                            @if($agenda->total_payments_amount == $agenda->total_fund)
+                                <tr>
+                                    <td>{{ $agenda->agenda_name }}</td>
+                                    <td>{{ $agenda->deadline }}</td>
+                                    <td>{{ $agenda->total_payments_amount }} / {{ $agenda->total_fund }}</td>
+                                    <td>{{ $agenda->payments_count }}</td>
+                                    <td>
+                                        @if($agenda->total_payments_amount == $agenda->total_fund)
+                                            <span class="badge badge-pill badge-full">PAID</span>
+                                        @else
+                                            <span class="badge badge-pill badge-blis">PENDING</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
+                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
+                                        <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

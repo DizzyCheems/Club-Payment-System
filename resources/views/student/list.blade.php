@@ -1,24 +1,6 @@
 @extends('layouts.main')
 @section('content')
 
-<style>
-    /* Style for the fade-in animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    /* Apply the animation to the modal */
-    .modal.fade .modal-dialog {
-        animation: fadeIn 0.3s ease-out;
-    }
-</style>
-
-
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
@@ -244,8 +226,7 @@
                                                         <td class="cell">
                                                             <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
                                                             <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" onclick="openLoginModal()">Delete Student Info</a>
-
+                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
                                                         </td> 
                                                     </tr>
                                                     @endif
@@ -441,11 +422,6 @@
 </script>
 
 
-<script>
-    function openLoginModal() {
-        $('#loginModal').modal('show');  // Show the modal with id 'loginModal'
-    }
-</script>
 @endsection
 </html>
 
