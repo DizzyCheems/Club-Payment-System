@@ -39,14 +39,30 @@
 
                                 </div>
                          </div>
-
+                       
                          <div class="form-group">
-                             <h5>Total Fund<span class="required"></span></h5>
+                                <h5>Number Of Students<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="total_fund" class="form-control mb-1" required data-validation-required-message="• This field is required">
-
+                                    <input id="numStudents" type="number" name="num_students" class="form-control mb-1" required data-validation-required-message="• This field is required" readonly value="{{ $totalStudents }}">
                                 </div>
-                         </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h5>Individual Contribution<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input id="indivContribution" type="number" name="indiv_contribution" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h5>Total Fund<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input id="totalFund" type="text" name="total_fund" class="form-control mb-1" required data-validation-required-message="• This field is required" readonly>
+                                </div>
+                            </div>
+
+
+                   
 
                         <div class="form-actions center">
                             <a class="btn btn-warning mr-1" href="{{route('agenda.index')}}">
@@ -74,6 +90,15 @@
  <script src="{{asset('app-assets/js/scripts/tables/datatables/datatable-basic.js')}}"></script>
 <!-- END: Page JS-->
 
+<script>
+    // Calculate total fund when input values change
+    $('#numStudents, #indivContribution').on('input', function() {
+        var numStudents = $('#numStudents').val();
+        var indivContribution = $('#indivContribution').val();
+        var totalFund = numStudents * indivContribution;
+        $('#totalFund').val(totalFund);
+    });
+</script>
 
 @endsection
 </html> 

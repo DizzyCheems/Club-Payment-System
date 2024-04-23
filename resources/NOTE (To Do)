@@ -1,0 +1,26 @@
+Agendas list
+(IF total_payments_amount == total_fund)
+go to Fully Paid tab
+
+(IF total_payments_amount != total_fund)
+go to Pending tab
+
+add indiv_contrib column for agendas table
+fix auth for student and agenda create route
+
+Create Payment (If Partial) can only input <= 50% of the "indiv_contrib" column 
+
+
+Create Activity model and activities migration
+columns:
+
+agenda_id
+name
+budget
+
+
+should update agendas table students_paid column in database based in table display when agenda.index route is loaded 
+
+
+
+fix form field required validation font to red and  gcash number to 6 digit and for payment digit should not be greater than indiv_contrib

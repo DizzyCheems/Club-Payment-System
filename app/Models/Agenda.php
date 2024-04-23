@@ -14,9 +14,10 @@ class Agenda extends Model
         'deadline',
         'total_fund',
         'students_paid',
+        'indiv_contrib'
     ];
 
-
+    
     public function students()
     {
         return $this->hasMany(Student::class);
@@ -28,8 +29,8 @@ class Agenda extends Model
         }
 
             // Define a method to get the total amount of payments for this agenda
-    public function getTotalPaymentsAmountAttribute()
-    {
-        return Payment::where('agenda_id', $this->id)->sum('amount');
-    }
+        public function getTotalPaymentsAmountAttribute()
+        {
+            return Payment::where('agenda_id', $this->id)->sum('amount');
+        }
 }

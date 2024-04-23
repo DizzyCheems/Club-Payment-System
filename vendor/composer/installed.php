@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '21618f6733d6e64c1c838b12ee6555a00d9283c9',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'fdf04b9a60991a6b822df4b2559e59ea586c5dd7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -371,9 +371,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '21618f6733d6e64c1c838b12ee6555a00d9283c9',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'fdf04b9a60991a6b822df4b2559e59ea586c5dd7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -434,9 +434,9 @@
             'dev_requirement' => false,
         ),
         'laravel/ui' => array(
-            'pretty_version' => 'v4.2.2',
-            'version' => '4.2.2.0',
-            'reference' => 'a58ec468db4a340b33f3426c778784717a2c144b',
+            'pretty_version' => 'v4.5.1',
+            'version' => '4.5.1.0',
+            'reference' => 'a3562953123946996a503159199d6742d5534e61',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/ui',
             'aliases' => array(),

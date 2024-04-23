@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Student;
 use Illuminate\Http\Request;
-
 class AgendaController extends Controller
 {
     /**
@@ -23,7 +23,8 @@ class AgendaController extends Controller
     public function create()
     {
         //
-        return view('agenda.create');
+        $totalStudents = Student::count(); // Get the total count of students
+        return view('agenda.create', ['totalStudents' => $totalStudents]);
     }
 
     /**
@@ -56,9 +57,13 @@ class AgendaController extends Controller
      */
     public function view($id)
     {
-        //
-        $data=Agenda::find($id);
-        return view ('agenda.view',['agendas'=>$data]);   
+        $allAgendas = Agenda::all(); 
+        $agendas = Agenda::find($id);
+        
+        return view('agenda.view', [
+            'allAgendas' => $allAgendas,
+            'agendas' => $agendas,
+        ]);
     }
 
     /**

@@ -27,10 +27,12 @@ class PaymentController extends Controller
     public function create()
     {
         //
-        $courses = Course::all();
+        $courses = Course::all();   
         $agendas = Agenda::all();
         $students = Student::all();
-        return view('payment.create', compact('courses', 'agendas', 'students'));
+        $selectedAgenda = $agendas->first(); // You can adjust this to fetch the desired agenda
+        $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
+        return view('payment.create', compact('courses', 'agendas', 'students', 'indivContrib'));
     }
 
     /**

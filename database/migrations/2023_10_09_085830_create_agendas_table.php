@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('deadline');
             $table->string('total_fund');
             $table->integer('students_paid')->nullable();
+            $table->decimal('indiv_contrib')->nullable();
             $table->timestamps();
         });
     }        
