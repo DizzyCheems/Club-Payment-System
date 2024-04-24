@@ -28,7 +28,25 @@ class ActivitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message=[
+            'required' => 'This field is required!'
+             ];
+                          
+            $request->validate([      
+                'agenda_id' => 'required', 
+                'activity_name' => 'required',
+                'fund' => 'required',
+                'date' => 'required',
+            ],$message);
+                          
+            Activities::create([
+                'agenda_id' => 1,
+                'activity_name' => 'required',
+                'fund' => 'required',
+                'date' => 'required',
+            ]);
+            return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
+    
     }
 
     /**
@@ -58,8 +76,10 @@ class ActivitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Activities $activities)
+    public function delete(Request $request) 
     {
-        //
-    }
+       $id = $request->id;
+       $emp = Activities::find($id);
+       Activities::destroy($id);
+   }
 }

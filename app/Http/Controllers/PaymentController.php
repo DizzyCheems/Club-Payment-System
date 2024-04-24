@@ -14,13 +14,11 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $payments = Payment::with('agendas', 'students' )->get();
+        $payments = Payment::with('agendas', 'students')->paginate(10); // Change '10' to the desired number of items per page
         return view('payment.list', compact('payments'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

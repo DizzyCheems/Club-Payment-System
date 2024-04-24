@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Activities;
 use App\Models\Student;
 use Illuminate\Http\Request;
 class AgendaController extends Controller
@@ -82,10 +83,11 @@ class AgendaController extends Controller
     public function view($id)
     {
         $allAgendas = Agenda::all(); 
+        $activities = Activities::all(); 
         $agendas = Agenda::find($id);
-        
         return view('agenda.view', [
             'allAgendas' => $allAgendas,
+            'activities' => $activities,
             'agendas' => $agendas,
         ]);
     }

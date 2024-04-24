@@ -75,5 +75,7 @@ Route::get('/agendas/view/{id}', [App\Http\Controllers\AgendaController::class, 
 Route::post('/agendas/updated', [App\Http\Controllers\AgendaController::class, 'update'])->name('agenda.update');
 Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'delete'])->name('agenda/destroy');
 
+Route::post('/activity/create/registered', [App\Http\Controllers\ActivitiesController::class, 'store'])->name('activity.add');
+Route::get('/activity/delete', [App\Http\Controllers\ActivitiesController::class, 'delete'])->name('activity/destroy');
 
 });
