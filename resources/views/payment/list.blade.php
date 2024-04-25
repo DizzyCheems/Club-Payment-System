@@ -26,7 +26,7 @@
                             <div class="col-md-auto">
                                 <div class="form-group mb-0">
                                     <div class="input-group">
-                                    <input type="text" style="width:400px;" id="myInput" name="searchorders" onkeyup="myFunction()" class="form-control search-orders" placeholder="Search">
+                                    <input type="text" style="width:300px;" id="myInput" name="searchorders" onkeyup="myFunction()" class="form-control search-orders" placeholder="Search">
                                         <div class="input-group-append">
                                             <button type="submit"  class="btn app-btn-secondary">Search</button>
                                         </div>
@@ -43,7 +43,7 @@
                                 </div>
 
                             <div class="col-md-auto">
-                                <a class="btn app-btn-secondary" href="{{ route('payment.create') }}">
+                                 <a class="btn app-btn-secondary" href="#" data-toggle="modal" data-target="#add">  
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                         <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
@@ -57,8 +57,8 @@
                             </div>
 
 
-                            <div class="col-md-auto">
-                                <a class="btn app-btn-secondary"  href="{{ route('payment.create') }}">
+                            <div class="col-md-auto" >
+                                <a class="btn app-btn-secondary"   href="{{ route('payment.create') }}">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                         <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
@@ -106,7 +106,7 @@
                                                             @if($payment->type  == 'ONLINE')   
                                                                 <span class="badge badge-pill badge-online">ONLINE</span>
                                                             @else ($payment->type == 'CASH') 
-                                                                <span class="badge badge-pill badge-cash">CASH</span>
+                                                                <span class="badge badge-pill badge-full">CASH</span>
                                                             @endif
                                                         </td>
                                                     
@@ -166,7 +166,7 @@
                                                             @if($payment->type  == 'ONLINE')   
                                                                 <span class="badge badge-pill badge-online">ONLINE</span>
                                                             @else ($payment->type == 'CASH') 
-                                                                <span class="badge badge-pill badge-cash">CASH</span>
+                                                                <span class="badge badge-pill badge-full">CASH</span>
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-full">{{ $payment->method }}</span></td>
@@ -219,7 +219,7 @@
                                                             @if($payment->type  == 'ONLINE')   
                                                                 <span class="badge badge-pill badge-online">ONLINE</span>
                                                             @else ($payment->type == 'CASH') 
-                                                                <span class="badge badge-pill badge-cash">CASH</span>
+                                                                <span class="badge badge-pill badge-full">CASH</span>
                                                         </td>
                                                         @endif
                                                         <td><span class="badge badge-pill badge-partial">{{ $payment->method }}</span></td>
@@ -249,6 +249,111 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Register Payment -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalTitle">Register Payment</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form class="form" action="{{ route ('payment.post') }}" method="POST" novalidate>
+                @csrf
+
+                <div class="p-3">
+                    @if(Session::has('success'))
+                    <div class="alert alert-success">
+                        {{Session::get('success')}}
+                    </div>
+                    @endif
+                </div>
+
+                <div class="form-group px-5">
+                    <h5>Agenda <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="agenda_id" id="lang" class="form-control mb-1">
+                            @foreach($agendas as $agenda)
+                            <option value="{{ $agenda->id }}">{{ $agenda->agenda_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group px-5">
+                    <h5>Course <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="course_id" id="lang" class="form-control mb-1">
+                            @foreach($courses as $course)
+                            <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group px-5">
+                    <h5>Student <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="student_id" id="lang" class="form-control mb-1">
+                            @foreach($students as $student)
+                            <option value="{{ $student->id }}">{{ $student->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row px-5">
+                    <div class="col-md-6">
+                        <h5>Payment <span class="required"></span></h5>
+                        <div class="controls">
+                            <input id="paymentInput" type="number" name="amount" class="form-control mb-1" placeholder="0.00" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Amount Required <span class="required"></span></h5>
+                        <div class="controls">
+                            <input id="amountRequired" type="number" name="amount2" class="form-control mb-1" required value="{{ $indivContrib }}" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group px-5">
+                    <h5>Payment Type <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="type" id="lang" class="form-control mb-1">
+                            <option value="Online">Online Payment</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group px-5">
+                    <h5>Payment Method <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="method" id="paymentMethod" class="form-control mb-1">
+                            <option value="Full">Full Payment</option>
+                            <option value="Partial">Partial Payment</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style= "margin-top:35px;">
+                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                        <i class="ft-x"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!--//modal-content-->
+    </div>
+    <!--//modal-dialog-->
+</div>
+<!--//modal-->
+
 
 
 <script>
@@ -363,6 +468,54 @@
     });
 </script>
 
+
+<script>
+    var originalAmount = parseFloat($('#amountRequired').val());
+
+$('#paymentMethod').on('change', function() {
+    var amountRequired = parseFloat($('#amountRequired').val());
+    var paymentMethod = $(this).val();
+    var paymentValue = parseFloat($('#paymentInput').val());
+
+    if (paymentMethod === 'Partial') {
+        var partialAmount = (amountRequired * 0.5).toFixed(2);
+        $('#amountRequired').val(partialAmount);
+
+        // Set Payment field to 0.00 when switching to Partial Payment
+        $('#paymentInput').val('0.00');
+    } else {
+        $('#amountRequired').val(originalAmount.toFixed(2));
+    }
+});
+</script>
+
+@if(session('sweetAlert'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'Payment Registered.',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+@endif
+
+<script>
+    $('#paymentInput').on('input', function() {
+        var paymentAmount = parseFloat($(this).val());
+        var amountRequired = parseFloat($('#amountRequired').val());
+
+        if (paymentAmount > amountRequired) {
+            $(this).val(amountRequired); 
+        }
+    });
+</script>
 
 
 <!-- Javascript -->          

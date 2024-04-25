@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Pay;
 use App\Models\Agenda;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,24 @@ class DashboardController extends Controller
      * Display a listing of the resource.
      */
         
-    public function index()
+
+     public function index()
+     {
+         $agendaCount = Agenda::count();
+         $totalAmount = Payment::sum('amount');
+         $user = Auth::user();
+         $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
+         foreach ($recentAgendas as $agenda) {
+             $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
+         }
+     
+         // Get the total number of Pay elements
+         $payCount = Pay::count();
+     
+         return view('dashboard.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas', 'payCount'));
+     }
+
+    public function user()
     {
       
         $agendaCount = Agenda::count();

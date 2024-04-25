@@ -28,27 +28,31 @@ class ActivitiesController extends Controller
      */
     public function store(Request $request)
     {
-        $message=[
-            'required' => 'This field is required!'
-             ];
-                          
-            $request->validate([      
-                'agenda_id' => 'required', 
-                'activity_name' => 'required',
-                'fund' => 'required',
-                'date' => 'required',
-            ],$message);
-                          
-            Activities::create([
-                'agenda_id' => 1,
-                'activity_name' => 'required',
-                'fund' => 'required',
-                'date' => 'required',
-            ]);
-            return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
+        $message = [
+            'required' => 'This field is required!',
+        ];
     
+        $request->validate([
+            'agenda_id' => 'required',
+            'activity_name' => 'required',
+            'fund' => 'required',
+            'date' => 'required',
+        ], $message);
+    
+        $activity = Activities::create([
+            'agenda_id' => $request->agenda_id,
+            'activity_name' => $request->activity_name,
+            'fund' => $request->fund,
+            'date' => $request->date,
+        ]);
+    
+        if ($activity) {
+            return back()->with('sweetAlert', true);
+        } else {
+            return back()->with('error', 'Failed to register agenda activity');
+        }
     }
-
+    
     /**
      * Display the specified resource.
      */

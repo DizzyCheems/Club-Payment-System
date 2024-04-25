@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use App\Models\Payment;
+use App\Models\Pay;
 use App\Models\Agenda;
 use App\Models\Student;
 use App\Models\Course;
@@ -16,8 +17,13 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
+        $courses = Course::all();   
+        $agendas = Agenda::all();
+        $students = Student::all();
+        $selectedAgenda = $agendas->first();
+        $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
         $payments = Payment::with('agendas', 'students')->paginate(10); // Change '10' to the desired number of items per page
-        return view('payment.list', compact('payments'));
+        return view('payment.list', compact('payments', 'courses', 'agendas', 'students', 'indivContrib'));
     }
     /**
      * Show the form for creating a new resource.
@@ -50,7 +56,8 @@ class PaymentController extends Controller
             'method' => 'required',
         ], $message);
     
-        Payment::create([
+        // Create the payment
+        $payment = Payment::create([
             'student_id' => $request->student_id,
             'agenda_id' => $request->agenda_id,
             'amount' => $request->amount,
@@ -58,9 +65,23 @@ class PaymentController extends Controller
             'method' => Str::upper($request->method),
         ]);
     
-        return redirect()->route('payment.index')->with('success', 'Payment Registered Successfully');
-    }
+        // Generate a random reference number
+        $refNum = mt_rand(100000, 999999);
     
+        // Create the pay element
+        Pay::create([
+            'payment_id' => $payment->id,
+            'student_id' => $request->student_id,
+            'amount' => $request->amount,
+            'ref_num' => $refNum,
+        ]);
+    
+        if ($payment) {
+            return back()->with('sweetAlert', true);
+        } else {
+            return back()->with('error', 'Failed to register agenda activity');
+        }
+    }
 
 
     /**
@@ -119,10 +140,14 @@ class PaymentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request) 
+    public function delete(Request $request)
     {
-       $id = $request->id;
-       $emp = Payment::find($id);
-       Payment::destroy($id);
-   }
+        $id = $request->id;
+        $payment = Payment::find($id); 
+        if ($payment) {
+            Pay::where('payment_id', $payment->id)->delete();
+            $payment->delete();
+        }
+    }
+    
 }

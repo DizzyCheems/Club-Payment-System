@@ -131,14 +131,7 @@
                         </div><!--//col-auto-->
                     </div><!--//row-->
 
-                    <!--Tab Selections -->
-                    <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
-                        <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true" onclick="filterRows('orders-all')">All</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" id="orders-admin-tab" data-bs-toggle="tab" href="#orders-admin" role="tab" aria-controls="orders-admin" aria-selected="false" onclick="filterRows('orders-admin')">Fully Paid</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" id="orders-user-tab" data-bs-toggle="tab" href="#orders-user" role="tab" aria-controls="orders-user" aria-selected="false" onclick="filterRows('orders-user')">Pending Payment</a>
-                    </nav>
 
-                    <!--END Tab Selections -->
 
                     <div class="tab-content" id="orders-table-tab-content">
                         <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
@@ -157,12 +150,12 @@
                                             <tbody>
                                                 @foreach($activities as $activity)
                                                 <tr>
-                                                    <td>{{ $activities->activity_name }}</td>
-                                                    <td>{{ $activities->fund }}</td>
+                                                    <td>{{ $activity->activity_name }}</td>
+                                                    <td>{{ $activity->fund }}</td>
                                                     <td>
-                                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
-                                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
-                                                        <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $activity->id]) }}">Edit</a>
+                                                        <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $activity->id]) }}">View</a>
+                                                        <a id="{{ $activity->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Remove Activity</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -173,53 +166,6 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="orders-admin" role="tabpanel" aria-labelledby="orders-admin-tab">
-                            <div class="app-card app-card-orders-table shadow-sm mb-5">
-                                <div class="app-card-body">
-                                    <div class="table-responsive">
-                                        <table class="table app-table-hover mb-0 text-left" id="adminTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Activity</th>
-                                                    <th>Fund Required</th>
-                                                    <th class="col-actions">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Content for "Fully Paid" tab goes here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="orders-user" role="tabpanel" aria-labelledby="orders-user-tab">
-                            <div class="app-card app-card-orders-table shadow-sm mb-5">
-                                <div class="app-card-body">
-                                    <div class="table-responsive">
-                                        <table class="table app-table-hover mb-0 text-left" id="userTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Activity</th>
-                                                    <th>Fund Required</th>
-                                                    <th class="col-actions">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Content for "Pending Payment" tab goes here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--//app-card-body-->
-            </div><!--//app-card-->
-        </div><!--//container-xl-->
-    </div><!--//app-content-->
-</div><!--//app-wrapper-->
 
 <!-- Modal Register Activity -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
@@ -229,76 +175,77 @@
                 <h5 class="modal-title" id="loginModalTitle">Add Activity</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="app-auth-branding mb-4 d-flex justify-content-center align-items-center">
-     
-                        </div>
-                        <div class="auth-form-container text-start">
-                         <form id="registerForm" class="form" action="{{ route('activity.add') }}" method="POST" novalidate>
-                           @csrf
-                               <input type="hidden" name="agenda_id" value="{{ $agendas->id }}">
-                      
-                        <div>
-                            @if(Session::has('success'))
+            <form id="registerForm" class="form" action="{{ route('activity.add') }}" method="POST" novalidate>
+                @csrf
+                <input type="hidden" name="agenda_id" value="{{ $agendas->id }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="app-auth-branding mb-4 d-flex justify-content-center align-items-center">
+
+                            </div>
+                            <div class="auth-form-container text-start">
+                                <div>
+                                    @if(Session::has('success'))
                                     <div class="alert alert-success">
-                                        {{Session::get('success')}} 
+                                        {{Session::get('success')}}
                                     </div>
-                            @endif
-                        </div>
-                
-                        <div class="form-body"> 
-                            <div class="form-group">
-                             <h5>Activity Name<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="text" name="activity_name" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                    @endif
                                 </div>
-                         </div>
-                         
-                         <div class="form-group">
-                             <h5>Fund Required<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="number" name="fund" class="form-control mb-1" required data-validation-required-message="• This field is required">
 
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <h5>Activity Name<span class="required"></span></h5>
+                                        <div class="controls">
+                                            <input type="text" name="activity_name" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Fund Required<span class="required"></span></h5>
+                                        <div class="controls">
+                                            <input type="number" name="fund" class="form-control mb-1" required data-validation-required-message="• This field is required">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Time<span class="required"></span></h5>
+                                        <div class="controls">
+                                            <input type="time" name="date" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{ $agendas->deadline }}">
+                                        </div>
+                                    </div>
                                 </div>
-                         </div>
-
-                         
-                         <div class="form-group">
-                             <h5>Date<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="date" name="date" class="form-control mb-1" required data-validation-required-message="• This field is required" value = "{{ $agendas-> deadline}}">
-
-                                </div>
-                         </div>
-                    
-                        <div class="form-actions center">
-                            <a class="btn btn-warning mr-1" href="{{route('agenda.index')}}">
-                                <i class="ft-x"></i> Cancel
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="la la-check-square-o"></i> Save
-                            </button>
+                                <!--//form-body-->
+                            </div>
+                            <!--//auth-form-container-->
                         </div>
-                    </form>
-
-                            <div class="auth-option text-center pt-5"> <a class="text-link" href="signup.html"></a>.</div>
+                        <!--//col-md-6-->
+                        <div class="col-md-6">
+                            <!-- Add any additional content for the modal body's right side -->
                         </div>
-                        <!--//auth-form-container-->
+                        <!--//col-md-6-->
                     </div>
-                    <!--//col-md-6-->
-                    <div class="col-md-6">
-                        <!-- Add any additional content for the modal body's right side -->
-                    </div>
-                    <!--//col-md-6-->
+                    <!--//row-->
                 </div>
-                <!--//row-->
-            </div>
-
+                <!--//modal-body-->
+                <div class="modal-footer">
+                    <a class="btn btn-warning mr-1" href="{{ route('agenda.index') }}" data-dismiss="modal">
+                        <i class="ft-x"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </div>
+                <!--//modal-footer-->
+            </form>
         </div>
+        <!--//modal-content-->
     </div>
+    <!--//modal-dialog-->
 </div>
+<!--//modal-->
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -312,6 +259,60 @@
     }
 </script>
 
+<script>    
+    // delete Branch ajax request
+    $(document).on('click', '.app-btn-secondary-delete', function(e) {
+        e.preventDefault();
+        let id = $(this).attr('id');
+        let csrf = '{{ csrf_token() }}';
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to undo this.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, remove it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{route('activity/destroy')}}',
+                    method: 'get',
+                    data: {
+                        id: id,
+                        _token: csrf
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        Swal.fire(
+                            'Deleted!',
+                            'Payment has been deleted.',
+                            'success'
+                        )
+                        window.location.reload();
+                    }
+                });
+            }
+        })
+    });
+</script>
+
+@if(session('sweetAlert'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+@endif
 
 
 

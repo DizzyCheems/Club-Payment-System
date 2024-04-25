@@ -362,7 +362,7 @@
                         console.log(response);
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Payment has been deleted.',
                             'success'
                         )
                         location.replace('{{route('agenda.index')}}');

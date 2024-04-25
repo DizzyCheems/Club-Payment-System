@@ -122,6 +122,7 @@
  <script src="{{asset('app-assets/js/scripts/tables/datatables/datatable-basic.js')}}"></script>
 <!-- END: Page JS-->
 
+
 <script>
     var originalAmount = parseFloat($('#amountRequired').val());
 
@@ -141,6 +142,23 @@ $('#paymentMethod').on('change', function() {
     }
 });
 </script>
+
+@if(session('sweetAlert'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+@endif
 
 <script>
     $('#paymentInput').on('input', function() {
