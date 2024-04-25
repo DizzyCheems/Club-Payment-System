@@ -90,7 +90,7 @@
                                         <tr data-role="{{ $user->role }}">
                                             <td class="cell">{{ $user->name }}</td>
                                             <td class="cell"><span class="truncate">{{ $user->email }}</span></td>
-                                            @if($user->role == "ADMIN")
+                                            @if(Str::contains($user->role, "ADMIN"))
                                                 <td class="cell"><span class="badge badge-pill badge-blis">{{ $user->role }}</span></td>
                                             @else
                                                 <td class="cell"><span class="badge badge-pill badge-online">{{ $user->role }}</span></td>
@@ -130,7 +130,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($users as $user)
-                                        @if($user->role == "ADMIN")
+                                        @if(Str::contains($user->role, "ADMIN"))
                                         <tr data-role="{{ $user->role }}">
                                             <td class="cell">{{ $user->name }}</td>
                                             <td class="cell"><span class="truncate">{{ $user->email }}</span></td>

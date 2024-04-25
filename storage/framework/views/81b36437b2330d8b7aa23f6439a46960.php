@@ -89,7 +89,7 @@
                                         <tr data-role="<?php echo e($user->role); ?>">
                                             <td class="cell"><?php echo e($user->name); ?></td>
                                             <td class="cell"><span class="truncate"><?php echo e($user->email); ?></span></td>
-                                            <?php if($user->role == "ADMIN"): ?>
+                                            <?php if(Str::contains($user->role, "ADMIN")): ?>
                                                 <td class="cell"><span class="badge badge-pill badge-blis"><?php echo e($user->role); ?></span></td>
                                             <?php else: ?>
                                                 <td class="cell"><span class="badge badge-pill badge-online"><?php echo e($user->role); ?></span></td>
@@ -129,7 +129,7 @@
                                     </thead>
                                     <tbody>
                                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php if($user->role == "ADMIN"): ?>
+                                        <?php if(Str::contains($user->role, "ADMIN")): ?>
                                         <tr data-role="<?php echo e($user->role); ?>">
                                             <td class="cell"><?php echo e($user->name); ?></td>
                                             <td class="cell"><span class="truncate"><?php echo e($user->email); ?></span></td>

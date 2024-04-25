@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function() {
 
 Route::get('/Home', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
     
+Route::get('/Home/Student', [App\Http\Controllers\DashboardController::class, 'user'])->name('dashboard.user');
+    
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
 Route::get('/user/add', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
 Route::post('/user/create/registered', [App\Http\Controllers\UserController::class, 'store'])->name('user.post');

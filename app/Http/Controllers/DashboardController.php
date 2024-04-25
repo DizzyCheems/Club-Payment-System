@@ -38,11 +38,12 @@ class DashboardController extends Controller
         $totalAmount = Payment::sum('amount');
         $user = Auth::user();
         $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
+        $payCount = Pay::count();
         foreach ($recentAgendas as $agenda) {
             $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
         }
 
-        return view('dashboard.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas'));
+        return view('User.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas', 'payCount'));
     }
     /**
      * Show the form for creating a new resource.
