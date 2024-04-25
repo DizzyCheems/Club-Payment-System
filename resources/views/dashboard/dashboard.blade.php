@@ -6,7 +6,7 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
 			    
-			    <h1 class="app-page-title">Dashboard</h1>
+			    <h1 class="app-page-title">Admin Dashboard</h1>
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">

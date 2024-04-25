@@ -34,7 +34,7 @@ class PaymentController extends Controller
         $courses = Course::all();   
         $agendas = Agenda::all();
         $students = Student::all();
-        $selectedAgenda = $agendas->first(); // You can adjust this to fetch the desired agenda
+        $selectedAgenda = $agendas->first(); 
         $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
         return view('payment.create', compact('courses', 'agendas', 'students', 'indivContrib'));
     }
@@ -56,7 +56,6 @@ class PaymentController extends Controller
             'method' => 'required',
         ], $message);
     
-        // Create the payment
         $payment = Payment::create([
             'student_id' => $request->student_id,
             'agenda_id' => $request->agenda_id,
@@ -65,7 +64,7 @@ class PaymentController extends Controller
             'method' => Str::upper($request->method),
         ]);
     
-        // Generate a random reference number
+     
         $refNum = mt_rand(100000, 999999);
     
         // Create the pay element

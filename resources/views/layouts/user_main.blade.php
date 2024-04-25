@@ -81,19 +81,22 @@
 					        </a>
 					    </div><!--//app-utility-item-->
 			            
-			            <div class="app-utility-item app-user-dropdown dropdown">
-				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{{asset('assets/images/user.jpg')}}" alt="user profile"></a>
-				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+						<div class="app-utility-item app-user-dropdown dropdown">
+							<a href="#" onclick="toggleDropdown()" class="dropdown-toggle" id="user-dropdown-toggle">
+								<img src="{{ asset('assets/images/user.jpg') }}" alt="user profile">
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end" id="myDropdown" aria-labelledby="user-dropdown-toggle" style="right:0.5px;">
 								<li><a class="dropdown-item" href="account.html">Account</a></li>
 								<li><a class="dropdown-item" href="settings.html">Settings</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li>                              
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+								<li>
+									<a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+									<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+										@csrf
+									</form>
+								</li>
 							</ul>
-			            </div><!--//app-user-dropdown--> 
+						</div><!--//app-user-dropdown-->
 		            </div><!--//app-utilities-->
 		        </div><!--//row-->
 	            </div><!--//app-header-content-->
@@ -226,5 +229,14 @@
 
 </body>
 <!-- END: Body-->
-
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById("myDropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+</script>
 </html> 

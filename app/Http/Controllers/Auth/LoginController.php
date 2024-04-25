@@ -21,12 +21,12 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        // Check if the user's role contains "ADMIN"
+   
         if (strpos($user->role, 'ADMIN') !== false) {
-            // User has ADMIN role, redirect to default HOME route
+     
             return redirect()->intended($this->redirectPath());
         } else {
-            // User does not have ADMIN role, redirect to 'dashboard.user' route
+    
             return redirect()->route('dashboard.user');
         }
     }
