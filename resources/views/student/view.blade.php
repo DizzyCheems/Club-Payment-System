@@ -163,7 +163,7 @@
                                                             @if($payment->type  == 'ONLINE')   
                                                                 <span class="badge badge-pill badge-online">ONLINE</span>
                                                             @else ($payment->type == 'CASH') 
-                                                                <span class="badge badge-pill badge-cash">CASH</span>
+                                                                <span class="badge badge-pill badge-full">CASH</span>
                                                             @endif
                                                         </td>
                                                     

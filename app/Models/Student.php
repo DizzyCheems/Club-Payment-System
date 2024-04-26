@@ -12,6 +12,7 @@ class Student extends Model
     protected $fillable = 
     [
         'course_id',
+        'user_id',
         'name',
         'id_num',
         'social_acc',
@@ -21,6 +22,11 @@ class Student extends Model
     public function courses()
     {
         return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function payments()

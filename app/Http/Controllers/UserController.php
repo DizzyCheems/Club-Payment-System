@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -28,40 +30,89 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view ('users.create');
+        $courses = Course::all();
+        return view ('users.create',['courses'=>$courses]);
+    }
+
+    public function create_user()
+    {
+        //
+        $courses = Course::all();
+        return view ('users.create_user',['courses'=>$courses]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {      
-      $message=[
-          'required' => 'This field is required!'
-      ];
-    
-      $request->validate([      
+
+public function store_admin(Request $request)
+{      
+    $message=[
+        'required' => 'This field is required!'
+    ];
+
+    $request->validate([      
         'name' => 'required',
         'email' => 'required|email|unique:users,email',
         'role' => 'required',
         'password' => 'required|confirmed',
-      ], $message);
-    
-      $user = User::where('email', $request->email)->first();
-    
-      if($user){
+    ], $message);
+
+    $user = User::where('email', $request->email)->first();
+
+    if($user){
         return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
-      }
-    
-      User::create([
+    }
+
+    $createdUser = User::create([
         'name' => $request->name, 
         'email' => $request->email,
         'role' => Str::upper($request->role),
         'password' => Hash::make($request->password),
-      ]);
-    
-      return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
+    ]);
+
+    Student::create([
+        'user_id' => $createdUser->id,
+        'name' => $createdUser->name,
+    ]);
+
+    return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
+}
+
+public function store_user(Request $request)
+{      
+    $message=[
+        'required' => 'This field is required!'
+    ];
+
+    $request->validate([      
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'role' => 'required',
+        'password' => 'required|confirmed',
+    ], $message);
+
+    $user = User::where('email', $request->email)->first();
+
+    if($user){
+        return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
     }
+
+    $createdUser = User::create([
+        'name' => $request->name, 
+        'email' => $request->email,
+        'role' => Str::upper($request->role),
+        'password' => Hash::make($request->password),
+    ]);
+
+    Student::create([
+        'user_id' => $createdUser->id,
+        'name' => $createdUser->name,
+    ]);
+
+    return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
+}
+
 
     /**
      * Display the specified resource.

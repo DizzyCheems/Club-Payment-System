@@ -37,7 +37,9 @@ Route::get('/Home/Student', [App\Http\Controllers\DashboardController::class, 'u
     
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
 Route::get('/user/add', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
-Route::post('/user/create/registered', [App\Http\Controllers\UserController::class, 'store'])->name('user.post');
+Route::get('/user/add/student', [App\Http\Controllers\UserController::class, 'create_user'])->name('user.create.student');
+Route::post('/user/create/registered', [App\Http\Controllers\UserController::class, 'store_admin'])->name('user.post');
+Route::post('/user/create/registered/user', [App\Http\Controllers\UserController::class, 'store_user'])->name('user.post.user');
 Route::get('/user/edit/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 Route::get('/user/view/{id}', [App\Http\Controllers\UserController::class, 'view'])->name('user.view');
 Route::post('/user/updated', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');

@@ -12,7 +12,7 @@
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="<?php echo e(route ('user.post')); ?>" method="POST" novalidate>
+                        <form class="form" action="<?php echo e(route ('user.post.user')); ?>" method="POST" novalidate>
                         <?php echo csrf_field(); ?>
                         
                     <div>
@@ -29,6 +29,17 @@
                                     <input type="text" name="name" class="form-control mb-1" required data-validation-required-message="• This field is required">
                                 </div>
                          </div>
+
+                         <div class="form-group">
+                            <h5> Course <span class="required"></span></h5>
+                                <div class="controls">
+                                    <select name="course_id" id="lang" class="form-control" required class="form-control mb-1">
+                                    <?php $__currentLoopData = $courses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $course): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($course->id); ?>"><?php echo e($course->course_name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select> 
+                                </div>
+                        </div>
                          
                          <div class="form-group">
                              <h5>Email<span class="required"></span></h5>
@@ -61,6 +72,31 @@
                              <h5>Confirm Password<span class="required"></span></h5>
                                 <div class="controls">
                                     <input type="password" name="password_confirmation" id="input-confirm" class="form-control mb-1" data-validation-match-match="password" required data-validation-required-message="• This field is required">
+                                </div>
+                         </div>
+
+                         <div class="form-group">
+                             <h5>School ID Number<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input type="number" name="id_num" class="form-control mb-1" required data-validation-required-message="• This field is required">
+
+                                </div>
+                         </div>
+
+                         <div class="form-group">
+                             <h5>Facebook Account<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input type="text" name="social_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
+
+                                </div>
+                         </div>
+
+                         
+                         <div class="form-group">
+                             <h5>G Cash Number<span class="required"></span></h5>
+                                <div class="controls">
+                                    <input type="number" name="payment_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
+
                                 </div>
                          </div>
                      
