@@ -9,7 +9,7 @@ use App\Models\Agenda;
 use App\Models\Student;
 use App\Models\Course;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
     /**
@@ -22,9 +22,42 @@ class PaymentController extends Controller
         $students = Student::all();
         $selectedAgenda = $agendas->first();
         $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
-        $payments = Payment::with('agendas', 'students')->paginate(10); // Change '10' to the desired number of items per page
+        $payments = Payment::with('agendas', 'students')->paginate(10); 
         return view('payment.list', compact('payments', 'courses', 'agendas', 'students', 'indivContrib'));
     }
+    
+    public function index_invoice(Request $request)
+    {
+        $courses = Course::all();   
+        $agendas = Agenda::all();
+        $students = Student::all();
+        $pays = Pay::all();
+        $selectedAgenda = $agendas->first();
+        $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
+        $payments = Payment::with('agendas', 'students')->paginate(10); 
+        return view('payment.pays_list', compact('payments', 'courses', 'agendas', 'students', 'indivContrib', 'pays'));
+    }
+    
+    
+    public function index_user(Request $request)
+    {
+        $user = Auth::user();
+        $courses = Course::all();
+        $agendas = Agenda::all();
+        $students = Student::where('user_id', $user->id)->get();
+        $selectedAgenda = $agendas->first();
+        $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
+    
+        $payments = collect();
+        foreach ($students as $student) {
+            $payments = $payments->merge($student->payments);
+        }
+    
+        $payments = $payments; 
+    
+        return view('User.payments', compact('payments', 'courses', 'agendas', 'students', 'indivContrib'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      */

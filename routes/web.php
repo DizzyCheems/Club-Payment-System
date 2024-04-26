@@ -63,6 +63,8 @@ Route::post('/students/updated', [App\Http\Controllers\StudentController::class,
 Route::get('/students/delete', [App\Http\Controllers\StudentController::class, 'delete'])->name('student/destroy');
 
 Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payments/invoice', [App\Http\Controllers\PaymentController::class, 'index_invoice'])->name('payment.invoice');
+Route::get('/payments/user', [App\Http\Controllers\PaymentController::class, 'index_user'])->name('payment.index.user');
 Route::get('/payments/add', [App\Http\Controllers\PaymentController::class, 'create'])->name('payment.create');
 Route::post('/payments/create/registered', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.post');
 Route::get('/payments/edit/{id}', [App\Http\Controllers\PaymentController::class, 'edit'])->name('payment.edit');

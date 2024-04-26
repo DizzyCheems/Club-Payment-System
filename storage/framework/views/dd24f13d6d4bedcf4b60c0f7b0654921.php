@@ -80,7 +80,7 @@
 								<div class="stats-figure"><?php echo e($payCount); ?></div>
 							    <div class="stats-meta">New</div>
 						    </div><!--//app-card-body-->
-						    <a class="app-card-link-mask" href="#"></a>
+						    <a class="app-card-link-mask" href="<?php echo e(route('payment.invoice')); ?>"></a>
 					    </div><!--//app-card-->
 				    </div><!--//col-->
 			    </div><!--//row-->

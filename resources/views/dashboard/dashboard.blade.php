@@ -80,7 +80,7 @@
 								<div class="stats-figure">{{ $payCount }}</div>
 							    <div class="stats-meta">New</div>
 						    </div><!--//app-card-body-->
-						    <a class="app-card-link-mask" href="#"></a>
+						    <a class="app-card-link-mask" href="{{route('payment.invoice')}}"></a>
 					    </div><!--//app-card-->
 				    </div><!--//col-->
 			    </div><!--//row-->

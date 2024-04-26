@@ -103,16 +103,20 @@
 						        </div><!--//row-->
 								</div><!--//app-card-header-->
 									<div class="app-card-body">
-										@foreach($recentAgendas as $agenda)
+									@if($payments->isEmpty())
+								    <div class="item p-3 d-flex justify-content-center align-items-center">
+										<div class="title mb-1">NO PAYMENTS</div>
+									</div>
+									@else
+										@foreach($payments as $payment)
 											<div class="item p-3">
 												<div class="row align-items-center">
 													<div class="col">
-														<div class="title mb-1">{{ $agenda->agenda_name }}</div>
+														<div class="title mb-1">{{ $payment->agendas->agenda_name }}</div>
 														<div class="progress">
 															@php
-																$progressPercentage = $agenda->indiv_contrib / $agenda->getAmountFromPaymentsAttribute() * 100;
+																$progressPercentage = $payment->agendas->indiv_contrib / $payment->amount * 100;
 															@endphp
-															
 															<div class="progress-bar bg-success" role="progressbar" style="width: {{ $progressPercentage }}%;" aria-valuenow="{{ $progressPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
 														</div>
 													</div><!--//col-->
@@ -125,6 +129,8 @@
 												<a class="item-link-mask" href="#"></a>
 											</div><!--//item-->
 										@endforeach
+									@endif
+
 									</div><!--//app-card-body-->
 				        </div><!--//app-card-->
 			        </div><!--//col-->
@@ -153,13 +159,19 @@
 											</tr>
 										</thead>
 										<tbody>
-										@foreach($payments as $payment)                 
-                                                <tr>    
-                                                        <td>{{ $payment->agendas->agenda_name }}</td>
-                                                        <td>{{ $payment->amount }}</td>
-                                                        <td>{{ date('j M', strtotime($payment->created_at)) }}</td>
-                                                </tr>
-                                        @endforeach
+											@if($payments->isEmpty())
+												<tr>
+													<td colspan="3" class="text-center">No Payment</td>
+												</tr>
+											@else
+												@foreach($payments as $payment)
+													<tr>    
+														<td>{{ $payment->agendas->agenda_name }}</td>
+														<td>{{ $payment->amount }}</td>
+														<td>{{ date('j M', strtotime($payment->created_at)) }}</td>
+													</tr>
+												@endforeach
+											@endif
 										</tbody>
 									</table>
 						        </div><!--//table-responsive-->
