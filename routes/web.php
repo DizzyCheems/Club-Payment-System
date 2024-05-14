@@ -80,8 +80,9 @@ Route::get('/fileupload/list', [DocumentController::class, 'create'])->name('doc
 Route::post('/fileupload/store', [DocumentController::class, 'store'])->name('fileupload.store');
 Route::get('/file/download/{id}', [DocumentController::class, 'download'])->name('file.download');
 Route::delete('/fileupload/{id}', [DocumentController::class, 'destroy'])->name('file.delete');
-//Route::get('/fileupload/create', [FileUploadController::class, 'create']);
-//Route::post('/fileupload/store', [FileUploadController::class, 'store'])->name('fileupload.store');
+Route::get('/file/preview/{id}', [DocumentController::class, 'preview'])->name('file.preview');
+
+
 
 
 });

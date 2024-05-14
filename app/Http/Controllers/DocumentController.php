@@ -81,4 +81,14 @@ class DocumentController extends Controller
         }
     }
 
+    public function preview($id)
+{
+    $file = FileUpload::findOrFail($id);
+    $filePath = storage_path('app/public/' . $file->file_path);
+    
+    // For simplicity, assuming PDF files can be previewed directly in the browser
+    return response()->file($filePath);
+}
+
+
 }

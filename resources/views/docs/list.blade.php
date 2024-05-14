@@ -56,6 +56,10 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this file?')">Delete</button>
                                         </form>
+
+                                        <form action="{{ route('file.preview', $file->id) }}" method="GET" style="display: inline;">
+                                            <button type="submit" class="btn btn-success">Preview</button>
+                                        </form>
                                     </td>
                                     </div>
                                     </tr>
