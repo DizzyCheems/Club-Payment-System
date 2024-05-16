@@ -6,6 +6,8 @@ use App\Models\Agenda;
 use App\Models\Activities;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class AgendaController extends Controller
 {
     /**

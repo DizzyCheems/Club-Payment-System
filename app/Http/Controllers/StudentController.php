@@ -59,7 +59,9 @@ class StudentController extends Controller
     {
         //
         $courses = Course::all();
-        return view ('student.create',['courses'=>$courses]);
+        $users = User::all();
+        return view('student.create', compact('courses', 'users'));
+
     }
 
     /**
@@ -74,6 +76,7 @@ class StudentController extends Controller
                           
             $request->validate([      
             'course_id' => 'required', 
+            'user_id' => 'required',                 
             'name'=>'required',
             'id_num'=>'required',
             'social_acc'=>'required',
@@ -82,6 +85,7 @@ class StudentController extends Controller
                           
             Student::create([
             'course_id' => $request->course_id,
+            'user_id' => $request->user_id,
             'name' => $request->name, 
             'id_num' => $request->id_num,
             'social_acc' => $request->social_acc,

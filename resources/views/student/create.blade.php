@@ -5,7 +5,7 @@
     <div class="app-wrapper">
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">
+		    <div class="container-xl">  
 			    
 			    <h1 class="app-page-title">Add Student</h1>
 			    
@@ -31,6 +31,17 @@
                                     <select name="course_id" id="lang" class="form-control" required class="form-control mb-1">
                                     @foreach($courses as $course)
                                     <option value="{{ $course->id }}">{{$course->course_name}}</option>
+                                    @endforeach
+                                    </select> 
+                                </div>
+                        </div>
+                                 
+                    <div class="form-group">
+                            <h5> User Account <span class="required"></span></h5>
+                                <div class="controls">
+                                    <select name="user_id" id="lang" class="form-control" required class="form-control mb-1">
+                                    @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{$user->name}}</option>
                                     @endforeach
                                     </select> 
                                 </div>

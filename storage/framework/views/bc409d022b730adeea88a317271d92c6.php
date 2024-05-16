@@ -49,14 +49,14 @@
                                 <div class="form-group">
                           <h5> Password <span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="password" id="input-password" name="password"  class="form-control mb-1" value="<?php echo e($user['password']); ?>">
+                                    <input type="password" id="input-password" name="password"  class="form-control mb-1" value="">
                                 </div>
                          </div>
 
                          <div class="form-group">
                              <h5>Confirm Password<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="password" name="password_confirmation" id="input-confirm" class="form-control mb-1"  data-validation-match-match="password" value="<?php echo e($user['password']); ?>">
+                                    <input type="password" name="password_confirmation" id="input-confirm" class="form-control mb-1"  data-validation-match-match="password" value="">
                                 </div>
                          </div>
                           

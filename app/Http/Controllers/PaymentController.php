@@ -39,6 +39,7 @@ class PaymentController extends Controller
     }
     
     
+    
     public function index_user(Request $request)
     {
         $user = Auth::user();
@@ -53,10 +54,14 @@ class PaymentController extends Controller
             $payments = $payments->merge($student->payments);
         }
     
-        $payments = $payments; 
+        $payments = $payments;
     
-        return view('User.payments', compact('payments', 'courses', 'agendas', 'students', 'indivContrib'));
+        // Encode students data as JSON
+        $studentsJson = $students->toJson();
+        
+        return view('User.payments', compact('payments', 'courses', 'agendas', 'studentsJson', 'indivContrib'));
     }
+    
     
     /**
      * Show the form for creating a new resource.
@@ -71,7 +76,11 @@ class PaymentController extends Controller
         $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
         return view('payment.create', compact('courses', 'agendas', 'students', 'indivContrib'));
     }
-
+    public function getIndivContrib($id)
+    {
+        $agenda = Agenda::find($id);
+        return response()->json(['indiv_contrib' => $agenda ? $agenda->indiv_contrib : null]);
+    }
     /**
      * Store a newly created resource in storage.
      */

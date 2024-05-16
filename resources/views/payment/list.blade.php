@@ -269,13 +269,13 @@
                     </div>
                     @endif
                 </div>
-
                 <div class="form-group px-5">
                     <h5>Agenda <span class="required"></span></h5>
                     <div class="controls">
-                        <select name="agenda_id" id="lang" class="form-control mb-1">
+                        <select name="agenda_id" id="agenda_id" class="form-control mb-1">
+                            <option value="" selected disabled>Select Agenda</option> <!-- Added empty option -->
                             @foreach($agendas as $agenda)
-                            <option value="{{ $agenda->id }}">{{ $agenda->agenda_name }}</option>
+                                <option value="{{ $agenda->id }}" data-indiv-contrib="{{ $agenda->indiv_contrib }}">{{ $agenda->agenda_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -292,16 +292,16 @@
                     </div>
                 </div>
 
-                <div class="form-group px-5">
-                    <h5>Student <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="student_id" id="lang" class="form-control mb-1">
-                            @foreach($students as $student)
-                            <option value="{{ $student->id }}">{{ $student->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                
+                <div class="form-group row px-5">
+                            <div class="col-md-6">
+                                    <h5>Student<span class="required"></span></h5>
+                                    <div class="controls">
+                                        <input id="student_id" type="text" name="student_id" class="form-control mb-1" placeholder = "0.00" value="{{ Auth::user()->id}}" required data-validation-required-message="• This field is required">
+                                    </div>
+                                </div>
+                            </div>
+                        
 
                 <div class="form-group row px-5">
                     <div class="col-md-6">
@@ -310,10 +310,11 @@
                             <input id="paymentInput" type="number" name="amount" class="form-control mb-1" placeholder="0.00" required>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <h5>Amount Required <span class="required"></span></h5>
                         <div class="controls">
-                            <input id="amountRequired" type="number" name="amount2" class="form-control mb-1" required value="{{ $indivContrib }}" readonly>
+                            <input id="amountRequired" type="number" name="amount2" class="form-control mb-1" required readonly>
                         </div>
                     </div>
                 </div>
@@ -517,6 +518,24 @@ $('#paymentMethod').on('change', function() {
     });
 </script>
 
+
+<script>
+    // Get references to the select element and the amount input field
+    const agendaSelect = document.getElementById('agenda_id');
+    const amountInput = document.getElementById('amountRequired');
+
+    // Add event listener to the select element
+    agendaSelect.addEventListener('change', function() {
+        // Get the selected option
+        const selectedOption = agendaSelect.options[agendaSelect.selectedIndex];
+        
+        // Get the indiv_contrib value from the selected option's data attribute
+        const indivContrib = selectedOption.getAttribute('data-indiv-contrib');
+
+        // Set the value of the amount input field to the indiv_contrib value
+        amountInput.value = indivContrib;
+    });
+</script>
 
 <!-- Javascript -->          
 <script src="assets/plugins/popper.min.js"></script>

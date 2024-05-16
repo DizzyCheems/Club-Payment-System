@@ -84,4 +84,7 @@ Route::get('/agendas/delete', [App\Http\Controllers\AgendaController::class, 'de
 Route::post('/activity/create/registered', [App\Http\Controllers\ActivitiesController::class, 'store'])->name('activity.add');
 Route::get('/activity/delete', [App\Http\Controllers\ActivitiesController::class, 'delete'])->name('activity/destroy');
 
+
+Route::get('/agenda/{id}/contrib', [AgendaController::class, 'getIndivContrib'])->name('agenda.contrib');
+
 });
