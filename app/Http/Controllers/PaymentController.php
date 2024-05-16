@@ -152,6 +152,15 @@ class PaymentController extends Controller
    
     }
 
+    public function updatePayments(Request $request) {
+        $paymentIds = $request->input('paymentIds');
+    
+        // Update 'approved' column for selected payments
+        Payment::whereIn('id', $paymentIds)->update(['approved' => 1]);
+    
+        return response()->json(['message' => 'Payments updated successfully']);
+    }
+    
     /**
      * Update the specified resource in storage.
      */

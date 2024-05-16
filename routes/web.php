@@ -86,5 +86,7 @@ Route::get('/activity/delete', [App\Http\Controllers\ActivitiesController::class
 
 
 Route::get('/agenda/{id}/contrib', [AgendaController::class, 'getIndivContrib'])->name('agenda.contrib');
+Route::post('/update-payments', [App\Http\Controllers\PaymentController::class, 'updatePayments'])->name('payment.approve');
+
 
 });

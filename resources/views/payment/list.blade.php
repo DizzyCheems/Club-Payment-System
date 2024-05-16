@@ -133,12 +133,14 @@
                                                                 <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                                             </td>    
                                                             <td>
-                                                                @if($payment->approval === 0 || $payment->approval === null)
-                                                                    <input type="checkbox" name="approval_textbox" value="">
-                                                                @else
-                                                                    {{ $payment->approval }}
-                                                                @endif
-                                                            </td>
+    @if($payment->approved === 0 || $payment->approved === null)
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}">
+    @else
+        <span style="color: green;">Approved</span>
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}" checked style="display: none;">
+    @endif
+</td>
+
                                                         </tr>
                                     @endforeach       
                                     </tbody>
@@ -194,12 +196,14 @@
                                     <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                 </td>    
                                 <td>
-                                                                @if($payment->approval === 0 || $payment->approval === null)
-                                                                    <input type="checkbox" name="approval_textbox" value="">
-                                                                @else
-                                                                    {{ $payment->approval }}
-                                                                @endif
-                                                            </td>
+    @if($payment->approved === 0 || $payment->approved === null)
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}">
+    @else
+        <span style="color: green;">Approved</span>
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}" checked style="display: none;">
+    @endif
+</td>
+
                                 </tr>
                                     
                                     @endif
@@ -257,12 +261,14 @@
                                              <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                         </td>
                                         <td>
-                                                                @if($payment->approval === 0 || $payment->approval === null)
-                                                                    <input type="checkbox" name="approval_textbox" value="">
-                                                                @else
-                                                                    {{ $payment->approval }}
-                                                                @endif
-                                                            </td>
+    @if($payment->approved === 0 || $payment->approved === null)
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}">
+    @else
+        <span style="color: green;">Approved</span>
+        <input type="checkbox" name="approval_checkbox" data-payment-id="{{ $payment->id }}" checked style="display: none;">
+    @endif
+</td>
+
                                     </tr>
                                     
                                     @endif
@@ -273,9 +279,15 @@
                         </div>
                     </div>
                 </div>
+                <button class="btn app-btn-secondary"   id="approvePaymentsButton">
+                                    Update
+                </button>      
+
             </div>
+            
         </div>
     </div>
+    
 </div>
 
 <!-- Modal Register Payment -->
@@ -383,6 +395,46 @@
     <!--//modal-dialog-->
 </div>
 <!--//modal-->
+
+
+
+
+<!-- Modal Register Payment -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalTitle">Approve Payments</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form class="form" action="{{ route ('payment.post') }}" method="POST" novalidate>
+                @csrf
+
+                <div class="p-3">
+                    @if(Session::has('success'))
+                    <div class="alert alert-success">
+                        {{Session::get('success')}}
+                    </div>
+                    @endif
+                </div>
+        
+                <div class="modal-footer" style= "margin-top:35px;">
+                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                        <i class="ft-x"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!--//modal-content-->
+    </div>
+    <!--//modal-dialog-->
+</div>
+<!--//modal-->
+
 
 
 
@@ -565,6 +617,77 @@ $('#paymentMethod').on('change', function() {
         amountInput.value = indivContrib;
     });
 </script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const approvePaymentsButton = document.getElementById('approvePaymentsButton');
+
+        approvePaymentsButton.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Are you sure you want to approve payment?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, approve it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const checkedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    const paymentIds = Array.from(checkedCheckboxes).map(checkbox => checkbox.dataset.paymentId);
+
+                    // Send an AJAX request
+                    fetch('/update-payments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token
+                        },
+                        body: JSON.stringify({ paymentIds: paymentIds })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Show success message
+                            Swal.fire(
+                                'Approved!',
+                                'The payments have been approved.',
+                                'success'
+                            ).then(() => {
+                                // Reload the page or update UI as needed
+                                location.reload(); // For example, reload the page
+                            });
+                        } else {
+                            throw new Error('Failed to update payments');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error approving the payments.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const updateButton = document.getElementById('update');
+        const updateModal = document.getElementById('updateModal');
+
+        updateButton.addEventListener('click', function() {
+            // Show the modal
+            updateModal.style.display = 'block';
+        });
+    });
+</script>
+
 
 <!-- Javascript -->          
 <script src="assets/plugins/popper.min.js"></script>
