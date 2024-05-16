@@ -94,6 +94,8 @@
                                     <th class="cell">Method</th>
                                     <th class="cell">Date Paid</th>
                                     <th class="col-actions cell">Actions</th>   
+                                    <th class="col-actions cell">Approval</th>   
+
                                 </tr>
                                     </thead>
                                     <tbody id="userTable">
@@ -130,6 +132,13 @@
                                                                 <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
                                                                 <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                                             </td>    
+                                                            <td>
+                                                                @if($payment->approval === 0 || $payment->approval === null)
+                                                                    <input type="checkbox" name="approval_textbox" value="">
+                                                                @else
+                                                                    {{ $payment->approval }}
+                                                                @endif
+                                                            </td>
                                                         </tr>
                                     @endforeach       
                                     </tbody>
@@ -146,13 +155,15 @@
                             <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
                             <thead>
                                 <tr>
-                                    <th class="cell">Agenda</th>
+                                <th class="cell">Agenda</th>
                                     <th class="cell">Student</th>
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
                                     <th class="cell">Date Paid</th>
-                                    <th class="col-actions">Actions</th>   
+                                    <th class="col-actions cell">Actions</th>   
+                                    <th class="col-actions cell">Approval</th>   
+
                                 </tr>
                                     </thead>
                                     <tbody>
@@ -176,11 +187,19 @@
                                                             <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
                                                         </td>
 
+
                                 <td>              
                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
                                     <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                 </td>    
+                                <td>
+                                                                @if($payment->approval === 0 || $payment->approval === null)
+                                                                    <input type="checkbox" name="approval_textbox" value="">
+                                                                @else
+                                                                    {{ $payment->approval }}
+                                                                @endif
+                                                            </td>
                                 </tr>
                                     
                                     @endif
@@ -199,13 +218,15 @@
                             <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="userTable">
                             <thead>
                                 <tr>
-                                    <th class="cell">Agenda</th>
+                                <th class="cell">Agenda</th>
                                     <th class="cell">Student</th>
                                     <th class="cell">Amount</th>
                                     <th class="cell">Type</th>
                                     <th class="cell">Method</th>
                                     <th class="cell">Date Paid</th>
-                                    <th class="col-actions">Actions</th>   
+                                    <th class="col-actions cell">Actions</th>   
+                                    <th class="col-actions cell">Approval</th>   
+
                                 </tr>
                                     </thead>
                                     <tbody>
@@ -235,6 +256,13 @@
                                              <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
                                              <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                         </td>
+                                        <td>
+                                                                @if($payment->approval === 0 || $payment->approval === null)
+                                                                    <input type="checkbox" name="approval_textbox" value="">
+                                                                @else
+                                                                    {{ $payment->approval }}
+                                                                @endif
+                                                            </td>
                                     </tr>
                                     
                                     @endif
@@ -293,16 +321,17 @@
                 </div>
 
                 
-                <div class="form-group row px-5">
-                            <div class="col-md-6">
-                                    <h5>Student<span class="required"></span></h5>
-                                    <div class="controls">
-                                        <input id="student_id" type="text" name="student_id" class="form-control mb-1" placeholder = "0.00" value="{{ Auth::user()->id}}" required data-validation-required-message="• This field is required">
-                                    </div>
-                                </div>
-                            </div>
-                        
-
+                <div class="form-group px-5">
+                    <h5>Student <span class="required"></span></h5>
+                    <div class="controls">
+                    <select name="student_id" id="lang" class="form-control" required class="form-control mb-1">
+                                    @foreach($students as $student)
+                                    <option value="{{ $student->id }}">{{$student->name}}</option>
+                                    @endforeach
+                                    </select> 
+                    </div>
+                </div>
+                
                 <div class="form-group row px-5">
                     <div class="col-md-6">
                         <h5>Payment <span class="required"></span></h5>

@@ -14,7 +14,8 @@ class Payment extends Model
         'student_id',
         'amount',
         'type',
-        'method'
+        'method',
+        'approved'
     ];
 
     public function agendas()

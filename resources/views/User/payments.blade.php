@@ -259,7 +259,7 @@
 
 <div id="studentsData" data-students="{{ $studentsJson }}" style="display: none;"></div>
 
-<table>
+<table style="display:none">
     <thead>
         <tr>
             <th>Student ID</th>
