@@ -26,7 +26,7 @@ class Student extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 
     public function payments()

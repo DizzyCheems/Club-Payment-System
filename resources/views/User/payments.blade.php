@@ -180,14 +180,14 @@
 
                 
                 <div class="form-group row px-5">
-                            <div class="col-md-6">
-                                    <h5>Student<span class="required"></span></h5>
-                                    <div class="controls">
-                                        <input id="student_id" type="text" name="student_id" class="form-control mb-1" placeholder = "0.00" value="{{ Auth::user()->id}}" required data-validation-required-message="• This field is required">
-                                    </div>
-                                </div>
-                            </div>
-                        
+                    <div class="col-md-12">
+                        <h5>Student<span class="required"></span></h5>
+                        <div class="controls">
+                            <input id="student_name" type="text" name="student_id" class="form-control mb-1" placeholder="Student Name" value="{{ Auth::user()->name }}" required data-validation-required-message="• This field is required" readonly>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-group row px-5">
                     <div class="col-md-6">

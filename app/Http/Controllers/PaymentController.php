@@ -39,28 +39,30 @@ class PaymentController extends Controller
     }
     
     
-    
     public function index_user(Request $request)
-    {
-        $user = Auth::user();
-        $courses = Course::all();
-        $agendas = Agenda::all();
-        $students = Student::where('user_id', $user->id)->get();
-        $selectedAgenda = $agendas->first();
-        $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
-    
-        $payments = collect();
-        foreach ($students as $student) {
-            $payments = $payments->merge($student->payments);
-        }
-    
-        $payments = $payments;
-    
-        // Encode students data as JSON
-        $studentsJson = $students->toJson();
-        
-        return view('User.payments', compact('payments', 'courses', 'agendas', 'studentsJson', 'indivContrib'));
+{
+    $user = Auth::user();
+    $courses = Course::all();
+    $agendas = Agenda::all();
+    $students = Student::where('user_id', $user->id)->get();
+    $selectedAgenda = $agendas->first();
+    $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
+
+    $payments = collect();
+    foreach ($students as $student) {
+        $payments = $payments->merge($student->payments);
     }
+
+    $payments = $payments;
+
+    // You can directly use $user->name instead of retrieving it separately
+    $userName = $user->name;
+
+    // Encode students data as JSON
+    $studentsJson = $students->toJson();
+    
+    return view('User.payments', compact('payments', 'courses', 'agendas', 'studentsJson', 'indivContrib', 'userName'));
+}
     
     
     /**
