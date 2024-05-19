@@ -144,7 +144,6 @@
                 <h5 class="modal-title" id="loginModalTitle">Register Payment</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <form class="form" action="{{ route ('payment.post') }}" method="POST" novalidate>
                 @csrf
 
@@ -179,16 +178,13 @@
                 </div>
 
                 
-                <div class="form-group row px-5">
-                    <div class="col-md-12">
-                        <h5>Student<span class="required"></span></h5>
-                        <div class="controls">
-                            <input id="student_name" type="text" name="student_id" class="form-control mb-1" placeholder="Student Name" value="{{ Auth::user()->name }}" required data-validation-required-message="• This field is required" readonly>
-                        </div>
+                <div class="form-group px-5">
+                    <h5>Student <span class="required"></span></h5>
+                    <div class="controls">
+                        <input id="student_id" type="number" name="student_id" class="form-control mb-1" value="{{ Auth::user()->id }}" required readonly>
                     </div>
                 </div>
-
-
+    
                 <div class="form-group row px-5">
                     <div class="col-md-6">
                         <h5>Payment <span class="required"></span></h5>

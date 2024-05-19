@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2023 at 08:10 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: May 19, 2024 at 11:55 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,14 +24,45 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `accountstatuses`
+--
+
+CREATE TABLE `accountstatuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `accountstatus` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activities`
+--
+
+CREATE TABLE `activities` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `activity_name` varchar(255) NOT NULL,
+  `agenda_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `date` varchar(255) NOT NULL,
+  `fund` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `agendas`
 --
 
 CREATE TABLE `agendas` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `agenda_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deadline` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_fund` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `agenda_name` varchar(255) NOT NULL,
+  `deadline` varchar(255) NOT NULL,
+  `indiv_contrib` decimal(10,2) DEFAULT NULL,
+  `total_fund` varchar(255) NOT NULL,
   `students_paid` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -41,9 +72,9 @@ CREATE TABLE `agendas` (
 -- Dumping data for table `agendas`
 --
 
-INSERT INTO `agendas` (`id`, `agenda_name`, `deadline`, `total_fund`, `students_paid`, `created_at`, `updated_at`) VALUES
-(1, 'Party', '2023-11-12', '10000', NULL, '2023-10-11 04:05:36', '2023-10-11 04:05:36'),
-(2, 'Aquiantance', '2023-10-20', '10000', NULL, '2023-10-18 04:51:44', '2023-10-18 04:51:44');
+INSERT INTO `agendas` (`id`, `agenda_name`, `deadline`, `indiv_contrib`, `total_fund`, `students_paid`, `created_at`, `updated_at`) VALUES
+(1, 'Party', '2023-11-12', '200.00', '10000', NULL, '2023-10-11 04:05:36', '2023-10-11 04:05:36'),
+(2, 'Aquiantance', '2023-10-20', '300.00', '10000', NULL, '2023-10-18 04:51:44', '2023-10-18 04:51:44');
 
 -- --------------------------------------------------------
 
@@ -53,9 +84,9 @@ INSERT INTO `agendas` (`id`, `agenda_name`, `deadline`, `total_fund`, `students_
 
 CREATE TABLE `courses` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `course_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year_level` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `section` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `course_name` varchar(255) NOT NULL,
+  `year_level` varchar(255) NOT NULL,
+  `section` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -77,11 +108,11 @@ INSERT INTO `courses` (`id`, `course_name`, `year_level`, `section`, `created_at
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -93,7 +124,7 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -110,7 +141,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2023_10_07_134427_create_students_table', 1),
 (30, '2023_10_09_053028_create_payments_table', 1),
 (31, '2023_10_09_085830_create_agendas_table', 1),
-(32, '2023_10_11_040037_create_pays_table', 1);
+(32, '2023_10_11_040037_create_pays_table', 1),
+(33, '2024_04_01_104447_create_accountstatuses_table', 2),
+(34, '2024_04_01_145758_pays', 3),
+(35, '2024_04_23_084001_create_activities_table', 3),
+(36, '2024_04_23_085442_add_indiv_contrib_to_agendas_table', 3),
+(37, '2024_04_26_025411_add_user_id_to_students_table', 3),
+(38, '2024_05_16_062800_add_is_approved_to_payments_table', 3);
 
 -- --------------------------------------------------------
 
@@ -119,8 +156,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -135,20 +172,23 @@ CREATE TABLE `payments` (
   `agenda_id` bigint(20) UNSIGNED DEFAULT NULL,
   `student_id` bigint(20) UNSIGNED DEFAULT NULL,
   `amount` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `method` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `approved` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `method`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, 300, 'ONLINE', 'FULL', '2023-10-11 04:35:15', '2023-10-11 04:35:15'),
-(8, 2, 2, 200, 'ONLINE', 'PARTIAL', '2023-10-18 04:52:38', '2023-10-18 04:52:38'),
-(9, 1, 2, 100, 'ONLINE', 'FULL', '2023-10-19 21:22:59', '2023-10-19 21:22:59');
+INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `method`, `created_at`, `updated_at`, `approved`) VALUES
+(4, 1, 1, 300, 'ONLINE', 'FULL', '2023-10-11 04:35:15', '2024-05-18 22:43:23', 1),
+(8, 2, 2, 200, 'ONLINE', 'PARTIAL', '2023-10-18 04:52:38', '2023-10-18 04:52:38', 0),
+(9, 1, 2, 100, 'ONLINE', 'FULL', '2023-10-19 21:22:59', '2023-10-19 21:22:59', 0),
+(10, 1, 1, 200, 'ONLINE', 'FULL', '2024-05-19 01:03:40', '2024-05-19 01:03:40', 0),
+(11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0);
 
 -- --------------------------------------------------------
 
@@ -158,9 +198,22 @@ INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `meth
 
 CREATE TABLE `pays` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `student_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `amount` int(11) NOT NULL,
+  `ref_num` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `pays`
+--
+
+INSERT INTO `pays` (`id`, `payment_id`, `student_id`, `amount`, `ref_num`, `created_at`, `updated_at`) VALUES
+(1, 9, 2, 300, '#ttrgeg324', NULL, NULL),
+(2, 10, 1, 200, '146367', '2024-05-19 01:03:40', '2024-05-19 01:03:40'),
+(3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34');
 
 -- --------------------------------------------------------
 
@@ -170,11 +223,11 @@ CREATE TABLE `pays` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -190,22 +243,23 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `students` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `id_num` int(11) NOT NULL,
-  `social_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `social_acc` varchar(255) NOT NULL,
+  `payment_acc` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `payment_acc`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47'),
-(2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48'),
-(4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41');
+INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `payment_acc`, `created_at`, `updated_at`, `user_id`) VALUES
+(1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47', NULL),
+(2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48', NULL),
+(4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -215,12 +269,12 @@ INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `paym
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -236,6 +290,18 @@ INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `passwo
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accountstatuses`
+--
+ALTER TABLE `accountstatuses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activities`
+--
+ALTER TABLE `activities`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `agendas`
@@ -306,6 +372,18 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `accountstatuses`
+--
+ALTER TABLE `accountstatuses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `activities`
+--
+ALTER TABLE `activities`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `agendas`
 --
 ALTER TABLE `agendas`
@@ -327,19 +405,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pays`
 --
 ALTER TABLE `pays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

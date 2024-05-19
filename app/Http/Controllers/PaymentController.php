@@ -45,6 +45,7 @@ class PaymentController extends Controller
     $courses = Course::all();
     $agendas = Agenda::all();
     $students = Student::where('user_id', $user->id)->get();
+    //$students = Student::all();
     $selectedAgenda = $agendas->first();
     $indivContrib = $selectedAgenda ? $selectedAgenda->indiv_contrib : null;
 
@@ -61,7 +62,7 @@ class PaymentController extends Controller
     // Encode students data as JSON
     $studentsJson = $students->toJson();
     
-    return view('User.payments', compact('payments', 'courses', 'agendas', 'studentsJson', 'indivContrib', 'userName'));
+    return view('User.payments', compact('payments', 'students', 'courses', 'agendas', 'studentsJson', 'indivContrib', 'userName'));
 }
     
     
