@@ -131,11 +131,28 @@ class PaymentController extends Controller
     public function view($id)
     {
         //
-        $courses = Course::all();
-        $agendas = Agenda::all();
-        $students = Student::all();
-        $payments=Payment::find($id);
-        return view('payment.view', compact('courses', 'agendas', 'students', 'payments'));
+        $payments=Payment::with('agendas')->find($id);
+        $courses = $payments->course;
+        $pays = $payments->pays;
+        $students = $payments->students;
+        $agendas = $payments->agendas;
+        $subtotal = $payments->amount; 
+        $total = $subtotal - 0; 
+
+        return view('payment.view', compact('courses', 'agendas', 'students', 'payments', 'pays', 'subtotal', 'total'));
+    }
+    public function invoice($id)
+    {
+        //
+        $payments=Payment::with('agendas')->find($id);
+        $courses = $payments->course;
+        $pays = $payments->pays;
+        $students = $payments->students;
+        $agendas = $payments->agendas;
+        $subtotal = $payments->amount; 
+        $total = $subtotal - 0; 
+
+        return view('pays.invoice', compact('courses', 'agendas', 'students', 'payments', 'pays', 'subtotal', 'total'));
     }
 
     /**

@@ -29,6 +29,6 @@ class Payment extends Model
     }
     public function pays()
     {
-        return $this->hasMany(Pay::class, 'payment_id');
+        return $this->hasMany(Pay::class, 'id');
     }
 }

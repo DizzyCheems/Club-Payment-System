@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\ActivitiesController' => $baseDir . '/app/Http/Controllers/ActivitiesController.php',
     'App\\Http\\Controllers\\AgendaController' => $baseDir . '/app/Http/Controllers/AgendaController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -33,6 +34,7 @@ return array(
     'App\\Http\\Middleware\\ValidateSignature' => $baseDir . '/app/Http/Middleware/ValidateSignature.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\Accountstatus' => $baseDir . '/app/Models/Accountstatus.php',
+    'App\\Models\\Activities' => $baseDir . '/app/Models/Activities.php',
     'App\\Models\\Agenda' => $baseDir . '/app/Models/Agenda.php',
     'App\\Models\\Course' => $baseDir . '/app/Models/Course.php',
     'App\\Models\\Pay' => $baseDir . '/app/Models/Pay.php',

@@ -69,6 +69,7 @@ Route::get('/payments/add', [App\Http\Controllers\PaymentController::class, 'cre
 Route::post('/payments/create/registered', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.post');
 Route::get('/payments/edit/{id}', [App\Http\Controllers\PaymentController::class, 'edit'])->name('payment.edit');
 Route::get('/payments/view/{id}', [App\Http\Controllers\PaymentController::class, 'view'])->name('payment.view');
+Route::get('/payments/invoice/{id}', [App\Http\Controllers\PaymentController::class, 'invoice'])->name('payment.invoice');
 Route::post('/payments/updated', [App\Http\Controllers\PaymentController::class, 'update'])->name('payment.update');
 Route::get('/payments/delete', [App\Http\Controllers\PaymentController::class, 'delete'])->name('payment/destroy');
 

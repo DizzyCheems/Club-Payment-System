@@ -280,7 +280,7 @@
                     </div>
                 </div>
                 <button class="btn app-btn-secondary"   id="approvePaymentsButton">
-                                    Update
+                                    Approve Selected
                 </button>      
 
             </div>
