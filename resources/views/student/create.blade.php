@@ -73,7 +73,7 @@
 
                          
                          <div class="form-group">
-                             <h5>G Cash Number<span class="required"></span></h5>
+                             <h5>GCash / Contact Number<span class="required"></span></h5>
                                 <div class="controls">
                                     <input type="number" name="payment_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
 

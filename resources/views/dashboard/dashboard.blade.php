@@ -218,7 +218,7 @@
 							    <div class="intro">Issue new Invoice</div>
 						    </div><!--//app-card-body-->
 						    <div class="app-card-footer p-4 mt-auto">
-							   <a class="btn app-btn-secondary" href="#">Create New</a>
+							   <a class="btn app-btn-secondary" href="{{route('payment.index')}}#">View</a>
 						    </div><!--//app-card-footer-->
 						</div><!--//app-card-->
 				    </div><!--//col-->
@@ -245,7 +245,7 @@
 							    <div class="intro">Plan new Events</div>
 						    </div><!--//app-card-body-->
 						    <div class="app-card-footer p-4 mt-auto">
-							   <a class="btn app-btn-secondary" href="#">Create New</a>
+							   <a class="btn app-btn-secondary" href="{{route('agenda.index')}}">View</a>
 						    </div><!--//app-card-footer-->
 						</div><!--//app-card-->
 				    </div><!--//col-->
@@ -272,7 +272,7 @@
 							    <div class="intro">Documents and necessary files</div>
 						    </div><!--//app-card-body-->
 						    <div class="app-card-footer p-4 mt-auto">
-							   <a class="btn app-btn-secondary" href="#">Create New</a>
+							   <a class="btn app-btn-secondary" href="{{route('doc.index')}}">View</a>
 						    </div><!--//app-card-footer-->
 						</div><!--//app-card-->
 				    </div><!--//col-->

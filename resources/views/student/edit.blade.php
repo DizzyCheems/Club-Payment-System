@@ -49,7 +49,7 @@
 
                          
                          <div class="form-group">
-                             <h5>G Cash Account<span class="required"></span></h5>
+                             <h5>GCash / Contact Number<span class="required"></span></h5>
                                 <div class="controls">
                                     <input type="text" name="payment_acc" class="form-control mb-1" value="{{$students['payment_acc']}}" required data-validation-required-message="• This field is required">
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2024 at 11:55 AM
+-- Generation Time: May 24, 2024 at 03:21 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -119,6 +119,27 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `file_uploads`
+--
+
+CREATE TABLE `file_uploads` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `file_uploads`
+--
+
+INSERT INTO `file_uploads` (`id`, `file_name`, `file_path`, `created_at`, `updated_at`) VALUES
+(1, '1716533230_Self_Rating_-_Sheet1.pdf', 'uploads/1716533230_Self_Rating_-_Sheet1.pdf', '2024-05-23 22:47:10', '2024-05-23 22:47:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -147,7 +168,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (35, '2024_04_23_084001_create_activities_table', 3),
 (36, '2024_04_23_085442_add_indiv_contrib_to_agendas_table', 3),
 (37, '2024_04_26_025411_add_user_id_to_students_table', 3),
-(38, '2024_05_16_062800_add_is_approved_to_payments_table', 3);
+(38, '2024_05_16_062800_add_is_approved_to_payments_table', 3),
+(39, '2024_02_29_065844_create_file_uploads_table', 4);
 
 -- --------------------------------------------------------
 
@@ -188,7 +210,9 @@ INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `meth
 (8, 2, 2, 200, 'ONLINE', 'PARTIAL', '2023-10-18 04:52:38', '2023-10-18 04:52:38', 0),
 (9, 1, 2, 100, 'ONLINE', 'FULL', '2023-10-19 21:22:59', '2023-10-19 21:22:59', 0),
 (10, 1, 1, 200, 'ONLINE', 'FULL', '2024-05-19 01:03:40', '2024-05-19 01:03:40', 0),
-(11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0);
+(11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0),
+(12, 1, 5, 200, 'ONLINE', 'FULL', '2024-05-24 05:07:12', '2024-05-24 05:07:12', 0),
+(13, 2, 5, 300, 'ONLINE', 'FULL', '2024-05-24 05:09:24', '2024-05-24 05:09:24', 0);
 
 -- --------------------------------------------------------
 
@@ -213,7 +237,9 @@ CREATE TABLE `pays` (
 INSERT INTO `pays` (`id`, `payment_id`, `student_id`, `amount`, `ref_num`, `created_at`, `updated_at`) VALUES
 (1, 9, 2, 300, '#ttrgeg324', NULL, NULL),
 (2, 10, 1, 200, '146367', '2024-05-19 01:03:40', '2024-05-19 01:03:40'),
-(3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34');
+(3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34'),
+(4, 12, 5, 200, '479829', '2024-05-24 05:07:12', '2024-05-24 05:07:12'),
+(5, 13, 5, 300, '564325', '2024-05-24 05:09:24', '2024-05-24 05:09:24');
 
 -- --------------------------------------------------------
 
@@ -257,9 +283,11 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `payment_acc`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47', NULL),
-(2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48', NULL),
-(4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41', NULL);
+(1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47', 2),
+(2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48', 2),
+(4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41', 2),
+(5, 1, 'John Smith', 20213394, 'John Smith', '9930134', '2024-05-24 01:50:06', '2024-05-24 01:50:06', 3),
+(6, 1, 'wegwe', 2414242, '5125124', '8832939', '2024-05-24 02:04:29', '2024-05-24 02:04:29', 4);
 
 -- --------------------------------------------------------
 
@@ -285,7 +313,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'admin@admin.com', 'ADMIN', NULL, '$2y$10$MYADhenM5rJyY37nqWcp6Olacu0LVZ04zj4.uOfSHmWgJS9d1LvSq', NULL, '2023-10-11 00:37:54', '2023-10-11 00:37:54'),
-(2, 'User', 'user@user.com', 'USER', NULL, '$2y$10$ZbfWiA.ASL2AwwIxz8zwzedDSIgscxk9GZONj17lMap87d26ATdY2', NULL, '2023-10-11 00:38:22', '2023-10-11 00:38:22');
+(2, 'User', 'user@user.com', 'USER', NULL, '$2y$10$ZbfWiA.ASL2AwwIxz8zwzedDSIgscxk9GZONj17lMap87d26ATdY2', NULL, '2023-10-11 00:38:22', '2023-10-11 00:38:22'),
+(3, 'John Smith', 'mail@mail.com', 'USER', NULL, '$2y$10$xLhZR8MazS5uN3kR8ri4OOGYVcvqFRTvxjfpXxsZchXnxwkAY.Lym', NULL, '2024-05-24 01:50:06', '2024-05-24 01:50:06');
 
 --
 -- Indexes for dumped tables
@@ -321,6 +350,12 @@ ALTER TABLE `courses`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `file_uploads`
+--
+ALTER TABLE `file_uploads`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -402,22 +437,28 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `file_uploads`
+--
+ALTER TABLE `file_uploads`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pays`
 --
 ALTER TABLE `pays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -429,13 +470,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

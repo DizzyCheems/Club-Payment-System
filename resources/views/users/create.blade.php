@@ -39,7 +39,7 @@
                                     <option value="{{ $course->id }}">{{$course->course_name}}</option>
                                     @endforeach
                                     </select> 
-                                </div>
+                                </div>  
                         </div>
                          
                          <div class="form-group">
@@ -85,7 +85,7 @@
                          </div>
 
                          <div class="form-group">
-                             <h5>Facebook Account<span class="required"></span></h5>
+                             <h5>Contact / Social Media<span class="required"></span></h5>
                                 <div class="controls">
                                     <input type="text" name="social_acc" class="form-control mb-1" required data-validation-required-message="• This field is required">
 

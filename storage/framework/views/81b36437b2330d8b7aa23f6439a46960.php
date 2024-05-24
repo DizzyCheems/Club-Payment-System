@@ -46,13 +46,6 @@
                                 </a>
 
                             
-                                <a class="btn app-btn-secondary" href="#">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                                        <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                    </svg>
-                                    Download CSV
-                                </a>
 
                             </div>
                         </div><!--//row-->
@@ -272,7 +265,7 @@
 
 <script>
     // delete Branch ajax request
-    $(document).on('click', '.dropdown-user-delete', function(e) {
+    $(document).on('click', '.app-btn-secondary-delete', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
         let csrf = '<?php echo e(csrf_token()); ?>';
@@ -324,5 +317,11 @@
 
 <?php $__env->stopSection(); ?>
 </html>
+
+
+
+
+
+
 
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Club-Payment-System\resources\views/users/list.blade.php ENDPATH**/ ?>
