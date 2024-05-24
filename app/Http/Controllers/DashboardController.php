@@ -34,21 +34,21 @@ class DashboardController extends Controller
 
      public function user()
      {
-         $user = Auth::user();
-         $agendaCount = Agenda::count();
-         $agendas = Agenda::all();
-         $student = Student::where('user_id', $user->id)->first();     
-         $payments = $student->payments ?? collect();
-         $totalAmount = $payments->sum('amount');
-         $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
-         $payCount = Pay::count();
-         
-         foreach ($recentAgendas as $agenda) {
-             $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
-         }
-     
-         return view('User.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas', 'payCount', 'payments', 'agendas'));
-     }
+        $user = Auth::user();
+        $agendaCount = Agenda::count();
+        $agendas = Agenda::all();
+        $student = Student::where('user_id', $user->id)->firstOrFail(); // Use firstOrFail() to throw an exception if the student is not found
+        $payments = $student->payments()->get(); // Fetch payments related to the student
+        $totalAmount = $payments->sum('amount');
+        $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
+        $payCount = Pay::count();
+        
+        foreach ($recentAgendas as $agenda) {
+            $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
+        }
+    
+        return view('User.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas', 'payCount', 'payments', 'agendas'));
+    }
      
     /**
      * Show the form for creating a new resource.
