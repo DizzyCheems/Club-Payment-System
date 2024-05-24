@@ -89,5 +89,10 @@ Route::get('/activity/delete', [App\Http\Controllers\ActivitiesController::class
 Route::get('/agenda/{id}/contrib', [AgendaController::class, 'getIndivContrib'])->name('agenda.contrib');
 Route::post('/update-payments', [App\Http\Controllers\PaymentController::class, 'updatePayments'])->name('payment.approve');
 
+Route::get('/fileupload/list', [App\Http\Controllers\DocumentController::class, 'create'])->name('doc.index');
+Route::post('/fileupload/store', [App\Http\Controllers\DocumentController::class, 'store'])->name('fileupload.store');
+Route::get('/file/download/{id}', [App\Http\Controllers\DocumentController::class, 'download'])->name('file.download');
+Route::delete('/fileupload/{id}', [App\Http\Controllers\DocumentController::class, 'destroy'])->name('file.delete');
+Route::get('/file/preview/{id}', [App\Http\Controllers\DocumentController::class, 'preview'])->name('file.preview');
 
 });

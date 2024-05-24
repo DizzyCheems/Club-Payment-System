@@ -104,7 +104,7 @@
 	        <div class="sidepanel-inner d-flex flex-column">
 		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
 		        <div class="app-branding">
-		            <a class="app-logo" href="index.html"><img class="logo-icon me-2" src="<?php echo e(asset('assets/images/logo.jpg')); ?>" alt="logo"><span class="logo-text">CSD System</span></a>
+		            <a class="app-logo" href="<?php echo e(route('dashboard')); ?>"><img class="logo-icon me-2" src="<?php echo e(asset('assets/images/logo.jpg')); ?>" alt="logo"><span class="logo-text">CSD System</span></a>
 	
 		        </div><!--//app-branding-->  
 		        
@@ -124,7 +124,7 @@
 					    </li><!--//nav-item-->
 					    <li class="nav-item">
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link" href="docs.html">
+					        <a class="nav-link" href="<?php echo e(route('doc.index')); ?>">
 						        <span class="nav-icon">
 						
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-account" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +137,7 @@
 					    </li><!--//nav-item-->
 					    <li class="nav-item">
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link" href="<?php echo e(route('payment.index')); ?>">
+					        <a class="nav-link" href="#">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
