@@ -65,14 +65,14 @@
                          <div class="form-group">
                              <h5>Password<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="password" name="password" id="input-password" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                                    <input type="password" name="password" id="input-password" class="form-control mb-1" >
                                 </div>
                          </div>
                                
                          <div class="form-group">
                              <h5>Confirm Password<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="password" name="password_confirmation" id="input-confirm" class="form-control mb-1" data-validation-match-match="password" required data-validation-required-message="• This field is required">
+                                    <input type="password" name="password_confirmation" id="input-confirm" class="form-control mb-1" data-validation-match-match="password" >
                                 </div>
                          </div>
 

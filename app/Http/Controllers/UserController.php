@@ -68,7 +68,7 @@ public function store_admin(Request $request)
         'name' => $request->name, 
         'email' => $request->email,
         'role' => Str::upper($request->role),
-        'password' => Hash::make($request->password),
+        'password' => 'oo',
     ]);
 
     Student::create([
@@ -102,17 +102,9 @@ public function store_user(Request $request)
         'name' => $request->name, 
         'email' => $request->email,
         'role' => Str::upper($request->role),
-        'password' => Hash::make($request->password),
+        'password' => 'oo',
     ]);
 
-    Student::create([
-        'user_id' => $createdUser->id,
-        'course_id' => $request->course_id,
-        'name' => $createdUser->name,
-        'id_num' => $request->id_num,
-        'social_acc' => $request->social_acc,
-        'payment_acc' => $request->payment_acc,        
-    ]);
     return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
 }
 

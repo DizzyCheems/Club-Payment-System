@@ -83,7 +83,7 @@
 			            
 						<div class="app-utility-item app-user-dropdown dropdown">
 							<a href="#" onclick="toggleDropdown()" class="dropdown-toggle" id="user-dropdown-toggle">
-								<img src="{{ asset('assets/images/user.jpg') }}" alt="user profile">
+								<img src="{{ asset('assets/images/no_profile.jpg') }}" alt="user profile">
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end" id="myDropdown" aria-labelledby="user-dropdown-toggle" style="right:0.5px;">
 								<li><a class="dropdown-item" href="account.html">Account</a></li>
@@ -142,14 +142,6 @@
 					        </a><!--//nav-link-->
 					    </li><!--//nav-item-->
 		
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('agenda.index') }}">
-        <span class="nav-icon">
-            <i class="bi bi-calendar-event text-black fs-5"></i>
-        </span>
-        <span class="nav-link-text">Events</span>
-    </a>
-</li>
 
 
 

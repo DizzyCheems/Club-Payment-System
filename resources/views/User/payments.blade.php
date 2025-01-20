@@ -114,9 +114,7 @@
                                                             <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
                                                         </td>
                                                         <td>              
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', array('id' => $payment->id))}}">Edit</a>
                                                             <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
-                                                            <a id="{{$payment ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Payment Info</a>
                                                         </td>    
                                                     </tr>
                                                 @endforeach       

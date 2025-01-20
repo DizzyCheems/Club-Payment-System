@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2024 at 04:03 PM
+-- Generation Time: May 24, 2024 at 05:26 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -212,7 +212,8 @@ INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `meth
 (10, 1, 1, 200, 'ONLINE', 'FULL', '2024-05-19 01:03:40', '2024-05-19 01:03:40', 0),
 (11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0),
 (12, 1, 5, 200, 'ONLINE', 'FULL', '2024-05-24 05:07:12', '2024-05-24 05:07:12', 0),
-(13, 2, 5, 300, 'ONLINE', 'FULL', '2024-05-24 05:09:24', '2024-05-24 05:09:24', 0);
+(13, 2, 5, 300, 'ONLINE', 'FULL', '2024-05-24 05:09:24', '2024-05-24 05:09:24', 0),
+(14, 1, 1, 23, 'ONLINE', 'FULL', '2024-05-24 06:39:23', '2024-05-24 06:39:23', 0);
 
 -- --------------------------------------------------------
 
@@ -239,7 +240,8 @@ INSERT INTO `pays` (`id`, `payment_id`, `student_id`, `amount`, `ref_num`, `crea
 (2, 10, 1, 200, '146367', '2024-05-19 01:03:40', '2024-05-19 01:03:40'),
 (3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34'),
 (4, 12, 5, 200, '479829', '2024-05-24 05:07:12', '2024-05-24 05:07:12'),
-(5, 13, 5, 300, '564325', '2024-05-24 05:09:24', '2024-05-24 05:09:24');
+(5, 13, 5, 300, '564325', '2024-05-24 05:09:24', '2024-05-24 05:09:24'),
+(6, 14, 1, 23, '298910', '2024-05-24 06:39:23', '2024-05-24 06:39:23');
 
 -- --------------------------------------------------------
 
@@ -452,13 +454,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `pays`
 --
 ALTER TABLE `pays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
