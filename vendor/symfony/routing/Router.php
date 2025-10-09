@@ -91,7 +91,7 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     private static ?array $cache = [];
 
-    public function __construct(LoaderInterface $loader, mixed $resource, array $options = [], RequestContext $context = null, LoggerInterface $logger = null, string $defaultLocale = null)
+    public function __construct(LoaderInterface $loader, mixed $resource, array $options = [], ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
     {
         $this->loader = $loader;
         $this->resource = $resource;
@@ -144,7 +144,7 @@ class Router implements RouterInterface, RequestMatcherInterface
         }
 
         if ($invalid) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid)));
+            throw new \InvalidArgumentException(\sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid)));
         }
     }
 
@@ -158,7 +158,7 @@ class Router implements RouterInterface, RequestMatcherInterface
     public function setOption(string $key, mixed $value)
     {
         if (!\array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
+            throw new \InvalidArgumentException(\sprintf('The Router does not support the "%s" option.', $key));
         }
 
         $this->options[$key] = $value;
@@ -172,7 +172,7 @@ class Router implements RouterInterface, RequestMatcherInterface
     public function getOption(string $key): mixed
     {
         if (!\array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
+            throw new \InvalidArgumentException(\sprintf('The Router does not support the "%s" option.', $key));
         }
 
         return $this->options[$key];
@@ -193,10 +193,10 @@ class Router implements RouterInterface, RequestMatcherInterface
     {
         $this->context = $context;
 
-        if (null !== $this->matcher) {
+        if (isset($this->matcher)) {
             $this->getMatcher()->setContext($context);
         }
-        if (null !== $this->generator) {
+        if (isset($this->generator)) {
             $this->getGenerator()->setContext($context);
         }
     }
@@ -242,7 +242,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      */
     public function getMatcher(): UrlMatcherInterface|RequestMatcherInterface
     {
-        if (null !== $this->matcher) {
+        if (isset($this->matcher)) {
             return $this->matcher;
         }
 
@@ -272,6 +272,7 @@ class Router implements RouterInterface, RequestMatcherInterface
                 }
 
                 $cache->write($dumper->dump(), $this->getRouteCollection()->getResources());
+                unset(self::$cache[$cache->getPath()]);
             }
         );
 
@@ -283,7 +284,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      */
     public function getGenerator(): UrlGeneratorInterface
     {
-        if (null !== $this->generator) {
+        if (isset($this->generator)) {
             return $this->generator;
         }
 
@@ -301,6 +302,7 @@ class Router implements RouterInterface, RequestMatcherInterface
                     $dumper = $this->getGeneratorDumperInstance();
 
                     $cache->write($dumper->dump(), $this->getRouteCollection()->getResources());
+                    unset(self::$cache[$cache->getPath()]);
                 }
             );
 
@@ -343,7 +345,7 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
             self::$cache = null;
         }
 

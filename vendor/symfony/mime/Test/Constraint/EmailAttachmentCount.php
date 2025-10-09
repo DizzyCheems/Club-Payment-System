@@ -20,7 +20,7 @@ final class EmailAttachmentCount extends Constraint
     private int $expectedValue;
     private ?string $transport;
 
-    public function __construct(int $expectedValue, string $transport = null)
+    public function __construct(int $expectedValue, ?string $transport = null)
     {
         $this->expectedValue = $expectedValue;
         $this->transport = $transport;
@@ -28,7 +28,7 @@ final class EmailAttachmentCount extends Constraint
 
     public function toString(): string
     {
-        return sprintf('has sent "%d" attachment(s)', $this->expectedValue);
+        return \sprintf('has sent "%d" attachment(s)', $this->expectedValue);
     }
 
     /**

@@ -16,6 +16,7 @@ use function str_contains;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\EventFacadeIsSealedException;
 use PHPUnit\Event\Facade;
+use PHPUnit\Event\Test\AfterLastTestMethodErrored;
 use PHPUnit\Event\Test\BeforeFirstTestMethodErrored;
 use PHPUnit\Event\Test\ConsideredRisky;
 use PHPUnit\Event\Test\DeprecationTriggered;
@@ -33,7 +34,6 @@ use PHPUnit\Event\Test\PhpunitWarningTriggered;
 use PHPUnit\Event\Test\PhpWarningTriggered;
 use PHPUnit\Event\Test\Skipped as TestSkipped;
 use PHPUnit\Event\Test\WarningTriggered;
-use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\Event\TestRunner\DeprecationTriggered as TestRunnerDeprecationTriggered;
 use PHPUnit\Event\TestRunner\ExecutionStarted;
 use PHPUnit\Event\TestRunner\WarningTriggered as TestRunnerWarningTriggered;
@@ -48,6 +48,8 @@ use PHPUnit\TextUI\Configuration\Source;
 use PHPUnit\TextUI\Configuration\SourceFilter;
 
 /**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class Collector
@@ -65,7 +67,7 @@ final class Collector
     private int $numberOfIssuesIgnoredByBaseline = 0;
 
     /**
-     * @psalm-var list<BeforeFirstTestMethodErrored|Errored>
+     * @psalm-var list<AfterLastTestMethodErrored|BeforeFirstTestMethodErrored|Errored>
      */
     private array $testErroredEvents = [];
 
@@ -168,6 +170,7 @@ final class Collector
             new TestPreparedSubscriber($this),
             new TestFinishedSubscriber($this),
             new BeforeTestClassMethodErroredSubscriber($this),
+            new AfterTestClassMethodErroredSubscriber($this),
             new TestErroredSubscriber($this),
             new TestFailedSubscriber($this),
             new TestMarkedIncompleteSubscriber($this),
@@ -245,9 +248,6 @@ final class Collector
         $this->currentTestSuiteForTestClassFailed = false;
     }
 
-    /**
-     * @throws NoDataSetFromDataProviderException
-     */
     public function testSuiteFinished(TestSuiteFinished $event): void
     {
         if ($this->currentTestSuiteForTestClassFailed) {
@@ -296,6 +296,11 @@ final class Collector
         $this->testErroredEvents[] = $event;
 
         $this->numberOfTestsRun++;
+    }
+
+    public function afterTestClassMethodErrored(AfterLastTestMethodErrored $event): void
+    {
+        $this->testErroredEvents[] = $event;
     }
 
     public function testErrored(Errored $event): void
@@ -348,6 +353,10 @@ final class Collector
 
     public function testTriggeredDeprecation(DeprecationTriggered $event): void
     {
+        if ($event->ignoredByTest()) {
+            return;
+        }
+
         if ($event->ignoredByBaseline()) {
             $this->numberOfIssuesIgnoredByBaseline++;
 
@@ -358,7 +367,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictDeprecations() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictDeprecations() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -380,6 +389,10 @@ final class Collector
 
     public function testTriggeredPhpDeprecation(PhpDeprecationTriggered $event): void
     {
+        if ($event->ignoredByTest()) {
+            return;
+        }
+
         if ($event->ignoredByBaseline()) {
             $this->numberOfIssuesIgnoredByBaseline++;
 
@@ -390,7 +403,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictDeprecations() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictDeprecations() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -453,7 +466,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictNotices() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictNotices() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -485,7 +498,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictNotices() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictNotices() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -517,7 +530,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictWarnings() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictWarnings() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -549,7 +562,7 @@ final class Collector
             return;
         }
 
-        if ($this->source->restrictWarnings() && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->source->restrictWarnings() && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 

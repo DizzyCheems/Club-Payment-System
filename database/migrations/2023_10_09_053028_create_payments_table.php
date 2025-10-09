@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('agenda_id')->nullable();
-            $table->unsignedBigInteger('student_id')->nullable();
+            $table->foreignId('agenda_id')
+                ->nullable()
+                ->constrained('agendas')
+                ->onDelete('cascade');
+            $table->foreignId('student_id')
+                    ->nullable()
+                    ->constrained('students')
+                    ->onDelete('cascade');
             $table->integer('amount');
             $table->string('type');
             $table->string('method')->nullable();

@@ -15,6 +15,8 @@ use PHPUnit\Event\Telemetry\Php81GarbageCollectorStatusProvider;
 use PHPUnit\Event\Telemetry\Php83GarbageCollectorStatusProvider;
 
 /**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class Facade
@@ -22,7 +24,6 @@ final class Facade
     private static ?self $instance = null;
     private Emitter $emitter;
     private ?TypeMap $typeMap                         = null;
-    private ?Emitter $suspended                       = null;
     private ?DeferringDispatcher $deferringDispatcher = null;
     private bool $sealed                              = false;
 
@@ -81,7 +82,11 @@ final class Facade
         $this->deferredDispatcher()->registerTracer($tracer);
     }
 
-    /** @noinspection PhpUnused */
+    /**
+     * @codeCoverageIgnore
+     *
+     * @noinspection PhpUnused
+     */
     public function initForIsolation(HRTime $offset, bool $exportObjects): CollectingDispatcher
     {
         $dispatcher = new CollectingDispatcher;
@@ -106,10 +111,6 @@ final class Facade
 
     public function forward(EventCollection $events): void
     {
-        if ($this->suspended !== null) {
-            return;
-        }
-
         $dispatcher = $this->deferredDispatcher();
 
         foreach ($events as $event) {
@@ -177,8 +178,10 @@ final class Facade
             Test\DataProviderMethodFinished::class,
             Test\MarkedIncomplete::class,
             Test\AfterLastTestMethodCalled::class,
+            Test\AfterLastTestMethodErrored::class,
             Test\AfterLastTestMethodFinished::class,
             Test\AfterTestMethodCalled::class,
+            Test\AfterTestMethodErrored::class,
             Test\AfterTestMethodFinished::class,
             Test\AssertionSucceeded::class,
             Test\AssertionFailed::class,
@@ -186,6 +189,7 @@ final class Facade
             Test\BeforeFirstTestMethodErrored::class,
             Test\BeforeFirstTestMethodFinished::class,
             Test\BeforeTestMethodCalled::class,
+            Test\BeforeTestMethodErrored::class,
             Test\BeforeTestMethodFinished::class,
             Test\ComparatorRegistered::class,
             Test\ConsideredRisky::class,
@@ -203,8 +207,10 @@ final class Facade
             Test\PhpunitWarningTriggered::class,
             Test\PhpWarningTriggered::class,
             Test\PostConditionCalled::class,
+            Test\PostConditionErrored::class,
             Test\PostConditionFinished::class,
             Test\PreConditionCalled::class,
+            Test\PreConditionErrored::class,
             Test\PreConditionFinished::class,
             Test\PreparationStarted::class,
             Test\Prepared::class,
@@ -258,7 +264,9 @@ final class Facade
     private function garbageCollectorStatusProvider(): Telemetry\GarbageCollectorStatusProvider
     {
         if (!isset(gc_status()['running'])) {
+            // @codeCoverageIgnoreStart
             return new Php81GarbageCollectorStatusProvider;
+            // @codeCoverageIgnoreEnd
         }
 
         return new Php83GarbageCollectorStatusProvider;

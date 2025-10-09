@@ -37,7 +37,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
     /**
      * @var array<string, Alias>
      */
-    private $aliases = [];
+    private array $aliases = [];
 
     /**
      * @var array<string, ResourceInterface>
@@ -147,8 +147,23 @@ class RouteCollection implements \IteratorAggregate, \Countable
      */
     public function remove(string|array $name)
     {
+        $routes = [];
         foreach ((array) $name as $n) {
+            if (isset($this->routes[$n])) {
+                $routes[] = $n;
+            }
+
             unset($this->routes[$n], $this->priorities[$n], $this->aliases[$n]);
+        }
+
+        if (!$routes) {
+            return;
+        }
+
+        foreach ($this->aliases as $k => $alias) {
+            if (\in_array($alias->getId(), $routes, true)) {
+                unset($this->aliases[$k]);
+            }
         }
     }
 
@@ -372,7 +387,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
     public function addAlias(string $name, string $alias): Alias
     {
         if ($name === $alias) {
-            throw new InvalidArgumentException(sprintf('Route alias "%s" can not reference itself.', $name));
+            throw new InvalidArgumentException(\sprintf('Route alias "%s" can not reference itself.', $name));
         }
 
         unset($this->routes[$name], $this->priorities[$name]);
@@ -391,5 +406,10 @@ class RouteCollection implements \IteratorAggregate, \Countable
     public function getAlias(string $name): ?Alias
     {
         return $this->aliases[$name] ?? null;
+    }
+
+    public function getPriority(string $name): ?int
+    {
+        return $this->priorities[$name] ?? null;
     }
 }

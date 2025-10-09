@@ -111,7 +111,7 @@ class Worker
                                 Dispatcher $events,
                                 ExceptionHandler $exceptions,
                                 callable $isDownForMaintenance,
-                                callable $resetScope = null)
+                                ?callable $resetScope = null)
     {
         $this->events = $events;
         $this->manager = $manager;
@@ -782,9 +782,7 @@ class Worker
      */
     protected function maxAttemptsExceededException($job)
     {
-        return new MaxAttemptsExceededException(
-            $job->resolveName().' has been attempted too many times.'
-        );
+        return MaxAttemptsExceededException::forJob($job);
     }
 
     /**
@@ -795,9 +793,7 @@ class Worker
      */
     protected function timeoutExceededException($job)
     {
-        return new TimeoutExceededException(
-            $job->resolveName().' has timed out.'
-        );
+        return TimeoutExceededException::forJob($job);
     }
 
     /**

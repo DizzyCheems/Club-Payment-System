@@ -205,15 +205,15 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `method`, `created_at`, `updated_at`, `approved`) VALUES
-(4, 1, 1, 300, 'ONLINE', 'FULL', '2023-10-11 04:35:15', '2024-05-18 22:43:23', 1),
-(8, 2, 2, 200, 'ONLINE', 'PARTIAL', '2023-10-18 04:52:38', '2023-10-18 04:52:38', 0),
-(9, 1, 2, 100, 'ONLINE', 'FULL', '2023-10-19 21:22:59', '2023-10-19 21:22:59', 0),
-(10, 1, 1, 200, 'ONLINE', 'FULL', '2024-05-19 01:03:40', '2024-05-19 01:03:40', 0),
-(11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0),
-(12, 1, 5, 200, 'ONLINE', 'FULL', '2024-05-24 05:07:12', '2024-05-24 05:07:12', 0),
-(13, 2, 5, 300, 'ONLINE', 'FULL', '2024-05-24 05:09:24', '2024-05-24 05:09:24', 0),
-(14, 1, 1, 23, 'ONLINE', 'FULL', '2024-05-24 06:39:23', '2024-05-24 06:39:23', 0);
+-- INSERT INTO `payments` (`id`, `agenda_id`, `student_id`, `amount`, `type`, `method`, `created_at`, `updated_at`, `approved`) VALUES
+-- (4, 1, 1, 300, 'ONLINE', 'FULL', '2023-10-11 04:35:15', '2024-05-18 22:43:23', 1),
+-- (8, 2, 2, 200, 'ONLINE', 'PARTIAL', '2023-10-18 04:52:38', '2023-10-18 04:52:38', 0),
+-- (9, 1, 2, 100, 'ONLINE', 'FULL', '2023-10-19 21:22:59', '2023-10-19 21:22:59', 0),
+-- (10, 1, 1, 200, 'ONLINE', 'FULL', '2024-05-19 01:03:40', '2024-05-19 01:03:40', 0),
+-- (11, 1, 2, 200, 'ONLINE', 'FULL', '2024-05-19 01:13:34', '2024-05-19 01:13:34', 0),
+-- (12, 1, 5, 200, 'ONLINE', 'FULL', '2024-05-24 05:07:12', '2024-05-24 05:07:12', 0),
+-- (13, 2, 5, 300, 'ONLINE', 'FULL', '2024-05-24 05:09:24', '2024-05-24 05:09:24', 0),
+-- (14, 1, 1, 23, 'ONLINE', 'FULL', '2024-05-24 06:39:23', '2024-05-24 06:39:23', 0);
 
 -- --------------------------------------------------------
 
@@ -235,13 +235,13 @@ CREATE TABLE `pays` (
 -- Dumping data for table `pays`
 --
 
-INSERT INTO `pays` (`id`, `payment_id`, `student_id`, `amount`, `ref_num`, `created_at`, `updated_at`) VALUES
-(1, 9, 2, 300, '#ttrgeg324', NULL, NULL),
-(2, 10, 1, 200, '146367', '2024-05-19 01:03:40', '2024-05-19 01:03:40'),
-(3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34'),
-(4, 12, 5, 200, '479829', '2024-05-24 05:07:12', '2024-05-24 05:07:12'),
-(5, 13, 5, 300, '564325', '2024-05-24 05:09:24', '2024-05-24 05:09:24'),
-(6, 14, 1, 23, '298910', '2024-05-24 06:39:23', '2024-05-24 06:39:23');
+-- INSERT INTO `pays` (`id`, `payment_id`, `student_id`, `amount`, `ref_num`, `created_at`, `updated_at`) VALUES
+-- (1, 9, 2, 300, '#ttrgeg324', NULL, NULL),
+-- (2, 10, 1, 200, '146367', '2024-05-19 01:03:40', '2024-05-19 01:03:40'),
+-- (3, 11, 2, 200, '283189', '2024-05-19 01:13:34', '2024-05-19 01:13:34'),
+-- (4, 12, 5, 200, '479829', '2024-05-24 05:07:12', '2024-05-24 05:07:12'),
+-- (5, 13, 5, 300, '564325', '2024-05-24 05:09:24', '2024-05-24 05:09:24'),
+-- (6, 14, 1, 23, '298910', '2024-05-24 06:39:23', '2024-05-24 06:39:23');
 
 -- --------------------------------------------------------
 
@@ -284,12 +284,12 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `payment_acc`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47', 2),
-(2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48', 2),
-(4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41', 2),
-(5, 1, 'John Smith', 20213394, 'John Smith', '9930134', '2024-05-24 01:50:06', '2024-05-24 01:50:06', 3),
-(6, 1, 'wegwe', 2414242, '5125124', '8832939', '2024-05-24 02:04:29', '2024-05-24 02:04:29', 4);
+-- INSERT INTO `students` (`id`, `course_id`, `name`, `id_num`, `social_acc`, `payment_acc`, `created_at`, `updated_at`, `user_id`) VALUES
+-- (1, 1, 'Justine Favia', 2021174, 'Justine Favia', '09662581355', '2023-10-11 04:04:47', '2023-10-11 04:04:47', 2),
+-- (2, 2, 'Jane Doe', 2012412, 'Jane Doe', '02121412', '2023-10-11 04:10:48', '2023-10-11 04:10:48', 2),
+-- (4, 3, 'No Name', 242012412, 'No name', '12412', '2023-10-19 18:28:41', '2023-10-19 18:28:41', 2),
+-- (5, 1, 'John Smith', 20213394, 'John Smith', '9930134', '2024-05-24 01:50:06', '2024-05-24 01:50:06', 3),
+-- (6, 1, 'wegwe', 2414242, '5125124', '8832939', '2024-05-24 02:04:29', '2024-05-24 02:04:29', 4);
 
 -- --------------------------------------------------------
 
@@ -313,12 +313,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@admin.com', 'ADMIN', NULL, '$2y$10$MYADhenM5rJyY37nqWcp6Olacu0LVZ04zj4.uOfSHmWgJS9d1LvSq', NULL, '2023-10-11 00:37:54', '2023-10-11 00:37:54'),
-(2, 'User', 'user@user.com', 'USER', NULL, '$2y$10$ZbfWiA.ASL2AwwIxz8zwzedDSIgscxk9GZONj17lMap87d26ATdY2', NULL, '2023-10-11 00:38:22', '2023-10-11 00:38:22'),
-(3, 'John Smith', 'mail@mail.com', 'USER', NULL, '$2y$10$xLhZR8MazS5uN3kR8ri4OOGYVcvqFRTvxjfpXxsZchXnxwkAY.Lym', NULL, '2024-05-24 01:50:06', '2024-05-24 01:50:06');
+-- INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+-- (1, 'Admin', 'admin@admin.com', 'ADMIN', NULL, '$2y$10$MYADhenM5rJyY37nqWcp6Olacu0LVZ04zj4.uOfSHmWgJS9d1LvSq', NULL, '2023-10-11 00:37:54', '2023-10-11 00:37:54'),
+-- (2, 'User', 'user@user.com', 'USER', NULL, '$2y$10$ZbfWiA.ASL2AwwIxz8zwzedDSIgscxk9GZONj17lMap87d26ATdY2', NULL, '2023-10-11 00:38:22', '2023-10-11 00:38:22'),
+-- (3, 'John Smith', 'mail@mail.com', 'USER', NULL, '$2y$10$xLhZR8MazS5uN3kR8ri4OOGYVcvqFRTvxjfpXxsZchXnxwkAY.Lym', NULL, '2024-05-24 01:50:06', '2024-05-24 01:50:06');
 
---
 -- Indexes for dumped tables
 --
 
@@ -484,3 +483,32 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_course_id_foreign`
+  FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`)
+  ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `students_user_id_foreign`
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `activities`
+  ADD CONSTRAINT `activities_agenda_id_foreign`
+  FOREIGN KEY (`agenda_id`) REFERENCES `agendas`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_agenda_id_foreign`
+  FOREIGN KEY (`agenda_id`) REFERENCES `agendas`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `payments_student_id_foreign`
+  FOREIGN KEY (`student_id`) REFERENCES `students`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `pays`
+  ADD CONSTRAINT `pays_payment_id_foreign`
+  FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pays_student_id_foreign`
+  FOREIGN KEY (`student_id`) REFERENCES `students`(`id`)
+  ON DELETE CASCADE ON UPDATE CASCADE;

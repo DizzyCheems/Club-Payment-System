@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AgendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,4 +96,7 @@ Route::get('/file/download/{id}', [App\Http\Controllers\DocumentController::clas
 Route::delete('/fileupload/{id}', [App\Http\Controllers\DocumentController::class, 'destroy'])->name('file.delete');
 Route::get('/file/preview/{id}', [App\Http\Controllers\DocumentController::class, 'preview'])->name('file.preview');
 
+Route::get('/get-user-info/{id}', [App\Http\Controllers\UserController::class, 'getUserInfo']);
+
+Route::get('/account', [App\Http\Controllers\UserController::class, 'account'])->name('account');
 });

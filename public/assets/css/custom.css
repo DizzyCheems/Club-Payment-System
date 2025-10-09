@@ -9,6 +9,7 @@
 .badge-blis {
 	background-color: red;
 }
+
 .badge-online {
 	background-color: blue;
 }
@@ -40,16 +41,18 @@
 .badge-pill {
 	border-radius: 10px;
 }
-    
-.modal.fade .modal-dialog {
-        animation: fadeIn 0.3s ease-out;
-    }
 
-	@keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+.modal.fade .modal-dialog {
+	animation: fadeIn 0.3s ease-out;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

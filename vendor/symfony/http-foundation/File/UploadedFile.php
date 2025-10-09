@@ -60,7 +60,7 @@ class UploadedFile extends File
      * @throws FileException         If file_uploads is disabled
      * @throws FileNotFoundException If the file does not exist
      */
-    public function __construct(string $path, string $originalName, string $mimeType = null, int $error = null, bool $test = false)
+    public function __construct(string $path, string $originalName, ?string $mimeType = null, ?int $error = null, bool $test = false)
     {
         $this->originalName = $this->getName($originalName);
         $this->mimeType = $mimeType ?: 'application/octet-stream';
@@ -158,7 +158,7 @@ class UploadedFile extends File
      *
      * @throws FileException if, for any reason, the file could not have been moved
      */
-    public function move(string $directory, string $name = null): File
+    public function move(string $directory, ?string $name = null): File
     {
         if ($this->isValid()) {
             if ($this->test) {
@@ -174,7 +174,7 @@ class UploadedFile extends File
                 restore_error_handler();
             }
             if (!$moved) {
-                throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s).', $this->getPathname(), $target, strip_tags($error)));
+                throw new FileException(\sprintf('Could not move the file "%s" to "%s" (%s).', $this->getPathname(), $target, strip_tags($error)));
             }
 
             @chmod($target, 0666 & ~umask());
@@ -264,6 +264,6 @@ class UploadedFile extends File
         $maxFilesize = \UPLOAD_ERR_INI_SIZE === $errorCode ? self::getMaxFilesize() / 1024 : 0;
         $message = $errors[$errorCode] ?? 'The file "%s" was not uploaded due to an unknown error.';
 
-        return sprintf($message, $this->getClientOriginalName(), $maxFilesize);
+        return \sprintf($message, $this->getClientOriginalName(), $maxFilesize);
     }
 }

@@ -9,18 +9,20 @@
  */
 namespace PHPUnit\Runner\Extension;
 
+use const PHP_EOL;
 use function assert;
 use function class_exists;
 use function class_implements;
 use function in_array;
 use function sprintf;
-use PHPUnit\Event;
 use PHPUnit\Event\Facade as EventFacade;
 use PHPUnit\TextUI\Configuration\Configuration;
 use ReflectionClass;
 use Throwable;
 
 /**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class ExtensionBootstrapper
@@ -41,7 +43,7 @@ final class ExtensionBootstrapper
     public function bootstrap(string $className, array $parameters): void
     {
         if (!class_exists($className)) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
+            EventFacade::emitter()->testRunnerTriggeredPhpunitWarning(
                 sprintf(
                     'Cannot bootstrap extension because class %s does not exist',
                     $className,
@@ -52,7 +54,7 @@ final class ExtensionBootstrapper
         }
 
         if (!in_array(Extension::class, class_implements($className), true)) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
+            EventFacade::emitter()->testRunnerTriggeredPhpunitWarning(
                 sprintf(
                     'Cannot bootstrap extension because class %s does not implement interface %s',
                     $className,
@@ -74,7 +76,7 @@ final class ExtensionBootstrapper
                 ParameterCollection::fromArray($parameters),
             );
         } catch (Throwable $t) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
+            EventFacade::emitter()->testRunnerTriggeredPhpunitWarning(
                 sprintf(
                     'Bootstrapping of extension %s failed: %s%s%s',
                     $className,
@@ -87,7 +89,7 @@ final class ExtensionBootstrapper
             return;
         }
 
-        Event\Facade::emitter()->testRunnerBootstrappedExtension(
+        EventFacade::emitter()->testRunnerBootstrappedExtension(
             $className,
             $parameters,
         );

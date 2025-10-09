@@ -202,6 +202,16 @@ abstract class Metadata
         return new Group(self::METHOD_LEVEL, $groupName);
     }
 
+    public static function ignoreDeprecationsOnClass(): IgnoreDeprecations
+    {
+        return new IgnoreDeprecations(self::CLASS_LEVEL);
+    }
+
+    public static function ignoreDeprecationsOnMethod(): IgnoreDeprecations
+    {
+        return new IgnoreDeprecations(self::METHOD_LEVEL);
+    }
+
     /**
      * @psalm-param class-string $className
      */
@@ -403,7 +413,7 @@ abstract class Metadata
         return new TestDox(self::METHOD_LEVEL, $text);
     }
 
-    public static function testWith(array $data): TestWith
+    public static function testWith(mixed $data): TestWith
     {
         return new TestWith(self::METHOD_LEVEL, $data);
     }
@@ -611,6 +621,14 @@ abstract class Metadata
      * @psalm-assert-if-true Group $this
      */
     public function isGroup(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @psalm-assert-if-true IgnoreDeprecations $this
+     */
+    public function isIgnoreDeprecations(): bool
     {
         return false;
     }

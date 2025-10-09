@@ -33,6 +33,7 @@ use Illuminate\Support\Testing\Fakes\BusFake;
  * @method static void assertNotDispatchedAfterResponse(string|\Closure $command, callable|null $callback = null)
  * @method static void assertChained(array $expectedChain)
  * @method static void assertDispatchedWithoutChain(string|\Closure $command, callable|null $callback = null)
+ * @method static \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest chainedBatch(\Closure $callback)
  * @method static void assertBatched(callable $callback)
  * @method static void assertBatchCount(int $count)
  * @method static void assertNothingBatched()
@@ -59,7 +60,7 @@ class Bus extends Facade
      * @param  \Illuminate\Bus\BatchRepository|null  $batchRepository
      * @return \Illuminate\Support\Testing\Fakes\BusFake
      */
-    public static function fake($jobsToFake = [], BatchRepository $batchRepository = null)
+    public static function fake($jobsToFake = [], ?BatchRepository $batchRepository = null)
     {
         $actualDispatcher = static::isFake()
                 ? static::getFacadeRoot()->dispatcher

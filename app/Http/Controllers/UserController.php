@@ -8,8 +8,6 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,7 +19,6 @@ class UserController extends Controller
     {
         $users = User::all(); 
         return view('users.list', compact('users'));
-
     }
 
     /**
@@ -29,93 +26,83 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
         $courses = Course::all();
-        return view ('users.create',['courses'=>$courses]);
+        return view('users.create', ['courses' => $courses]);
     }
 
     public function create_user()
     {
-        //
         $courses = Course::all();
-        return view ('users.create_user',['courses'=>$courses]);
+        return view('users.create_user', ['courses' => $courses]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created admin user in storage.
      */
+    public function store_admin(Request $request)
+    {      
+        $message = [
+            'required' => 'This field is required!'
+        ];
 
-public function store_admin(Request $request)
-{      
-    $message=[
-        'required' => 'This field is required!'
-    ];
+        $request->validate([      
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required',
+            'password' => 'required|confirmed',
+        ], $message);
 
-    $request->validate([      
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'role' => 'required',
-        'password' => 'required|confirmed',
-    ], $message);
+        // Create the user with hashed password
+        $createdUser = User::create([
+            'name' => $request->name, 
+            'email' => $request->email,
+            'role' => Str::upper($request->role),
+            'password' => Hash::make($request->password),
+        ]);
 
-    $user = User::where('email', $request->email)->first();
+        // Create a related Student record
+        Student::create([
+            'user_id' => $createdUser->id,
+            'name' => $createdUser->name,
+        ]);
 
-    if($user){
-        return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
+        return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
     }
 
-    $createdUser = User::create([
-        'name' => $request->name, 
-        'email' => $request->email,
-        'role' => Str::upper($request->role),
-        'password' => 'oo',
-    ]);
+    /**
+     * Store a newly created regular user in storage.
+     */
+    public function store_user(Request $request)
+    {      
+        $message = [
+            'required' => 'This field is required!'
+        ];
 
-    Student::create([
-        'user_id' => $createdUser->id,
-        'name' => $createdUser->name,
-    ]);
+        $request->validate([      
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required',
+            'password' => 'required|confirmed',
+        ], $message);
 
-    return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
-}
+        // Create the user with hashed password
+        $createdUser = User::create([
+            'name' => $request->name, 
+            'email' => $request->email,
+            'role' => Str::upper($request->role),
+            'password' => Hash::make($request->password),
+        ]);
 
-public function store_user(Request $request)
-{      
-    $message=[
-        'required' => 'This field is required!'
-    ];
-
-    $request->validate([      
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'role' => 'required',
-        'password' => 'required|confirmed',
-    ], $message);
-
-    $user = User::where('email', $request->email)->first();
-
-    if($user){
-        return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
+        return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
     }
-
-    $createdUser = User::create([
-        'name' => $request->name, 
-        'email' => $request->email,
-        'role' => Str::upper($request->role),
-        'password' => 'oo',
-    ]);
-
-    return redirect()->route('user.index')->with('success', 'User Registered Successfully');    
-}
 
     /**
      * Display the specified resource.
      */
     public function view($id)
     {
-        //
-        $data=User::find($id);
-        return view ('users.view',['user'=>$data]);   
+        $data = User::find($id);
+        return view('users.view', ['user' => $data]);   
     }
 
     /**
@@ -123,10 +110,8 @@ public function store_user(Request $request)
      */
     public function edit($id)
     {
-        //
-        $data=User::find($id);
-        return view('users.edit',['user'=>$data]);
-        
+        $data = User::find($id);
+        return view('users.edit', ['user' => $data]);
     }
 
     /**
@@ -134,39 +119,64 @@ public function store_user(Request $request)
      */
     public function update(Request $request, User $user)
     {
-        //
-        $message=[
+        $message = [
             'required' => 'This credential field is required!',
             'unique' => 'This email address is already registered!',
         ]; 
+
         $request->validate([
-            'name' =>'nullable',
-            'email' => 'required|email|unique:users,email,'.$request->id,
-            'role' =>'nullable',
-            'password' =>'nullable',
-    
-        ],$message);
-        $user=User::find($request->id);
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->role= Str::upper($request->role);
-        $user->password=Hash::make($request->password);
+            'name' => 'nullable',
+            'email' => 'required|email|unique:users,email,' . $request->id,
+            'role' => 'nullable',
+            'password' => 'nullable',
+        ], $message);
+
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = Str::upper($request->role);
+
+        if ($request->password) {
+            // Hash the password if it was updated
+            $user->password = Hash::make($request->password);
+        }
+
         $user->save();
-        return redirect()->route('user.index')
-        ->with('success', 'User, Updated Successfully');
+
+        return redirect()->route('user.index')->with('success', 'User Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
+    public function delete(Request $request) 
+    {
+        $id = $request->id;
+        User::destroy($id);
+    }
 
- 	// handle delete an employee ajax request
-     public function delete(Request $request) {
-		$id = $request->id;
-		$data = User::find($id);
-		User::destroy($id);
-      }
+        public function getUserInfo($id)
+    {
+        $user = User::find($id);
+
+        if($user) {
+            return response()->json([
+                'name' => $user->name,
+                'id_num' => $user->id_num ?? '',
+                'course_id' => $user->student->course_id ?? ''
+            ]);
+        }
+
+        return response()->json([
+        'name' => $user->name ?? '',
+        'id_num' => '',
+        'course_id' => ''
+    ]);
+    }
+
+        public function account()
+    {
+        $user = auth()->user(); // Get the authenticated user
+        return view('users.account', compact('user'));
+    }
 }

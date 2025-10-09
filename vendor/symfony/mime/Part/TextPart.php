@@ -24,38 +24,34 @@ use Symfony\Component\Mime\Header\Headers;
 class TextPart extends AbstractPart
 {
     /** @internal */
-    protected $_headers;
+    protected Headers $_headers;
 
-    private static $encoders = [];
+    private static array $encoders = [];
 
+    /** @var resource|string|File */
     private $body;
-    private $charset;
-    private $subtype;
-    /**
-     * @var ?string
-     */
-    private $disposition;
-    private $name;
-    private $encoding;
-    private $seekable;
+    private ?string $charset;
+    private string $subtype;
+    private ?string $disposition = null;
+    private ?string $name = null;
+    private string $encoding;
+    private ?bool $seekable = null;
 
     /**
      * @param resource|string|File $body Use a File instance to defer loading the file until rendering
      */
-    public function __construct($body, ?string $charset = 'utf-8', string $subtype = 'plain', string $encoding = null)
+    public function __construct($body, ?string $charset = 'utf-8', string $subtype = 'plain', ?string $encoding = null)
     {
-        unset($this->_headers);
-
         parent::__construct();
 
         if (!\is_string($body) && !\is_resource($body) && !$body instanceof File) {
-            throw new \TypeError(sprintf('The body of "%s" must be a string, a resource, or an instance of "%s" (got "%s").', self::class, File::class, get_debug_type($body)));
+            throw new \TypeError(\sprintf('The body of "%s" must be a string, a resource, or an instance of "%s" (got "%s").', self::class, File::class, get_debug_type($body)));
         }
 
         if ($body instanceof File) {
             $path = $body->getPath();
             if ((is_file($path) && !is_readable($path)) || is_dir($path)) {
-                throw new InvalidArgumentException(sprintf('Path "%s" is not readable.', $path));
+                throw new InvalidArgumentException(\sprintf('Path "%s" is not readable.', $path));
             }
         }
 
@@ -68,7 +64,7 @@ class TextPart extends AbstractPart
             $this->encoding = $this->chooseEncoding();
         } else {
             if ('quoted-printable' !== $encoding && 'base64' !== $encoding && '8bit' !== $encoding) {
-                throw new InvalidArgumentException(sprintf('The encoding must be one of "quoted-printable", "base64", or "8bit" ("%s" given).', $encoding));
+                throw new InvalidArgumentException(\sprintf('The encoding must be one of "quoted-printable", "base64", or "8bit" ("%s" given).', $encoding));
             }
             $this->encoding = $encoding;
         }
@@ -127,7 +123,11 @@ class TextPart extends AbstractPart
     public function getBody(): string
     {
         if ($this->body instanceof File) {
-            return file_get_contents($this->body->getPath());
+            if (false === $ret = @file_get_contents($this->body->getPath())) {
+                throw new InvalidArgumentException(error_get_last()['message']);
+            }
+
+            return $ret;
         }
 
         if (null === $this->seekable) {
@@ -151,7 +151,7 @@ class TextPart extends AbstractPart
         if ($this->body instanceof File) {
             $path = $this->body->getPath();
             if (false === $handle = @fopen($path, 'r', false)) {
-                throw new InvalidArgumentException(sprintf('Unable to open path "%s".', $path));
+                throw new InvalidArgumentException(\sprintf('Unable to open path "%s".', $path));
             }
 
             yield from $this->getEncoder()->encodeByteStream($handle);
@@ -236,6 +236,9 @@ class TextPart extends AbstractPart
         return ['_headers', 'body', 'charset', 'subtype', 'disposition', 'name', 'encoding'];
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         $r = new \ReflectionProperty(AbstractPart::class, 'headers');

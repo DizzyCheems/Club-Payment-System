@@ -144,7 +144,7 @@ class ValidationRuleParser
      */
     protected function explodeWildcardRules($results, $attribute, $rules)
     {
-        $pattern = str_replace('\*', '[^\.]*', preg_quote($attribute));
+        $pattern = str_replace('\*', '[^\.]*', preg_quote($attribute, '/'));
 
         $data = ValidationData::initializeAndGatherData($attribute, $this->data);
 
@@ -280,7 +280,7 @@ class ValidationRuleParser
      */
     protected static function parseParameters($rule, $parameter)
     {
-        return static::ruleIsRegex($rule) ? [$parameter] : str_getcsv($parameter);
+        return static::ruleIsRegex($rule) ? [$parameter] : str_getcsv($parameter, escape: '\\');
     }
 
     /**

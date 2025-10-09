@@ -318,26 +318,28 @@
                 <div class="form-group px-5">
                     <h5>Course <span class="required"></span></h5>
                     <div class="controls">
-                        <select name="course_id" id="lang" class="form-control mb-1">
+                        <select name="course_id" id="course_id" class="form-control mb-1">
                             @foreach($courses as $course)
-                            <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                                
+                <div class="form-group px-5">
+                    <h5>Student <span class="required"></span></h5>
+                    <div class="controls">
+                        <select name="student_id" id="student_id" class="form-control mb-1">
+                            <option value="" disabled selected>-- Select Student --</option>
+                            @foreach($students as $student)
+                                <option value="{{ $student->id }}" data-course="{{ $student->course_id }}">
+                                    {{ $student->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                
-                <div class="form-group px-5">
-                    <h5>Student <span class="required"></span></h5>
-                    <div class="controls">
-                    <select name="student_id" id="lang" class="form-control" required class="form-control mb-1">
-                                    @foreach($students as $student)
-                                    <option value="{{ $student->id }}">{{$student->name}}</option>
-                                    @endforeach
-                                    </select> 
-                    </div>
-                </div>
-                
                 <div class="form-group row px-5">
                     <div class="col-md-6">
                         <h5>Payment <span class="required"></span></h5>
@@ -431,6 +433,25 @@
 
 
 
+<script>
+$(document).ready(function() {
+
+    // When the student is selected
+    $('#student_id').on('change', function() {
+        // Get the selected student's course ID from data attribute
+        var courseId = $(this).find(':selected').data('course');
+
+        // Set the course select field to the selected student's course
+        if(courseId) {
+            $('#course_id').val(courseId);
+        } else {
+            // If no course, reset the select
+            $('#course_id').val('');
+        }
+    });
+
+});
+</script>
 
 <script>
     // Function to filter rows based on the selected filter

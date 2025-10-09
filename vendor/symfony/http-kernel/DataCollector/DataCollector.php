@@ -63,9 +63,21 @@ abstract class DataCollector implements DataCollectorInterface
         $casters = [
             '*' => function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
+                    $b = $a;
                     foreach ($a as $k => $v) {
-                        if (\is_object($v) && !$v instanceof \DateTimeInterface && !$v instanceof Stub) {
-                            $a[$k] = new CutStub($v);
+                        if (!\is_object($v) || $v instanceof \DateTimeInterface || $v instanceof Stub) {
+                            continue;
+                        }
+
+                        try {
+                            $a[$k] = $s = new CutStub($v);
+
+                            if ($b[$k] === $s) {
+                                // we've hit a non-typed reference
+                                $a[$k] = $v;
+                            }
+                        } catch (\TypeError $e) {
+                            // we've hit a typed reference
                         }
                     }
                 }
@@ -82,6 +94,9 @@ abstract class DataCollector implements DataCollectorInterface
         return ['data'];
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
     }
@@ -98,5 +113,13 @@ abstract class DataCollector implements DataCollectorInterface
      */
     final protected function unserialize(string $data): void
     {
+    }
+
+    /**
+     * @return void
+     */
+    public function reset()
+    {
+        $this->data = [];
     }
 }

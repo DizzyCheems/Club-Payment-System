@@ -6,10 +6,10 @@ use Carbon\CarbonImmutable;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Database\Connection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
+use Throwable;
 
 class DatabaseBatchRepository implements PrunableBatchRepository
 {
@@ -313,6 +313,16 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     }
 
     /**
+     * Rollback the last database transaction for the connection.
+     *
+     * @return void
+     */
+    public function rollBack()
+    {
+        $this->connection->rollBack();
+    }
+
+    /**
      * Serialize the given value.
      *
      * @param  mixed  $value
@@ -342,7 +352,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
 
         try {
             return unserialize($serialized);
-        } catch (ModelNotFoundException) {
+        } catch (Throwable) {
             return [];
         }
     }
