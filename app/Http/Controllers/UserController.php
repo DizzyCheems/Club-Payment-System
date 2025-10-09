@@ -174,9 +174,101 @@ class UserController extends Controller
     ]);
     }
 
-        public function account()
+    public function account()
     {
-        $user = auth()->user(); // Get the authenticated user
-        return view('users.account', compact('user'));
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // If admin, use admin account blade (users/account.blade.php)
+        if ($user->isAdmin()) {
+            return view('users.account', compact('user'));
+        }
+
+        // Regular user view
+        return view('user.account_user', compact('user'));
     }
+
+
+    // Show edit account page
+public function editAccount()
+{
+    $user = auth()->user();
+
+    // Only allow regular users
+    if (!$user->isUser()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    return view('user.edit_user', compact('user'));
+}
+
+// Update account
+public function updateAccount(Request $request)
+{
+    $user = auth()->user();
+
+    if (!$user->isUser()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:6|confirmed',
+    ]);
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('user.account')->with('success', 'Account updated successfully.');
+}
+
+public function editAdminAccount()
+{
+    $user = auth()->user();
+
+    // Only allow admin users
+    if (!$user->isAdmin()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    return view('users.edit', compact('user'));
+}
+
+public function updateAdminAccount(Request $request)
+{   
+    $user = auth()->user();
+
+    if (!$user->isAdmin()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:6|confirmed',
+    ]);
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('user.account')->with('success', 'Account updated successfully.');
+}
+
+
 }

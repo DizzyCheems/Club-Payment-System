@@ -124,54 +124,71 @@
 
 
 <script>
-    var originalAmount = parseFloat($('#amountRequired').val());
-
-$('#paymentMethod').on('change', function() {
-    var amountRequired = parseFloat($('#amountRequired').val());
-    var paymentMethod = $(this).val();
-    var paymentValue = parseFloat($('#paymentInput').val());
-
-    if (paymentMethod === 'Partial') {
-        var partialAmount = (amountRequired * 0.5).toFixed(2);
-        $('#amountRequired').val(partialAmount);
-
-        // Set Payment field to 0.00 when switching to Partial Payment
+   $(document).ready(function() {
+    // Store the original state
+    function resetModal() {
+        $('#agenda_id').val('');
+        $('#course_id').val('');
+        $('#student_id').val('');
         $('#paymentInput').val('0.00');
-    } else {
-        $('#amountRequired').val(originalAmount.toFixed(2));
+        $('#paymentMethod').val('Full');
+        $('#amountRequired').val('');
     }
-});
-</script>
 
-@if(session('sweetAlert'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.reload();
-                }
-            });
-        });
-    </script>
-@endif
-
-<script>
-    $('#paymentInput').on('input', function() {
-        var paymentAmount = parseFloat($(this).val());
-        var amountRequired = parseFloat($('#amountRequired').val());
-
-        if (paymentAmount > amountRequired) {
-            $(this).val(amountRequired); 
-        }
+    // Reset modal on open
+    $('#add').on('show.bs.modal', function() {
+        resetModal();
     });
+
+    // Reset modal on close
+    $('#add').on('hidden.bs.modal', function() {
+        resetModal();
+    });
+
+    // When agenda changes, update Amount Required
+    $('#agenda_id').on('change', function() {
+        var indivContrib = parseFloat($('#agenda_id option:selected').data('indiv-contrib')) || 0;
+        $('#amountRequired').data('original', indivContrib); // Store original value
+        var method = $('#paymentMethod').val();
+
+        if (method === 'Partial') {
+            $('#amountRequired').val((indivContrib * 0.5).toFixed(2));
+        } else {
+            $('#amountRequired').val(indivContrib.toFixed(2));
+        }
+
+        // Reset payment input
+        $('#paymentInput').val('0.00');
+        });
+
+        // When payment method changes
+        $('#paymentMethod').on('change', function() {
+            var original = parseFloat($('#amountRequired').data('original')) || 0;
+            var method = $(this).val();
+
+            if (method === 'Partial') {
+                $('#amountRequired').val((original * 0.5).toFixed(2));
+            } else {
+                $('#amountRequired').val(original.toFixed(2));
+            }
+
+            // Reset payment input
+            $('#paymentInput').val('0.00');
+        });
+
+        // Payment input should not exceed Amount Required
+        $('#paymentInput').on('input', function() {
+            var paymentAmount = parseFloat($(this).val()) || 0;
+            var amountRequired = parseFloat($('#amountRequired').val()) || 0;
+
+            if (paymentAmount > amountRequired) {
+                $(this).val(amountRequired.toFixed(2));
+            }
+        });
+    });
+
 </script>
-
-
+@endif
 
 @endsection
 </html> 

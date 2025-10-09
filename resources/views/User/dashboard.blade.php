@@ -1,29 +1,55 @@
 @extends('layouts.user_main')
+
 @section('content')
     <!--Start-Body-->
     <div class="app-wrapper">
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
-			    
+
+			 @if(session('warning'))
+				<div id="flash-alert" class="alert alert-warning text-center" role="alert">
+					{{ session('warning') }}
+				</div>
+				@endif
+
+				@if(session('success'))
+				<div id="flash-alert" class="alert alert-success text-center" role="alert">
+					{{ session('success') }}
+				</div>
+				@endif
+
+				<script>
+					// Auto-hide the alert after 3 seconds
+					setTimeout(() => {
+						const alert = document.getElementById('flash-alert');
+						if (alert) {
+							alert.style.transition = "opacity 0.5s ease";
+							alert.style.opacity = "0";
+							setTimeout(() => alert.remove(), 500);
+						}
+					}, 3000);
+				</script>
+
 			    <h1 class="app-page-title">Dashboard</h1>
-			    
+
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 						<h3 class="mb-3">Welcome {{ $user->name }}</h3>
 						    <div class="row gx-5 gy-3">
-						        <div class="col-12 col-lg-9">
-							        
-								<div>
-									@if($user->role === 'ADMIN')
-										You are now Logged in as Administrator
-									@elseif($user->role === 'USER')
-										You are now Logged in as User
-									@else
-										You are now Logged in as {{ $user->role }}
-									@endif
-								</div>
+						        <div class="col-12 col-lg-9">							        
+									<div>
+										@if($user->isAdmin())
+											You are now Logged in as Administrator
+										@elseif($user->student)
+											You are now Logged in as Student
+										@elseif($user->isUser())
+											You are now Logged in as User
+										@else
+											You are now Logged in as {{ $user->role }}
+										@endif
+									</div>
 							    </div><!--//col-->
 							    <div class="col-12 col-lg-3">
 							    </div><!--//col-->
@@ -75,9 +101,9 @@
 						                <h4 class="app-card-title">Payments</h4>
 							        </div><!--//col-->
 							        <div class="col-auto">
-								        <div class="card-header-action">
-									        <a href="{{route('agenda.index')}}">All Agendas</a>
-								        </div><!--//card-header-actions-->
+								      	<div class="card-header-action">
+											<a href="{{ route('payment.index.user') }}">View Payments</a>
+										</div><!--//card-header-actions-->
 							        </div><!--//col-->
 						        </div><!--//row-->
 								</div><!--//app-card-header-->

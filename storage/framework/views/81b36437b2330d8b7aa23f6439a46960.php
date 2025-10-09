@@ -94,7 +94,7 @@
                                             <td class="cell">
                                                     <a class="btn-sm app-btn-secondary" href="<?php echo e(route('user.edit', array('id' => $user->id))); ?>">Edit</a>
                                                     <a class="btn-sm app-btn-secondary" href="<?php echo e(route('user.view', array('id' => $user->id))); ?>">View</a>
-                                                    <a id="<?php echo e($user ['id']); ?>" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                                    <a id="<?php echo e($user ['id']); ?>" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete User Info</a>
                                                
                                             </td>
                                         </tr>
@@ -280,7 +280,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo e(route('user/destroy')); ?>',
+                    url: '<?php echo e(route('user.destroy')); ?>',
                     method: 'get',
                     data: {
                         id: id,

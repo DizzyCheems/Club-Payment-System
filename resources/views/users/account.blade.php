@@ -36,7 +36,7 @@
                                 @endif
 
                                 <div class="mt-4">
-                                    <a href="{{ route('user.edit', $user->id) }}" class="btn app-btn-primary">Edit Account</a>
+                                    <a href="{{ route('admin.account.edit') }}" class="btn app-btn-primary">Edit Account</a>
                                     <a href="{{ route('dashboard') }}" class="btn app-btn-secondary ms-2">Back to Dashboard</a>
                                 </div>
                             </div><!--//col-->

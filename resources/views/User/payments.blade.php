@@ -74,144 +74,119 @@
                     <div class="table-responsive">
                         <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" >
                             <thead>
-                                <tr>
-                                    <th class="cell">Agenda</th>
-                                    <th class="cell">Student</th>
-                                    <th class="cell">Amount</th>
-                                    <th class="cell">Type</th>
-                                    <th class="cell">Method</th>
-                                    <th class="cell">Date Paid</th>
-                                    <th class="col-actions cell">Actions</th>   
-                                </tr>
+                                        <tr>
+                                            <th class="cell">Agenda</th>
+                                            <th class="cell">Student</th>
+                                            <th class="cell">Amount</th>
+                                            <th class="cell">Type</th>
+                                            <th class="cell">Method</th>
+                                            <th class="cell">Date Paid</th>
+                                            <th class="cell">Approval</th>
+                                        </tr>
                                     </thead>
-                                        <tbody id="userTable">
-                                            @if($payments->isEmpty())
-                                                <tr>
-                                                    <td colspan="7" class="text-center">NO DATA</td>
+                                    <tbody id="userTable">
+                                        @if($payments->isEmpty())
+                                            <tr>
+                                                <td colspan="7" class="text-center">NO DATA</td>
+                                            </tr>
+                                        @else
+                                            @foreach($payments as $payment)
+                                                <tr data-method="{{ $payment->method }}">   
+                                                    <td>{{ $payment->agendas->agenda_name ?? 'N/A' }}</td>
+                                                    <td>{{ $payment->students->name ?? 'N/A' }}</td>
+                                                    <td>{{ number_format($payment->amount, 2) }}</td>
+                                                    <td>
+                                                        @if(strtoupper($payment->type) === 'ONLINE')   
+                                                            <span class="badge badge-pill badge-online">ONLINE</span>
+                                                        @else
+                                                            <span class="badge badge-pill badge-full">CASH</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if(strtoupper($payment->method) === 'PARTIAL')   
+                                                            <span class="badge badge-pill badge-partial">PARTIAL</span>
+                                                        @else
+                                                            <span class="badge badge-pill badge-full">FULL</span>                                                            
+                                                        @endif
+                                                    </td>
+                                                    <td class="cell">
+                                                        <span>{{ date('j M', strtotime($payment->created_at)) }}</span>
+                                                        <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
+                                                    </td>
+                                                    <td class="cell">
+                                                        @if($payment->approved == 1)
+                                                            <span class="badge badge-pill bg-success">Approved</span>
+                                                        @else
+                                                            <span class="badge badge-pill bg-danger">Not Approved</span>
+                                                        @endif
+                                                    </td>
                                                 </tr>
-                                            @else
-                                                @foreach($payments as $payment)
-                                                    <tr data-method="{{ $payment->method }}">   
-                                                        <td>{{ $payment->agendas->agenda_name }}</td>
-                                                        <td>{{ $payment->students->name ?? 'N/A' }}</td>
-                                                        <td>{{ $payment->amount }}</td>
-                                                        <td>
-                                                            @if($payment->type  == 'ONLINE')   
-                                                                <span class="badge badge-pill badge-online">ONLINE</span>
-                                                            @else
-                                                                <span class="badge badge-pill badge-full">CASH</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            @if($payment->method  == 'PARTIAL')   
-                                                                <span class="badge badge-pill badge-partial">PARTIAL</span>
-                                                            @else
-                                                                <span class="badge badge-pill badge-full">FULL</span>                                                            
-                                                            @endif
-                                                        </td>
-                                                        <td class="cell">
-                                                            <span>{{ date('j M', strtotime($payment->created_at)) }}</span>
-                                                            <span class="note">{{ date('g:i A', strtotime($payment->created_at)) }}</span>
-                                                        </td>
-                                                        <td>              
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('payment.view', array('id' => $payment->id))}}">View</a>
-                                                        </td>    
-                                                    </tr>
-                                                @endforeach       
-                                            @endif
-                                        </tbody>
-
+                                            @endforeach       
+                                        @endif
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-
-                <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalTitle">Register Payment</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="form" action="{{ route ('payment.post') }}" method="POST" novalidate>
-                @csrf
-
-                <div class="p-3">
-                    @if(Session::has('success'))
-                    <div class="alert alert-success">
-                        {{Session::get('success')}}
-                    </div>
-                    @endif
-                </div>
-                <div class="form-group px-5">
-                    <h5>Agenda <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="agenda_id" id="agenda_id" class="form-control mb-1">
-                            <option value="" selected disabled>Select Agenda</option> <!-- Added empty option -->
-                            @foreach($agendas as $agenda)
-                                <option value="{{ $agenda->id }}" data-indiv-contrib="{{ $agenda->indiv_contrib }}">{{ $agenda->agenda_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group px-5">
-                    <h5>Course <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="course_id" id="lang" class="form-control mb-1">
-                            @foreach($courses as $course)
-                            <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                
-                <div class="form-group px-5">
-                    <h5>Student ID <span class="required"></span></h5>
-                    <div class="controls">
-                        <input id="student_id" type="number" name="student_id" class="form-control mb-1" value="{{ Auth::user()->id }}" required readonly>
-                    </div>
-                </div>
-    
-                <div class="form-group row px-5">
-                    <div class="col-md-6">
-                        <h5>Payment <span class="required"></span></h5>
-                        <div class="controls">
-                            <input id="paymentInput" type="number" name="amount" class="form-control mb-1" placeholder="0.00" required>
+                {{-- Add Payment Modal --}}
+            <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="loginModalTitle">Register Payment</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal"></button>
                         </div>
-                    </div>
+                        <form action="{{ route('payment.post') }}" method="POST">
+                            @csrf
 
-                    <div class="col-md-6">
-                        <h5>Amount Required <span class="required"></span></h5>
-                        <div class="controls">
-                            <input id="amountRequired" type="number" name="amount2" class="form-control mb-1" required readonly>
-                        </div>
-                    </div>
-                </div>
+                            {{-- Agenda --}}
+                            <div class="form-group px-5">
+                                <h5>Agenda</h5>
+                                <select name="agenda_id" id="agenda_id" class="form-control mb-1">
+                                    <option value="" selected disabled>Select Agenda</option>
+                                    @foreach($agendas as $agenda)
+                                        <option value="{{ $agenda->id }}" data-indiv-contrib="{{ $agenda->indiv_contrib }}">{{ $agenda->agenda_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                <div class="form-group px-5">
-                    <h5>Payment Type <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="type" id="lang" class="form-control mb-1">
-                            <option value="Online">Online Payment</option>
-                            <option value="Cash">Cash</option>
-                        </select>
-                    </div>
-                </div>
+                            {{-- Student ID --}}
+                            <div class="form-group px-5">
+                                <h5>Student ID</h5>
+                                <input id="student_id" type="number" name="student_id" class="form-control mb-1" value="{{ Auth::user()->id }}" readonly>
+                            </div>
 
-                <div class="form-group px-5">
-                    <h5>Payment Method <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="method" id="paymentMethod" class="form-control mb-1">
-                            <option value="Full">Full Payment</option>
-                            <option value="Partial">Partial Payment</option>
-                        </select>
-                    </div>
-                </div>
+                            {{-- Payment / Amount Required --}}
+                            <div class="form-group row px-5">
+                                <div class="col-md-6">
+                                    <h5>Payment</h5>
+                                    <input id="paymentInput" type="number" name="amount" class="form-control mb-1" placeholder="0.00" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Amount Required</h5>
+                                    <input id="amountRequired" type="number" class="form-control mb-1" readonly>
+                                </div>
+                            </div>
+
+                            {{-- Payment Type --}}
+                            <div class="form-group px-5">
+                                <h5>Payment Type</h5>
+                                <select name="type" class="form-control mb-1">
+                                    <option value="Online">Online Payment</option>
+                                    <option value="Cash">Cash</option>
+                                </select>
+                            </div>
+
+                            {{-- Payment Method --}}
+                            <div class="form-group px-5">
+                                <h5>Payment Method</h5>
+                                <select name="method" id="paymentMethod" class="form-control mb-1">
+                                    <option value="Full">Full Payment</option>
+                                    <option value="Partial">Partial Payment</option>
+                                </select>
+                            </div>
 
                 <div class="modal-footer" style= "margin-top:35px;">
                     <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
@@ -259,6 +234,62 @@
     </tbody>
 </table>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const addModal = document.getElementById('add');
+
+    // Reset modal when opened
+    addModal.addEventListener('show.bs.modal', function () {
+        $('#agenda_id').val('');
+        $('#student_id').val('');
+        $('#course_id').val('');
+        $('#paymentInput').val('0.00');
+        $('#paymentMethod').val('Full');
+        $('#amountRequired').val('');
+        $('#amountRequired').data('original', 0);
+    });
+
+    // Auto-fill course when student selected
+    $('#student_id').on('change', function () {
+        const courseName = $(this).find(':selected').data('course') || '';
+        $('#course_id').val(courseName);
+    });
+
+    // Update amount required when agenda changes
+    $('#agenda_id').on('change', function () {
+        const indivContrib = parseFloat($(this).find(':selected').data('indiv-contrib')) || 0;
+        $('#amountRequired').data('original', indivContrib);
+
+        if ($('#paymentMethod').val() === 'Partial') {
+            $('#amountRequired').val((indivContrib * 0.5).toFixed(2));
+        } else {
+            $('#amountRequired').val(indivContrib.toFixed(2));
+        }
+
+        $('#paymentInput').val('0.00');
+    });
+
+    // Payment method change
+    $('#paymentMethod').on('change', function () {
+        const original = parseFloat($('#amountRequired').data('original')) || 0;
+        if ($(this).val() === 'Partial') {
+            $('#amountRequired').val((original * 0.5).toFixed(2));
+        } else {
+            $('#amountRequired').val(original.toFixed(2));
+        }
+        $('#paymentInput').val('0.00');
+    });
+
+    // Payment input cannot exceed amount required
+    $('#paymentInput').on('input', function () {
+        const payment = parseFloat($(this).val()) || 0;
+        const required = parseFloat($('#amountRequired').val()) || 0;
+        if (payment > required) $(this).val(required.toFixed(2));
+    });
+
+});
+</script>
 
 
 <script>
@@ -352,7 +383,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('payment/destroy')}}',
+                    url: '{{route('payment.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,

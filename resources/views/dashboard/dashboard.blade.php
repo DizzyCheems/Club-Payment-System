@@ -5,7 +5,31 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">
-			    
+				
+			    @if(session('warning'))
+				<div id="flash-alert" class="alert alert-warning text-center" role="alert">
+					{{ session('warning') }}
+				</div>
+				@endif
+
+				@if(session('success'))
+				<div id="flash-alert" class="alert alert-success text-center" role="alert">
+					{{ session('success') }}
+				</div>
+				@endif
+
+				<script>
+					// Auto-hide the alert after 3 seconds
+					setTimeout(() => {
+						const alert = document.getElementById('flash-alert');
+						if (alert) {
+							alert.style.transition = "opacity 0.5s ease";
+							alert.style.opacity = "0";
+							setTimeout(() => alert.remove(), 500);
+						}
+					}, 3000);
+				</script>
+
 			    <h1 class="app-page-title">Admin Dashboard</h1>
 			    
 			    <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">

@@ -95,7 +95,7 @@
                                             <td class="cell">
                                                     <a class="btn-sm app-btn-secondary" href="{{route('user.edit', array('id' => $user->id))}}">Edit</a>
                                                     <a class="btn-sm app-btn-secondary" href="{{route('user.view', array('id' => $user->id))}}">View</a>
-                                                    <a id="{{$user ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
+                                                    <a id="{{$user ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete User Info</a>
                                                
                                             </td>
                                         </tr>
@@ -281,7 +281,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('user/destroy')}}',
+                    url: '{{route('user.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,

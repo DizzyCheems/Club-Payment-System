@@ -43,7 +43,7 @@
                                 </div>
 
                             <div class="col-md-auto">
-                                 <a class="btn app-btn-secondary" href="#" data-toggle="modal" data-target="#add">  
+                                 <a class="btn app-btn-secondary" href="#" data-bs-toggle="modal" data-bs-target="#add"> 
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                         <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
@@ -284,115 +284,85 @@
     
 </div>
 
-<!-- Modal Register Payment -->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="add" tabindex="-1" aria-labelledby="addPaymentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalTitle">Register Payment</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="addPaymentLabel">Register Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form class="form" action="{{ route ('payment.post') }}" method="POST" novalidate>
+            <form action="{{ route('payment.post') }}" method="POST" novalidate>
                 @csrf
-
-                <div class="p-3">
-                    @if(Session::has('success'))
-                    <div class="alert alert-success">
-                        {{Session::get('success')}}
-                    </div>
-                    @endif
-                </div>
-                <div class="form-group px-5">
-                    <h5>Agenda <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="agenda_id" id="agenda_id" class="form-control mb-1">
-                            <option value="" selected disabled>Select Agenda</option> <!-- Added empty option -->
+                <div class="modal-body">
+                    <!-- Agenda -->
+                    <div class="mb-3">
+                        <label for="agenda_id" class="form-label">Agenda *</label>
+                        <select name="agenda_id" id="agenda_id" class="form-select">
+                            <option value="" selected disabled>Select Agenda</option>
                             @foreach($agendas as $agenda)
-                                <option value="{{ $agenda->id }}" data-indiv-contrib="{{ $agenda->indiv_contrib }}">{{ $agenda->agenda_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group px-5">
-                    <h5>Course <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="course_id" id="course_id" class="form-control mb-1">
-                            @foreach($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                                
-                <div class="form-group px-5">
-                    <h5>Student <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="student_id" id="student_id" class="form-control mb-1">
-                            <option value="" disabled selected>-- Select Student --</option>
-                            @foreach($students as $student)
-                                <option value="{{ $student->id }}" data-course="{{ $student->course_id }}">
-                                    {{ $student->name }}
+                                <option value="{{ $agenda->id }}" data-indiv-contrib="{{ $agenda->indiv_contrib }}">
+                                    {{ $agenda->agenda_name }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-                </div>
 
-                <div class="form-group row px-5">
-                    <div class="col-md-6">
-                        <h5>Payment <span class="required"></span></h5>
-                        <div class="controls">
-                            <input id="paymentInput" type="number" name="amount" class="form-control mb-1" placeholder="0.00" required>
+                    <select name="student_id" id="student_id" class="form-select">
+                        <option value="" selected disabled>Select Student</option>
+                        @foreach($students as $student)
+                            <option value="{{ $student->id }}" data-course="{{ $student->course ? $student->course->course_name : '' }}">
+                                {{ $student->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Course -->
+                    <div class="mb-3">
+                        <label for="course_id" class="form-label">Course</label>
+                        <input type="text" id="course_id" class="form-control" readonly placeholder="Auto-filled from Student">
+                    </div>
+
+                    <!-- Payment & Amount Required -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="paymentInput" class="form-label">Payment</label>
+                            <input type="number" id="paymentInput" name="amount" class="form-control" value="0.00" min="0">
+                        </div>
+                        <div class="col">
+                            <label for="amountRequired" class="form-label">Amount Required</label>
+                            <input type="number" id="amountRequired" name="amount2" class="form-control" readonly>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <h5>Amount Required <span class="required"></span></h5>
-                        <div class="controls">
-                            <input id="amountRequired" type="number" name="amount2" class="form-control mb-1" required readonly>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group px-5">
-                    <h5>Payment Type <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="type" id="lang" class="form-control mb-1">
+                    <!-- Payment Type -->
+                    <div class="mb-3">
+                        <label for="paymentType" class="form-label">Payment Type</label>
+                        <select name="type" id="paymentType" class="form-select">
                             <option value="Online">Online Payment</option>
                             <option value="Cash">Cash</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="form-group px-5">
-                    <h5>Payment Method <span class="required"></span></h5>
-                    <div class="controls">
-                        <select name="method" id="paymentMethod" class="form-control mb-1">
+                    <!-- Payment Method -->
+                    <div class="mb-3">
+                        <label for="paymentMethod" class="form-label">Payment Method</label>
+                        <select name="method" id="paymentMethod" class="form-select">
                             <option value="Full">Full Payment</option>
                             <option value="Partial">Partial Payment</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="modal-footer" style= "margin-top:35px;">
-                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
-                        <i class="ft-x"></i> Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="la la-check-square-o"></i> Save
-                    </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
+
             </form>
         </div>
-        <!--//modal-content-->
     </div>
-    <!--//modal-dialog-->
 </div>
-<!--//modal-->
-
-
 
 
 <!-- Modal Register Payment -->
@@ -434,23 +404,61 @@
 
 
 <script>
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function () {
 
-    // When the student is selected
-    $('#student_id').on('change', function() {
-        // Get the selected student's course ID from data attribute
-        var courseId = $(this).find(':selected').data('course');
+    const addModal = document.getElementById('add');
 
-        // Set the course select field to the selected student's course
-        if(courseId) {
-            $('#course_id').val(courseId);
+    // Reset modal when opened
+    addModal.addEventListener('show.bs.modal', function () {
+        $('#agenda_id').val('');
+        $('#student_id').val('');
+        $('#course_id').val('');
+        $('#paymentInput').val('0.00');
+        $('#paymentMethod').val('Full');
+        $('#amountRequired').val('');
+        $('#amountRequired').data('original', 0);
+    });
+
+    // Auto-fill course when student selected
+    $('#student_id').on('change', function () {
+        const courseName = $(this).find(':selected').data('course') || '';
+        $('#course_id').val(courseName);
+    });
+
+    // Update amount required when agenda changes
+    $('#agenda_id').on('change', function () {
+        const indivContrib = parseFloat($(this).find(':selected').data('indiv-contrib')) || 0;
+        $('#amountRequired').data('original', indivContrib);
+
+        if ($('#paymentMethod').val() === 'Partial') {
+            $('#amountRequired').val((indivContrib * 0.5).toFixed(2));
         } else {
-            // If no course, reset the select
-            $('#course_id').val('');
+            $('#amountRequired').val(indivContrib.toFixed(2));
         }
+
+        $('#paymentInput').val('0.00');
+    });
+
+    // Payment method change
+    $('#paymentMethod').on('change', function () {
+        const original = parseFloat($('#amountRequired').data('original')) || 0;
+        if ($(this).val() === 'Partial') {
+            $('#amountRequired').val((original * 0.5).toFixed(2));
+        } else {
+            $('#amountRequired').val(original.toFixed(2));
+        }
+        $('#paymentInput').val('0.00');
+    });
+
+    // Payment input cannot exceed amount required
+    $('#paymentInput').on('input', function () {
+        const payment = parseFloat($(this).val()) || 0;
+        const required = parseFloat($('#amountRequired').val()) || 0;
+        if (payment > required) $(this).val(required.toFixed(2));
     });
 
 });
+
 </script>
 
 <script>
@@ -544,7 +552,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('payment/destroy')}}',
+                    url: '{{route('payment.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,

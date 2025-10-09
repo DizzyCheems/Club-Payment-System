@@ -49,5 +49,17 @@ class User extends Authenticatable
     {
         return $this->hasOne(Student::class);
     }
+
+    // User.php
+    public function isAdmin(): bool
+    {
+        return strtoupper((string) $this->role) === 'ADMIN';
+    }
+
+    public function isUser(): bool
+    {
+        return strtoupper((string) $this->role) === 'USER';
+    }
+
 }
 

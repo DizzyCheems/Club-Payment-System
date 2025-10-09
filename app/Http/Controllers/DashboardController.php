@@ -33,22 +33,57 @@ class DashboardController extends Controller
      }
 
      public function user()
-     {
+    {
         $user = Auth::user();
         $agendaCount = Agenda::count();
         $agendas = Agenda::all();
-        $student = Student::where('user_id', $user->id)->firstOrFail(); // Use firstOrFail() to throw an exception if the student is not found
-        $payments = $student->payments()->get(); // Fetch payments related to the student
+
+        // Try to find a student record for this user
+        $student = Student::where('user_id', $user->id)->first();
+
+        // If no student record found, show dashboard with empty or default data
+        if (!$student) {
+            $payments = collect(); // empty collection
+            $totalAmount = 0;
+            $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
+            $payCount = Pay::count();
+
+            foreach ($recentAgendas as $agenda) {
+                $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
+            }
+
+            return view('User.dashboard', compact(
+                'user',
+                'totalAmount',
+                'agendaCount',
+                'recentAgendas',
+                'payCount',
+                'payments',
+                'agendas'
+            ))->with('warning', 'You are not yet registered as a student.');
+        }
+
+        // If student record exists, load their payments
+        $payments = $student->payments()->get();
         $totalAmount = $payments->sum('amount');
         $recentAgendas = Agenda::orderBy('created_at', 'desc')->take(4)->get();
         $payCount = Pay::count();
-        
+
         foreach ($recentAgendas as $agenda) {
             $agenda->paymentCount = Payment::where('agenda_id', $agenda->id)->count();
         }
-    
-        return view('User.dashboard', compact('user', 'totalAmount', 'agendaCount', 'recentAgendas', 'payCount', 'payments', 'agendas'));
+
+        return view('User.dashboard', compact(
+            'user',
+            'totalAmount',
+            'agendaCount',
+            'recentAgendas',
+            'payCount',
+            'payments',
+            'agendas'
+        ));
     }
+
      
     /**
      * Show the form for creating a new resource.

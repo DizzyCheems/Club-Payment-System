@@ -25,9 +25,9 @@
                    <input type="hidden" name="id" value="{{$user['id']}}">
                         <div class="form-body">
                             <div class="form-group">
-                             <h5>FullName<span class="required"></span></h5>
+                             <h5>Full Name<span class="required"></span></h5>
                                 <div class="controls">
-                                    <input type="text" name="name" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{$user['fullname']}}" readonly>
+                                    <input type="text" name="name" class="form-control mb-1" required data-validation-required-message="• This field is required" value="{{$user['name']}}" readonly>
                                 </div>
                          </div>
                          
@@ -45,13 +45,6 @@
                                         <option value="user">User</option>
                                         <option value="admin">Admin</option>
                             </select> </div>
-                         </div>
-
-                         <div class="form-group">
-                             <h5>Password<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="password" name="password" class="form-control mb-1" required data-validation-required-message="• This field is required" readonly >
-                                </div>
                          </div>
                     
                             </div>

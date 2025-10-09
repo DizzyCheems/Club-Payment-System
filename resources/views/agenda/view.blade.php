@@ -276,7 +276,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('activity/destroy')}}',
+                    url: '{{route('activity.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,

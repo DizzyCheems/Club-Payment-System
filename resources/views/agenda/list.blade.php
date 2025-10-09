@@ -103,7 +103,7 @@
                 <td>
                     <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
                     <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
-                    <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                    <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Agenda Info</a>
                 </td>
             </tr>
         @endforeach
@@ -194,7 +194,7 @@
                                     <td>
                                         <a class="btn-sm app-btn-secondary" href="{{ route('agenda.edit', ['id' => $agenda->id]) }}">Edit</a>
                                         <a class="btn-sm app-btn-secondary" href="{{ route('agenda.view', ['id' => $agenda->id]) }}">View</a>
-                                        <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Course Info</a>
+                                        <a id="{{ $agenda->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Agenda Info</a>
                                     </td>
                                 </tr>
                             @endif
@@ -345,7 +345,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('agenda/destroy')}}',
+                    url: '{{route('agenda.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,

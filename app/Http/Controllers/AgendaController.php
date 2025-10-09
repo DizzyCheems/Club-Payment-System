@@ -59,25 +59,29 @@ class AgendaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-                $message=[
-                    'required' => 'This field is required!'
-                     ];
-                                  
-                    $request->validate([      
-                    'agenda_name'=>'required',
-                    'deadline'=>'required',
-                    'total_fund'=>'required',
-                    ],$message);
-                                  
-                    Agenda::create([
-                    'agenda_name' => $request->agenda_name, 
-                    'deadline' => $request->deadline,
-                    'total_fund' => $request->total_fund,
-                    ]);
-                    return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
-        
+        $message = [
+            'required' => 'This field is required!'
+        ];
+
+        $request->validate([
+            'agenda_name' => 'required',
+            'deadline' => 'required',
+            'num_students' => 'required|integer',
+            'indiv_contribution' => 'required|numeric',
+            'total_fund' => 'required|numeric',
+        ], $message);
+
+        Agenda::create([
+            'agenda_name' => $request->agenda_name,
+            'deadline' => $request->deadline,
+            'num_students' => $request->num_students,
+            'indiv_contrib' => $request->indiv_contribution,
+            'total_fund' => $request->total_fund,
+        ]);
+
+        return redirect()->route('agenda.index')->with('success', 'Agenda Registered Successfully');    
     }
+
 
     /**
      * Display the specified resource.

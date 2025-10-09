@@ -21,13 +21,23 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-   
+        // Check if admin
         if (strpos($user->role, 'ADMIN') !== false) {
-     
-            return redirect()->intended($this->redirectPath());
-        } else {
-    
-            return redirect()->route('dashboard.user');
+            return redirect()
+                ->intended($this->redirectPath())
+                ->with('success', 'Welcome back, Admin!');
         }
+
+        // Check if the user is registered as a student
+        if ($user->student) {
+            return redirect()
+                ->route('dashboard.user')
+                ->with('success', 'Welcome back, Student!');
+        }
+
+        // Otherwise, regular user
+        return redirect()
+            ->route('dashboard.user')
+            ->with('success', 'You are now logged in as User');
     }
 }

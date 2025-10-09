@@ -11,7 +11,7 @@
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
 
-                        <form class="form" action="{{route('user.update', array('id' => $user->id))}}" method="POST" novalidate>
+                        <form class="form" action="{{route('admin.account.update', array('id' => $user->id))}}" method="POST" novalidate>
                         @csrf
                         <input type="hidden" name="id" value="{{$user['id']}}">
                     <div>
