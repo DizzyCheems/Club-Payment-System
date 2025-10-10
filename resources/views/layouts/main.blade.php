@@ -18,8 +18,8 @@
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/portal.css') }}">
     <link id="theme-style" rel="stylesheet" href="{{asset ('assets/css/custom.css') }}">
-<!-- Option 1: Include in HTML -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head> 
 <!-- END: Head-->
 
@@ -48,7 +48,7 @@
 		            
 		            <div class="app-utilities col-auto">
 			            <div class="app-utility-item app-notifications-dropdown dropdown">    
-				            <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
+				            <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
 					            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
 					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
@@ -74,7 +74,7 @@
 			        
 			            
 			            <div class="app-utility-item app-user-dropdown dropdown">
-				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{{asset('assets/images/no_profile.jpg')}}" alt="user profile"></a>
+				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{{asset('assets/images/no_profile.jpg')}}" alt="user profile"></a>
 				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
 								<li><a class="dropdown-item" href="{{ route('user.account') }}">Account</a></li>
 								<li><a class="dropdown-item" href="settings.html">Settings</a></li>
@@ -151,8 +151,8 @@
     @endphp
 
     <a class="nav-link submenu-toggle {{ $settingsActive ? 'active' : '' }}" href="#"
-       data-bs-toggle="collapse"
-       data-bs-target="#submenu-2"
+       data-toggle="collapse"
+       data-target="#submenu-2"
        aria-expanded="{{ $settingsActive ? 'true' : 'false' }}"
        aria-controls="submenu-2">
         <span class="nav-icon">
@@ -171,7 +171,7 @@
 
     <div id="submenu-2"
          class="collapse submenu submenu-2 {{ $settingsActive ? 'show' : '' }}"
-         data-bs-parent="#menu-accordion">
+         data-parent="#menu-accordion">
         <ul class="submenu-list list-unstyled">
             <li class="submenu-item">
                 <a class="submenu-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">
@@ -205,9 +205,6 @@
         <span class="nav-link-text">Students</span>
     </a>
 </li>
-
-
-
 
 				    </ul><!--//app-menu-->
 			    </nav><!--//app-nav-->
@@ -270,6 +267,10 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@2.8.2/dist/alpine.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}"></script>
+
+    <!-- Bootstrap 4 bundle (ensure this is the one you want) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
@@ -283,4 +284,4 @@
 </body>
 <!-- END: Body-->
 
-</html> 
+</html>

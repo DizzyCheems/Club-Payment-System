@@ -64,31 +64,37 @@ class DocumentController extends Controller
     public function destroy($id)
     {
         try {
-            // Find the file by its ID
-            $file = FileUpload::findOrFail($id);
+            // Try to find the file
+            $file = FileUpload::find($id);
 
-            // Delete the file from storage
-            Storage::disk('public')->delete($file->file_path);
+            // If not found, throw an error
+            if (!$file) {
+                return redirect()->back()->with('error', 'File not found or already deleted.');
+            }
 
-            // Delete the file record from the database
+            // Check if file exists in storage before deleting
+            if (Storage::disk('public')->exists($file->file_path)) {
+                Storage::disk('public')->delete($file->file_path);
+            }
+
+            // Delete the record
             $file->delete();
 
             return redirect()->back()->with('success', 'File deleted successfully.');
         } catch (\Exception $e) {
-            // Log or handle the exception
-            \Log::error($e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete file.');
+            \Log::error('Delete file error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete file. Please try again.');
         }
     }
 
     public function preview($id)
-{
-    $file = FileUpload::findOrFail($id);
-    $filePath = storage_path('app/public/' . $file->file_path);
-    
-    // For simplicity, assuming PDF files can be previewed directly in the browser
-    return response()->file($filePath);
-}
+    {
+        $file = FileUpload::findOrFail($id);
+        $filePath = storage_path('app/public/' . $file->file_path);
+        
+        // For simplicity, assuming PDF files can be previewed directly in the browser
+        return response()->file($filePath);
+    }
 
 
 }

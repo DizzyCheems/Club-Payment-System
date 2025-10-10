@@ -192,83 +192,82 @@ class UserController extends Controller
     }
 
 
-    // Show edit account page
-public function editAccount()
-{
-    $user = auth()->user();
+        // Show edit account page
+    public function editAccount()
+    {
+        $user = auth()->user();
 
-    // Only allow regular users
-    if (!$user->isUser()) {
-        abort(403, 'Unauthorized action.');
+        // Only allow regular users
+        if (!$user->isUser()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('user.edit_user', compact('user'));
     }
 
-    return view('user.edit_user', compact('user'));
-}
+    // Update account
+    public function updateAccount(Request $request)
+    {
+        $user = auth()->user();
 
-// Update account
-public function updateAccount(Request $request)
-{
-    $user = auth()->user();
+        if (!$user->isUser()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    if (!$user->isUser()) {
-        abort(403, 'Unauthorized action.');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('user.account')->with('success', 'Account updated successfully.');
     }
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:6|confirmed',
-    ]);
+    public function editAdminAccount()
+    {
+        $user = auth()->user();
 
-    $user->name = $request->name;
-    $user->email = $request->email;
+        // Only allow admin users
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    if ($request->password) {
-        $user->password = Hash::make($request->password);
+        return view('users.admin_edit', compact('user'));
     }
 
-    $user->save();
+    public function updateAdminAccount(Request $request)
+    {   
+        $user = auth()->user();
 
-    return redirect()->route('user.account')->with('success', 'Account updated successfully.');
-}
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-public function editAdminAccount()
-{
-    $user = auth()->user();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
 
-    // Only allow admin users
-    if (!$user->isAdmin()) {
-        abort(403, 'Unauthorized action.');
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.account.edit')->with('success', 'Account updated successfully!');
     }
-
-    return view('users.edit', compact('user'));
-}
-
-public function updateAdminAccount(Request $request)
-{   
-    $user = auth()->user();
-
-    if (!$user->isAdmin()) {
-        abort(403, 'Unauthorized action.');
-    }
-
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:6|confirmed',
-    ]);
-
-    $user->name = $request->name;
-    $user->email = $request->email;
-
-    if ($request->password) {
-        $user->password = Hash::make($request->password);
-    }
-
-    $user->save();
-
-    return redirect()->route('user.account')->with('success', 'Account updated successfully.');
-}
-
 
 }

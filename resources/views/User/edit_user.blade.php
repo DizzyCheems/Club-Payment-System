@@ -20,7 +20,7 @@
                         <form action="{{ route('user.account.update') }}" method="POST" novalidate>
                             @csrf
 
-                            <div class="form-group mb-3">
+                            <div class="form-group mb-3">   
                                 <label for="name">Name</label>
                                 <input type="text" name="name" class="form-control" value="{{ $user->name }}" required>
                             </div>

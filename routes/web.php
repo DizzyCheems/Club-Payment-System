@@ -50,6 +50,12 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/user/delete', [UserController::class, 'delete'])->name('user.destroy');
     Route::get('/get-user-info/{id}', [UserController::class, 'getUserInfo']);
 
+    // Admin account edit routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/admin/account', [UserController::class, 'editAdminAccount'])->name('admin.account.edit');
+        Route::post('/admin/account/update', [UserController::class, 'updateAdminAccount'])->name('admin.account.update');
+    });
+
     // User Account
     Route::get('/account', [UserController::class, 'account'])->name('user.account');              // view account
     Route::get('/account/edit', [UserController::class, 'editAccount'])->name('user.account.edit'); // edit account
