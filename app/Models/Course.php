@@ -13,7 +13,8 @@ class Course extends Model
     [
         'course_name',
         'year_level',
-        'section'
+        'section',
+        'color',
     ];
 
     public function students()

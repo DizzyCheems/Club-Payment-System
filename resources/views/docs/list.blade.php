@@ -132,7 +132,7 @@
             </div>
         </div>
     </div>
-
+    
    {{-- JS --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {

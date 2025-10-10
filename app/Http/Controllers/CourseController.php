@@ -31,26 +31,35 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-    //
-            $message=[
+        $message=[
             'required' => 'This field is required!'
-             ];
-                          
-            $request->validate([      
+        ];
+
+        $request->validate([      
             'course_name'=>'required',
             'year_level'=>'required',
             'section'=>'required',
-            ],$message);
-                          
-            Course::create([
+        ], $message);
+
+        // Get all existing colors
+        $existingColors = Course::pluck('color')->toArray();
+
+        // Generate a unique random color
+        do {
+            $color = '#' . substr(md5(mt_rand()), 0, 6); // random hex color
+        } while(in_array($color, $existingColors));
+
+        Course::create([
             'course_name' => $request->course_name, 
             'year_level'  => Str::upper($request->year_level),
             'section' => $request->section,
-            ]);
-            return redirect()->route('course.index')->with('success', 'Course Registered Successfully');    
+            'color' => $color,
+        ]);
 
+        return redirect()->route('course.index')->with('success', 'Course Registered Successfully');
     }
 
     public function view($id)
@@ -103,10 +112,16 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request) 
+    public function delete($id) 
     {
-       $id = $request->id;
-       $emp = Course::find($id);
-       Course::destroy($id);
-   }
+        $course = Course::find($id);
+
+        if(!$course){
+            return response()->json(['error' => 'Course not found'], 404);
+        }
+
+        $course->delete();
+
+        return response()->json(['success' => true, 'message' => 'Course deleted successfully']);
+    }
 }
