@@ -25,8 +25,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Date</label>
-                        <div class="form-control bg-light">{{ $activity->date }}</div>
+                        <label class="form-label fw-bold">Time</label>
+                        <div class="form-control bg-light">
+                            {{ \Carbon\Carbon::parse($activity->date)->format('h:i A') }}
+                        </div>
                     </div>
 
                     <div class="mb-3">

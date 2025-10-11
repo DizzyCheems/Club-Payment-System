@@ -89,8 +89,8 @@ class AgendaController extends Controller
     public function view($id)
     {
         $allAgendas = Agenda::all(); 
-        $activities = Activities::all(); 
         $agendas = Agenda::find($id);
+        $activities = Activities::where('agenda_id', $agendas->id)->get(); 
         return view('agenda.view', [
             'allAgendas' => $allAgendas,
             'activities' => $activities,

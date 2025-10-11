@@ -24,8 +24,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Date</label>
-                            <input type="date" name="date" class="form-control" value="{{ old('date', $activity->date) }}" required>
+                            <label class="form-label fw-bold">Time</label>
+                            <input 
+                                type="time" 
+                                name="date" 
+                                class="form-control" 
+                                value="{{ old('date', \Carbon\Carbon::parse($activity->date)->format('H:i')) }}" 
+                                required
+                            >
                         </div>
 
                         <div class="mb-3">
