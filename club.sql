@@ -170,8 +170,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (37, '2024_04_26_025411_add_user_id_to_students_table', 3),
 (38, '2024_05_16_062800_add_is_approved_to_payments_table', 3),
 (39, '2024_02_29_065844_create_file_uploads_table', 4),
-(40, '2025_10_11_120000_add_color_to_courses_table', 5);
-
+(40, '2025_10_11_120000_add_color_to_courses_table', 5),
+(41, '2025_10_11_093254_add_course_full_name_to_courses_table', 5);
 -- --------------------------------------------------------
 
 --
@@ -486,9 +486,11 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 ALTER TABLE `students`
+  DROP FOREIGN KEY `students_course_id_foreign`,
   ADD CONSTRAINT `students_course_id_foreign`
   FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`)
-  ON DELETE SET NULL ON UPDATE CASCADE,
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  DROP FOREIGN KEY `students_user_id_foreign`,
   ADD CONSTRAINT `students_user_id_foreign`
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
   ON DELETE CASCADE ON UPDATE CASCADE;

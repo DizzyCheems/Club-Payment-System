@@ -16,11 +16,10 @@ class Activities extends Model
         'fund',
     ];
 
-    public function agendas()
+    public function agenda()
     {
         return $this->belongsTo(Agenda::class, 'agenda_id');
     }
-
 }
 
 

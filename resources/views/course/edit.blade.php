@@ -39,7 +39,7 @@
                                 </div>
                          </div>
 
-                         <div class="form-group">
+                         <div class="form-group mb-3">
                              <h5>Section<span class="required"></span></h5>
                                 <div class="controls">
                                     <input type="text" name="section" class="form-control mb-1" value="{{$courses['section']}}" required data-validation-required-message="• This field is required">

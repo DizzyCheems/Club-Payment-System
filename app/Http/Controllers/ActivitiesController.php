@@ -3,29 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activities;
+use App\Models\Agenda;
 use Illuminate\Http\Request;
 
 class ActivitiesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $activities = Activities::all();
+        return view('activity.index', compact('activities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $message = [
@@ -52,38 +45,46 @@ class ActivitiesController extends Controller
             return back()->with('error', 'Failed to register agenda activity');
         }
     }
-    
-    /**
-     * Display the specified resource.
-     */
-    public function show(Activities $activities)
+
+    /** View Activity Details */
+    public function view($id)
     {
-        //
+        $activity = Activities::with('agenda')->findOrFail($id);
+        return view('activity.view', compact('activity'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Activities $activities)
+    /** Edit Activity Form */
+    public function edit($id)
     {
-        //
+        $activity = Activities::findOrFail($id);
+        $agendas = Agenda::all();
+        return view('activity.edit', compact('activity', 'agendas'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Activities $activities)
+    /** Update Activity */
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'activity_name' => 'required',
+            'fund' => 'required|numeric',
+            'date' => 'required|date',
+            'agenda_id' => 'required',
+        ]);
+
+        $activity = Activities::findOrFail($id);
+        $activity->update([
+            'activity_name' => $request->activity_name,
+            'fund' => $request->fund,
+            'date' => $request->date,
+            'agenda_id' => $request->agenda_id,
+        ]);
+
+        return redirect()->route('activity.view', $id)->with('success', 'Activity updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function delete(Request $request) 
+    public function delete(Request $request)
     {
-       $id = $request->id;
-       $emp = Activities::find($id);
-       Activities::destroy($id);
-   }
+        $id = $request->id;
+        Activities::destroy($id);
+    }
 }

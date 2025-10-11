@@ -23,8 +23,9 @@
                         @endif
 
                         <div class="row g-3">
+                            {{-- Course Short Name --}}
                             <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold">Course</label>
+                                <label class="form-label fw-bold">Course Code / Short Name</label>
                                 <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
                                     @php
                                         $badgeColor = $courses->color ?? null;
@@ -39,6 +40,14 @@
                                             {{ $courses->course_name }}
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+
+                            {{-- Course Full Name --}}
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold">Course Full Name</label>
+                                <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
+                                    {{ $courses->course_full_name ?? 'N/A' }}
                                 </div>
                             </div>
 
@@ -57,29 +66,39 @@
                             </div>
 
                             @if(isset($courses->created_at))
-                            <div class="col-12 col-md-4">
-                                <label class="form-label fw-bold">Created</label>
-                                <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
-                                    {{ $courses->created_at->format('j M Y, g:i A') }}
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label fw-bold">Created</label>
+                                    <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
+                                        {{ $courses->created_at->format('j M Y, g:i A') }}
+                                    </div>
                                 </div>
-                            </div>
                             @endif
 
                             @if(isset($courses->updated_at))
-                            <div class="col-12 col-md-4">
-                                <label class="form-label fw-bold">Last Updated</label>
-                                <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
-                                    {{ $courses->updated_at->format('j M Y, g:i A') }}
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label fw-bold">Last Updated</label>
+                                    <div class="p-2 rounded" style="background: #fafafa; border: 1px solid #e9ecef;">
+                                        {{ $courses->updated_at->format('j M Y, g:i A') }}
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         </div><!--//row-->
+
+                        {{-- Buttons --}}
+                        <div class="mt-4">
+                            <a href="{{ route('course.index') }}" class="btn app-btn-secondary">
+                                Back
+                            </a>
+                            <a href="{{ route('course.edit', $courses->id) }}" class="btn app-btn-primary">
+                                Edit Course
+                            </a>
+                        </div>
 
                     </div><!--//app-card-body-->
                 </div><!--//inner-->
             </div><!--//app-card-->
 
-            {{-- Students list for this course (keeps original style + actions) --}}
+            {{-- Students list for this course --}}
             <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" style="bottom:50px;">
                 <div class="inner">
                     <h1 class="app-page-title">Students of {{ $courses->course_name }}</h1>
@@ -95,7 +114,7 @@
                                             <div class="input-group">
                                                 <input type="text" style="width:400px;" id="myInput" name="searchorders" onkeyup="myFunction()" class="form-control search-orders" placeholder="Search">
                                                 <div class="input-group-append">
-                                                    <button type="submit"  class="btn app-btn-secondary">Search</button>
+                                                    <button type="submit" class="btn app-btn-secondary">Search</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +154,7 @@
                                                         <th class="cell">Course</th>
                                                         <th class="cell">School ID Number</th>
                                                         <th class="cell">Facebook Account</th>
-                                                        <th class="cell">G cash/Contact Number</th>
+                                                        <th class="cell">Gcash/Contact Number</th>
                                                         <th class="cell">Actions</th>
                                                     </tr>
                                                 </thead>
@@ -144,7 +163,6 @@
                                                         <tr>
                                                             <td>{{ $student->name }}</td>
                                                             <td>
-                                                                {{-- Use course color if available --}}
                                                                 @php
                                                                     $c = $student->courses ?? null;
                                                                     $col = $c && $c->color ? $c->color : null;

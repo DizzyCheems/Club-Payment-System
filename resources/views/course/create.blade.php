@@ -29,28 +29,33 @@
                                 <div class="controls">
                                     <input type="text" name="course_name" class="form-control mb-1" required data-validation-required-message="• This field is required">
                                 </div>
-                         </div>
-                         
-                         <div class="form-group">
-                          <h5> Year Level <span class="required"></span></h5>
+                            </div>
+                            <div class="form-group">
+                                <h5>Course Full Name <span class="required"></span></h5>
                                 <div class="controls">
-                                <select name="year_level" id="lang" class="form-control" required class="form-control mb-1">
-                                        <option value="1">1st Year</option>
-                                        <option value="2">2nd Year</option>
-                                        <option value="3">3rd Year</option>
-                                        <option value="4">4th Year</option>
-                                  
-                                    </select> 
+                                    <input type="text" name="course_full_name" class="form-control mb-1" required data-validation-required-message="• This field is required">
                                 </div>
-                         </div>
+                            </div>
+                            <div class="form-group">
+                            <h5> Year Level <span class="required"></span></h5>
+                                    <div class="controls">
+                                    <select name="year_level" id="lang" class="form-control" required class="form-control mb-1">
+                                            <option value="1">1st Year</option>
+                                            <option value="2">2nd Year</option>
+                                            <option value="3">3rd Year</option>
+                                            <option value="4">4th Year</option>
+                                    
+                                        </select> 
+                                    </div>
+                            </div>
 
-                         <div class="form-group">
-                             <h5>Section<span class="required"></span></h5>
-                                <div class="controls">
-                                    <input type="text" name="section" class="form-control mb-1" required data-validation-required-message="• This field is required">
+                            <div class="form-group mb-3">
+                                <h5>Section<span class="required"></span></h5>
+                                    <div class="controls">
+                                        <input type="text" name="section" class="form-control mb-1" required data-validation-required-message="• This field is required">
 
-                                </div>
-                         </div>
+                                    </div>
+                            </div>
 
                         <div class="form-actions center">
                             <a class="btn btn-warning mr-1" href="{{route('course.index')}}">

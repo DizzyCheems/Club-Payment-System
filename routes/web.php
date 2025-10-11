@@ -107,6 +107,9 @@ Route::middleware(['auth'])->group(function() {
     // Activities
     Route::post('/activity/create/registered', [ActivitiesController::class, 'store'])->name('activity.add');
     Route::get('/activity/delete', [ActivitiesController::class, 'delete'])->name('activity.destroy');
+    Route::get('/activities/view/{id}', [ActivitiesController::class, 'view'])->name('activity.view');
+    Route::get('/activities/edit/{id}', [ActivitiesController::class, 'edit'])->name('activity.edit');
+    Route::post('/activities/update/{id}', [ActivitiesController::class, 'update'])->name('activity.update');
 
     // Documents
     Route::get('/fileupload/list', [DocumentController::class, 'create'])->name('doc.index');

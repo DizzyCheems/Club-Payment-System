@@ -34,33 +34,34 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
-        $message=[
+        $message = [
             'required' => 'This field is required!'
         ];
 
-        $request->validate([      
-            'course_name'=>'required',
-            'year_level'=>'required',
-            'section'=>'required',
+        $request->validate([
+            'course_name' => 'required',
+            'course_full_name' => 'required',
+            'year_level' => 'required',
+            'section' => 'required',
         ], $message);
 
-        // Get all existing colors
+        // Generate unique color
         $existingColors = Course::pluck('color')->toArray();
-
-        // Generate a unique random color
         do {
-            $color = '#' . substr(md5(mt_rand()), 0, 6); // random hex color
-        } while(in_array($color, $existingColors));
+            $color = '#' . substr(md5(mt_rand()), 0, 6);
+        } while (in_array($color, $existingColors));
 
         Course::create([
-            'course_name' => $request->course_name, 
-            'year_level'  => Str::upper($request->year_level),
+            'course_name' => $request->course_name,
+            'course_full_name' => $request->course_full_name,
+            'year_level' => Str::upper($request->year_level),
             'section' => $request->section,
             'color' => $color,
         ]);
 
         return redirect()->route('course.index')->with('success', 'Course Registered Successfully');
     }
+
 
     public function view($id)
     {
@@ -96,12 +97,14 @@ class CourseController extends Controller
                 ]; 
                 $request->validate([
                     'course_name'=>'required',
+                    'course_full_name' => 'required',
                     'year_level'=>'required',
                     'section'=>'required',
         
                 ],$message);
                 $course=Course::find($request->id);
                 $course->course_name=$request->course_name;
+                $course->course_full_name = $request->course_full_name;
                 $course->year_level=$request->year_level;
                 $course->section=$request->section;        
                 $course->save();
