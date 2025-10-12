@@ -92,6 +92,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/payments/updated', [PaymentController::class, 'update'])->name('payment.update');
     Route::get('/payments/delete', [PaymentController::class, 'delete'])->name('payment.destroy');
     Route::post('/update-payments', [PaymentController::class, 'updatePayments'])->name('payment.approve');
+    // payment remaining info for agenda+student
+    Route::get('/check-payment-status/{student_id}/{agenda_id}', [App\Http\Controllers\PaymentController::class, 'checkPaymentStatus']);
+
 
     // Agendas
     Route::get('/agendas', [AgendaController::class, 'index'])->name('agenda.index');

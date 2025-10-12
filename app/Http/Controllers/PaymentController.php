@@ -219,5 +219,29 @@ class PaymentController extends Controller
             $payment->delete();
         }
     }
-    
+
+    public function checkPaymentStatus($student_id, $agenda_id)
+    {
+        $totalPaid = Payment::where('student_id', $student_id)
+                            ->where('agenda_id', $agenda_id)
+                            ->sum('amount');
+
+        $agenda = Agenda::find($agenda_id);
+        $totalRequired = $agenda ? $agenda->indiv_contrib : 0;
+
+        if ($totalPaid >= $totalRequired) {
+            return response()->json([
+                'status' => 'full',
+                'message' => 'This student has already fully paid for this agenda.'
+            ]);
+        } elseif ($totalPaid > 0 && $totalPaid < $totalRequired) {
+            return response()->json([
+                'status' => 'partial',
+                'remaining' => $totalRequired - $totalPaid,
+                'message' => 'Partial payment made. Remaining balance: ' . number_format($totalRequired - $totalPaid, 2)
+            ]);
+        } else {
+            return response()->json(['status' => 'none']);
+        }
+    }
 }
