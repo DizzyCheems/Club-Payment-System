@@ -84,7 +84,7 @@
                                     </thead>
                                     <tbody id="userTable">
                                     @foreach($payments as $payment)
-                                        <tr data-method="{{ $payment->method }}">
+                                        <tr data-method="{{ $payment->method }}" data-payment-id-row="{{ $payment->id }}">
                                             <td>{{ $payment->agendas->agenda_name }}</td>
                                             <td>{{ $payment->students->name }}</td>
                                             <td>{{ $payment->amount }}</td>
@@ -109,7 +109,7 @@
                                             <td>
                                                 <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', ['id' => $payment->id])}}">Edit</a>
                                                 <a class="btn-sm app-btn-secondary" href="{{route('payment.view', ['id' => $payment->id])}}">View</a>
-                                                <a id="{{$payment['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
+                                                <a id="{{ $payment->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
                                             </td>
                                             <td>
                                                 @if($payment->approved === 0 || $payment->approved === null)
@@ -128,7 +128,7 @@
                     </div>
                 </div>
 
-                <!-- orders-admin tab -->
+                <!-- orders-admin & orders-user are unchanged visually; rows include data-payment-id-row as above -->
                 <div class="tab-pane fade" id="orders-admin" role="tabpanel" aria-labelledby="orders-admin-tab">
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
@@ -149,7 +149,7 @@
                                     <tbody>
                                     @foreach($payments as $payment)
                                         @if($payment->method == 'FULL')
-                                            <tr data-method="{{ $payment->method }}">
+                                            <tr data-method="{{ $payment->method }}" data-payment-id-row="{{ $payment->id }}">
                                                 <td>{{ $payment->agendas->agenda_name }}</td>
                                                 <td>{{ $payment->students->name }}</td>
                                                 <td>{{ $payment->amount }}</td>
@@ -168,7 +168,7 @@
                                                 <td>
                                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', ['id' => $payment->id])}}">Edit</a>
                                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.view', ['id' => $payment->id])}}">View</a>
-                                                    <a id="{{$payment['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
+                                                    <a id="{{ $payment->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
                                                 </td>
                                                 <td>
                                                     @if($payment->approved === 0 || $payment->approved === null)
@@ -188,7 +188,6 @@
                     </div>
                 </div>
 
-                <!-- orders-user tab -->
                 <div class="tab-pane fade" id="orders-user" role="tabpanel" aria-labelledby="orders-user-tab">
                     <div class="app-card app-card-orders-table shadow-sm mb-5">
                         <div class="app-card-body">
@@ -209,7 +208,7 @@
                                     <tbody>
                                     @foreach($payments as $payment)
                                         @if($payment->method == 'PARTIAL')
-                                            <tr data-method="{{ $payment->method }}">
+                                            <tr data-method="{{ $payment->method }}" data-payment-id-row="{{ $payment->id }}">
                                                 <td>{{ $payment->agendas->agenda_name }}</td>
                                                 <td>{{ $payment->students->name }}</td>
                                                 <td>{{ $payment->amount }}</td>
@@ -228,7 +227,7 @@
                                                 <td>
                                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.edit', ['id' => $payment->id])}}">Edit</a>
                                                     <a class="btn-sm app-btn-secondary" href="{{route('payment.view', ['id' => $payment->id])}}">View</a>
-                                                    <a id="{{$payment['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
+                                                    <a id="{{ $payment->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
                                                 </td>
                                                 <td>
                                                     @if($payment->approved === 0 || $payment->approved === null)
@@ -263,6 +262,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
+            <!-- NOTE: student input is now typable (datalist) + hidden input student_id will be submitted -->
             <form id="addPaymentForm" action="{{ route('payment.post') }}" method="POST" novalidate>
                 @csrf
                 <div class="modal-body">
@@ -279,14 +279,22 @@
                         </select>
                     </div>
 
-                    <select name="student_id" id="student_id" class="form-select mb-3">
-                        <option value="" selected disabled>Select Student</option>
-                        @foreach($students as $student)
-                            <option value="{{ $student->id }}" data-course="{{ $student->course ? $student->course->course_name : '' }}">
-                                {{ $student->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <!-- Typable student field (datalist) + custom suggestions -->
+                    <div class="mb-2 position-relative">
+                        <label for="student_input" class="form-label">Student *</label>
+                        <input id="student_input" class="form-control" list="studentsList" placeholder="Type to search student..." autocomplete="off">
+                        <datalist id="studentsList">
+                            @foreach($students as $student)
+                                <!-- data-course included so JS can auto-fill course -->
+                                <option data-id="{{ $student->id }}" data-course="{{ $student->course ? $student->course->course_name : '' }}" value="{{ $student->name }}"></option>
+                            @endforeach
+                        </datalist>
+                        <!-- custom suggestion box (JS will populate) -->
+                        <div id="studentSuggestions" class="student-suggestions d-none"></div>
+
+                        <!-- hidden input that will be submitted -->
+                        <input type="hidden" id="student_hidden" name="student_id" value="">
+                    </div>
 
                     <!-- Course -->
                     <div class="mb-3">
@@ -336,7 +344,7 @@
     </div>
 </div>
 
-<!-- Approve Payments Modal (unused by JS but kept as in original) -->
+<!-- keep updateModal unchanged -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -364,6 +372,38 @@
     </div>
 </div>
 
+<!-- light CSS for suggestions -->
+<style>
+.student-suggestions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 2100;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    max-height: 220px;
+    overflow-y: auto;
+    border-radius: 4px;
+}
+.student-suggestions .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.student-suggestions .suggestion-item:hover {
+    background: #f6f6f6;
+}
+.student-suggestions .small-muted {
+    font-size: 0.82rem;
+    color: #666;
+    margin-left: 8px;
+}
+</style>
+
 <!-- Consolidated, refactored JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script>
@@ -372,7 +412,8 @@
 
     const selectors = {
         agenda: '#agenda_id',
-        student: '#student_id',
+        studentInput: '#student_input',
+        studentHidden: '#student_hidden',
         course: '#course_id',
         amountRequired: '#amountRequired',
         paymentInput: '#paymentInput',
@@ -384,19 +425,22 @@
         approveBtn: '#approvePaymentsButton',
         userTable: '#userTable',
         userTablePartial: '#userTablePartial',
+        adminTable: '#adminTable',
         elementsSelect: '#elements-select',
-        searchInput: '#myInput'
+        searchInput: '#myInput',
+        addPaymentForm: '#addPaymentForm',
+        studentSuggestions: '#studentSuggestions'
     };
 
-    // Safely parse float
     function parseFloatSafe(v) {
         const n = parseFloat(v);
         return Number.isFinite(n) ? n : 0;
     }
 
-    // DOM cached jQuery objects
+    // caches
     const $agenda = $(selectors.agenda);
-    const $student = $(selectors.student);
+    const $studentInput = $(selectors.studentInput);
+    const $studentHidden = $(selectors.studentHidden);
     const $course = $(selectors.course);
     const $amountRequired = $(selectors.amountRequired);
     const $paymentInput = $(selectors.paymentInput);
@@ -404,31 +448,91 @@
     const $methodHidden = $(selectors.methodHidden);
     const $saveBtn = $(selectors.saveBtn);
     const $elementsSelect = $(selectors.elementsSelect);
-    const $searchInput = $(selectors.searchInput);
+    const $addPaymentForm = $(selectors.addPaymentForm);
+    const $studentSuggestions = $(selectors.studentSuggestions);
 
-    // INITIAL: sync hidden method with select
+    // build student array from datalist options
+    const studentOptions = Array.from(document.querySelectorAll('#studentsList option')).map(o => ({
+        id: o.getAttribute('data-id'),
+        name: o.value,
+        course: o.getAttribute('data-course') || ''
+    }));
+
+    // init
     $methodHidden.val($paymentMethod.val() || 'Full');
 
-    // Show course name when student selected
-    $student.on('change', function () {
-        const courseName = $(this).find(':selected').data('course') || '';
-        $course.val(courseName);
+    // function to render suggestion list
+    function showStudentSuggestions(filter) {
+        const q = (filter || '').toLowerCase().trim();
+        const matches = q === '' ? studentOptions.slice(0, 25) : studentOptions.filter(s => s.name.toLowerCase().includes(q));
+        if (!matches.length) {
+            $studentSuggestions.addClass('d-none').empty();
+            return;
+        }
+        let html = '';
+        matches.forEach(s => {
+            html += `<div class="suggestion-item" data-id="${s.id}" data-name="${escapeHtml(s.name)}" data-course="${escapeHtml(s.course)}">
+                        <div>${escapeHtml(s.name)}</div>
+                        <div class="small-muted">${escapeHtml(s.course)}</div>
+                    </div>`;
+        });
+        $studentSuggestions.html(html).removeClass('d-none');
+    }
+
+    function hideStudentSuggestions() {
+        $studentSuggestions.addClass('d-none');
+    }
+
+    // when typing focus: show suggestions filtered
+    $studentInput.on('input focus', function () {
+        const v = $(this).val();
+        showStudentSuggestions(v);
     });
 
-    // Modal reset when opened
+    // click suggestion
+    $studentSuggestions.on('click', '.suggestion-item', function () {
+        const id = $(this).attr('data-id');
+        const name = $(this).attr('data-name');
+        const course = $(this).attr('data-course');
+
+        $studentInput.val(name);
+        $studentHidden.val(id);
+        $course.val(course);
+        hideStudentSuggestions();
+
+        // After choosing a student, check payment status if agenda chosen
+        if ($agenda.val()) checkPaymentStatus();
+    });
+
+    // hide suggestions on outside click
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest(selectors.studentInput).length &&
+            !$(e.target).closest(selectors.studentSuggestions).length) {
+            hideStudentSuggestions();
+        }
+    });
+
+    // also hide suggestions on escape key
+    $studentInput.on('keydown', function (e) {
+        if (e.key === 'Escape') hideStudentSuggestions();
+    });
+
+    // modal reset
     $(selectors.addModal).on('show.bs.modal', function () {
         $agenda.val('');
-        $student.val('');
+        $studentInput.val('');
+        $studentHidden.val('');
         $course.val('');
         $paymentInput.val('0.00');
         $paymentMethod.val('Full').prop('disabled', false);
         $methodHidden.val('Full');
         $amountRequired.val('');
         $amountRequired.data('original', 0);
-        $saveBtn.prop('disabled', false);
+        $saveBtn.prop('disabled', false).text('Save');
+        hideStudentSuggestions();
     });
 
-    // When agenda changes: set original contribution + auto-fill according to current method
+    // agenda change
     $agenda.on('change', function () {
         const indivContrib = parseFloatSafe($(this).find(':selected').data('indiv-contrib'));
         $amountRequired.data('original', indivContrib);
@@ -442,19 +546,13 @@
             $amountRequired.val(indivContrib.toFixed(2));
             $paymentInput.val(indivContrib.toFixed(2));
         }
-
-        // If student already selected, re-check payment status (partial/full)
-        if ($student.val()) {
-            checkPaymentStatus();
-        }
     });
 
-    // When payment method changes: update hidden input + auto-fill payment
+    // method change
     $paymentMethod.on('change', function () {
         const method = $(this).val();
         $methodHidden.val(method);
 
-        // compute original if available, fallback from selected agenda option
         let original = parseFloatSafe($amountRequired.data('original'));
         if (!original) {
             original = parseFloatSafe($agenda.find(':selected').data('indiv-contrib'));
@@ -471,24 +569,18 @@
         }
     });
 
-    // Keep hidden method synced if select is changed elsewhere
-    $paymentMethod.on('change', function () {
-        $methodHidden.val($(this).val());
-    });
-
-    // Prevent payment input exceeding required
+    // prevent payment > required
     $paymentInput.on('input', function () {
         const payment = parseFloatSafe($(this).val());
         const required = parseFloatSafe($amountRequired.val());
         if (payment > required) $(this).val(required.toFixed(2));
     });
 
-    // Check payment status endpoint and react accordingly
+    // check payment status
     function checkPaymentStatus() {
-        const studentId = $student.val();
+        const studentId = $studentHidden.val();
         const agendaId = $agenda.val();
 
-        // reset defaults
         $saveBtn.prop('disabled', false);
         $paymentMethod.prop('disabled', false);
 
@@ -497,56 +589,177 @@
         $.ajax({
             url: `/check-payment-status/${studentId}/${agendaId}`,
             method: 'GET',
-            success: function (response) {
-                if (response.status === 'full') {
-                    Swal.fire({ icon: 'info', title: 'Fully Paid', text: response.message });
-                    $saveBtn.prop('disabled', true);
-                    $paymentInput.val('0.00');
-                    $amountRequired.val('0.00');
-                    $methodHidden.val($paymentMethod.val() || 'Full');
-                } else if (response.status === 'partial') {
-                    Swal.fire({ icon: 'warning', title: 'Partial Payment', text: response.message });
-                    // Force next payment to Full (business rule) — UI shows it and disables the select
-                    $paymentMethod.val('Full').prop('disabled', true);
-                    $methodHidden.val('Full');
-
-                    const remaining = parseFloatSafe(response.remaining);
-                    $amountRequired.val(remaining.toFixed(2));
-                    $paymentInput.val(remaining.toFixed(2));
-                    $saveBtn.prop('disabled', false);
+            dataType: 'json'
+        })
+        .done(function (response) {
+            if (response.status === 'full') {
+                // use small toast + disable save
+                Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'Fully Paid', text: response.message, timer: 2000, showConfirmButton: false });
+                $saveBtn.prop('disabled', true);
+                $paymentInput.val('0.00');
+                $amountRequired.val('0.00');
+                $methodHidden.val($paymentMethod.val() || 'Full');
+            } else if (response.status === 'partial') {
+                Swal.fire({ toast: true, position: 'top-end', icon: 'warning', title: 'Partial Payment', text: response.message, timer: 3000, showConfirmButton: false });
+                $paymentMethod.val('Full').prop('disabled', true);
+                $methodHidden.val('Full');
+                const remaining = parseFloatSafe(response.remaining);
+                $amountRequired.val(remaining.toFixed(2));
+                $paymentInput.val(remaining.toFixed(2));
+                $saveBtn.prop('disabled', false);
+            } else {
+                const indiv = parseFloatSafe($agenda.find(':selected').data('indiv-contrib')) || 0;
+                $amountRequired.data('original', indiv);
+                if ($paymentMethod.val() === 'Partial') {
+                    const half = +(indiv * 0.5).toFixed(2);
+                    $amountRequired.val(half.toFixed(2));
+                    $paymentInput.val(half.toFixed(2));
                 } else {
-                    // none: new payment
-                    $saveBtn.prop('disabled', false);
-                    $paymentMethod.prop('disabled', false);
-                    const indiv = parseFloatSafe($agenda.find(':selected').data('indiv-contrib')) || 0;
-                    $amountRequired.data('original', indiv);
-
-                    if ($paymentMethod.val() === 'Partial') {
-                        const half = +(indiv * 0.5).toFixed(2);
-                        $amountRequired.val(half.toFixed(2));
-                        $paymentInput.val(half.toFixed(2));
-                    } else {
-                        $amountRequired.val(indiv.toFixed(2));
-                        $paymentInput.val(indiv.toFixed(2));
-                    }
-
-                    $methodHidden.val($paymentMethod.val() || 'Full');
+                    $amountRequired.val(indiv.toFixed(2));
+                    $paymentInput.val(indiv.toFixed(2));
                 }
-            },
-            error: function () {
-                console.error('Error checking payment status');
+                $methodHidden.val($paymentMethod.val() || 'Full');
             }
+        })
+        .fail(function () {
+            console.error('Error checking payment status');
         });
     }
 
-    // Bind handlers for checkPaymentStatus
-    $student.on('change', checkPaymentStatus);
+    // bind status checks
+    $studentInput.on('change blur', function () {
+        // ensure hidden id and course are set if they typed or selected
+        const val = $(this).val();
+        const match = studentOptions.find(s => s.name === val);
+        if (match) {
+            $studentHidden.val(match.id || '');
+            $course.val(match.course || '');
+        } else {
+            // keep hidden blank until they pick
+            $studentHidden.val('');
+            $course.val('');
+        }
+        checkPaymentStatus();
+    });
     $agenda.on('change', checkPaymentStatus);
 
-    // DELETE payment via AJAX (uses Swal confirm)
+    // AJAX create payment (explicitly expects JSON)
+    $addPaymentForm.on('submit', function (e) {
+        e.preventDefault();
+
+        const studentId = $studentHidden.val();
+        if (!studentId) {
+            Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'Please select a student from the list', timer: 2500, showConfirmButton: false });
+            return;
+        }
+
+        const $form = $(this);
+        const url = $form.attr('action');
+        const payload = $form.serialize();
+
+        $saveBtn.prop('disabled', true).text('Saving...');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: payload,
+            dataType: 'json',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+        })
+        .done(function (res) {
+            try {
+                if (res && res.success && res.payment) {
+                    $('#add').modal('hide');
+
+                    const p = res.payment;
+                    const rowHtml = buildPaymentRowHtml(p);
+
+                    // Insert into the lists – prepend so newest is on top
+                    $('#userTable').prepend(rowHtml.fullRow);
+                    if (p.method && p.method.toUpperCase() === 'FULL') {
+                        if ($('#adminTable tbody').length) $('#adminTable tbody').prepend(rowHtml.fullRow);
+                    } else {
+                        if ($('#userTablePartial tbody').length) $('#userTablePartial tbody').prepend(rowHtml.fullRow);
+                    }
+
+                    // Swal toast
+                    Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Payment Registered', timer: 2000, showConfirmButton: false });
+
+                    // ALSO add a Bootstrap alert at the top of the page (more visible)
+                    const $alert = $(`<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                        Payment Registered successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`);
+                    $('.container-xl').first().prepend($alert);
+                    setTimeout(() => { $alert.alert('close'); }, 3000);
+
+                    $form[0].reset();
+                    $methodHidden.val('Full');
+                } else {
+                    console.warn('Unexpected AJAX response, reloading.');
+                    window.location.reload();
+                }
+            } catch (err) {
+                console.error(err);
+                window.location.reload();
+            }
+        })
+        .fail(function (xhr) {
+            let msg = 'Server error';
+            if (xhr && xhr.responseJSON && xhr.responseJSON.errors) {
+                const errs = xhr.responseJSON.errors;
+                msg = Object.values(errs).map(a => a.join(' ')).join('. ');
+            } else if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+                msg = xhr.responseJSON.message;
+            }
+            Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: msg, timer: 4000, showConfirmButton: false });
+        })
+        .always(function () {
+            $saveBtn.prop('disabled', false).text('Save');
+        });
+    });
+
+    // helper for building the new table row
+    function buildPaymentRowHtml(p) {
+        const typeBadge = (p.type && p.type.toUpperCase() === 'ONLINE') ? '<span class="badge badge-pill badge-online">ONLINE</span>' : '<span class="badge badge-pill badge-full">CASH</span>';
+        const methodBadge = (p.method && p.method.toUpperCase() === 'PARTIAL') ? '<span class="badge badge-pill badge-partial">PARTIAL</span>' : '<span class="badge badge-pill badge-full">FULL</span>';
+        const createdDate = p.created_at_formatted || p.created_at || '';
+        const createdTime = p.created_at_time || '';
+        const fullRow = `
+            <tr data-method="${escapeHtml(p.method || '')}" data-payment-id-row="${escapeHtml(p.id || '')}">
+                <td>${escapeHtml(p.agenda_name || '')}</td>
+                <td>${escapeHtml(p.student_name || '')}</td>
+                <td>${escapeHtml(p.amount || '')}</td>
+                <td>${typeBadge}</td>
+                <td>${methodBadge}</td>
+                <td class="cell"><span>${createdDate}</span><span class="note">${createdTime}</span></td>
+                <td>
+                    <a class="btn-sm app-btn-secondary" href="/payments/edit/${p.id}">Edit</a>
+                    <a class="btn-sm app-btn-secondary" href="/payments/view/${p.id}">View</a>
+                    <a id="${p.id}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Payment Info</a>
+                </td>
+                <td>
+                    <input type="checkbox" name="approval_checkbox" data-payment-id="${p.id}">
+                </td>
+            </tr>
+        `;
+        return { fullRow };
+    }
+
+    function escapeHtml(unsafe) {
+        return ('' + unsafe)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // delete (AJAX) — note: no dataType to avoid parse errors if server returns empty body
     $(document).on('click', selectors.deleteBtnClass, function (e) {
         e.preventDefault();
-        const id = $(this).attr('id');
+        const $btn = $(this);
+        const id = $btn.attr('id');
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to undo this.",
@@ -560,20 +773,19 @@
             $.ajax({
                 url: '{{ route('payment.destroy') }}',
                 method: 'get',
-                data: { id: id, _token: '{{ csrf_token() }}' },
-                success: function () {
-                    Swal.fire('Deleted!', 'Your file has been deleted.', 'success').then(() => {
-                        window.location.href = '{{ route('payment.index') }}';
-                    });
-                },
-                error: function () {
-                    Swal.fire('Error!', 'Unable to delete.', 'error');
-                }
+                data: { id: id, _token: '{{ csrf_token() }}' }
+            })
+            .done(function () {
+                $(`[data-payment-id-row="${id}"]`).fadeOut(240, function () { $(this).remove(); });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Deleted!', text: 'Payment deleted', timer: 1800, showConfirmButton: false });
+            })
+            .fail(function () {
+                Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'Unable to delete', timer: 2000, showConfirmButton: false });
             });
         });
     });
 
-    // Approve selected payments
+    // Approve (AJAX)
     $(selectors.approveBtn).on('click', function () {
         Swal.fire({
             title: 'Are you sure you want to approve payment?',
@@ -589,6 +801,11 @@
             const checkedCheckboxes = document.querySelectorAll('input[name="approval_checkbox"]:checked');
             const paymentIds = Array.from(checkedCheckboxes).map(cb => cb.dataset.paymentId);
 
+            if (!paymentIds.length) {
+                Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'No payments selected', timer: 1500, showConfirmButton: false });
+                return;
+            }
+
             fetch('{{ url('/update-payments') }}', {
                 method: 'POST',
                 headers: {
@@ -602,35 +819,34 @@
                 return response.json();
             })
             .then(() => {
-                Swal.fire('Approved!', 'The payments have been approved.', 'success').then(() => {
-                    location.reload();
+                paymentIds.forEach(id => {
+                    $(`input[name="approval_checkbox"][data-payment-id="${id}"]`).each(function () {
+                        $(this).closest('td').html('<span style="color: green;">Approved</span><input type="checkbox" data-payment-id="' + id + '" checked style="display:none;">');
+                    });
                 });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Approved!', timer: 1500, showConfirmButton: false });
             })
             .catch(() => {
-                Swal.fire('Error!', 'There was an error approving the payments.', 'error');
+                Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'There was an error approving the payments.', timer: 2000, showConfirmButton: false });
             });
         });
     });
 
-    // Table rows show/hide based on elements-select
+    // elements-select behaviour
     $elementsSelect.on('change', function () {
         const selectedValue = parseInt($(this).val(), 10);
-        // apply to both tables for consistency
-        [selectors.userTable, selectors.userTablePartial, '#adminTable'].forEach(tid => {
+        [selectors.userTable, selectors.userTablePartial, selectors.adminTable].forEach(tid => {
             const $tbl = $(tid);
             if (!$tbl.length) return;
             const rows = $tbl.find('tbody tr');
-            rows.each((idx, row) => {
-                $(row).toggle(idx < selectedValue);
-            });
+            rows.each((idx, row) => { $(row).toggle(idx < selectedValue); });
         });
     });
 
-    // small search function already used on input with onkeyup; keep it global
+    // search function used on keyup
     window.myFunction = function () {
         var input = document.getElementById("myInput");
         var filter = input.value.toUpperCase();
-        // search in main all-table
         var table = document.getElementById("userTable");
         if (!table) return;
         var tr = table.getElementsByTagName("tr");
@@ -641,8 +857,7 @@
                 if (td) {
                     var txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-                        break;
+                        found = true; break;
                     }
                 }
             }
@@ -650,30 +865,19 @@
         }
     };
 
-    // small helper for filterRows (tabs)
     window.filterRows = function (filter) {
         const rows = document.querySelectorAll('tr[data-method]');
         rows.forEach((row) => {
-            const method = row.getAttribute('data-method');
-            if (filter === 'all' || method.toLowerCase() === filter.toLowerCase()) {
-                row.style.display = 'table-row';
-            } else {
-                row.style.display = 'none';
-            }
+            const method = row.getAttribute('data-method') || '';
+            if (filter === 'all' || method.toLowerCase() === filter.toLowerCase()) row.style.display = 'table-row';
+            else row.style.display = 'none';
         });
     };
 
-    // SweetAlert on register success (keeps existing behavior)
+    // fallback: if server left session sweetAlert for non-AJAX fallback, show toast and reload lightly
     @if(session('sweetAlert'))
         $(function () {
-            Swal.fire({
-                title: 'Payment Registered.',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                window.location.reload();
-            });
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Payment Registered', timer: 1800, showConfirmButton: false }).then(() => { window.location.reload(); });
         });
     @endif
 

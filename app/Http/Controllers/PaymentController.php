@@ -92,7 +92,7 @@ class PaymentController extends Controller
         $message = [
             'required' => 'This field is required!',
         ];
-    
+
         $request->validate([
             'agenda_id' => 'required',
             'student_id' => 'required',
@@ -100,7 +100,7 @@ class PaymentController extends Controller
             'type' => 'required',
             'method' => 'required',
         ], $message);
-    
+
         $payment = Payment::create([
             'student_id' => $request->student_id,
             'agenda_id' => $request->agenda_id,
@@ -108,18 +108,39 @@ class PaymentController extends Controller
             'type' => Str::upper($request->type),
             'method' => Str::upper($request->method),
         ]);
-    
-     
+
         $refNum = mt_rand(100000, 999999);
-    
-        // Create the pay element
+
         Pay::create([
             'payment_id' => $payment->id,
             'student_id' => $request->student_id,
             'amount' => $request->amount,
             'ref_num' => $refNum,
         ]);
-    
+
+        // If it's an AJAX request, return JSON with the minimal fields the client needs
+        if ($request->ajax()) {
+            // eager load relations for display
+            $payment->load('agendas', 'students');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment Registered.',
+                'payment' => [
+                    'id' => $payment->id,
+                    'agenda_name' => $payment->agendas->agenda_name ?? '',
+                    'student_name' => $payment->students->name ?? '',
+                    'amount' => number_format($payment->amount, 2),
+                    'type' => $payment->type,
+                    'method' => $payment->method,
+                    // formatted date strings used by the front-end
+                    'created_at_formatted' => date('j M', strtotime($payment->created_at)),
+                    'created_at_time' => date('g:i A', strtotime($payment->created_at)),
+                ],
+            ]);
+        }
+
+        // non-AJAX fallback
         if ($payment) {
             return back()->with('sweetAlert', true);
         } else {
