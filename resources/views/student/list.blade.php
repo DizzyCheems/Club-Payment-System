@@ -5,9 +5,9 @@
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="container-xl">
         <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" >
-				<div class="inner">
+                <div class="inner">
                     <h1 class="app-page-title">Students</h1>
-					    <div class="app-card-body p-3 p-lg-4">
+                        <div class="app-card-body p-3 p-lg-4">
 
                 <div class="col-auto">
                     <div class="page-utilities">
@@ -52,10 +52,18 @@
 
             <!--Tab Selections -->
             <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
-                <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true" onclick="filterRows('all')">All</a>
-                <a class="flex-sm-fill text-sm-center nav-link" id="orders-admin-tab" data-bs-toggle="tab" href="#orders-admin" role="tab" aria-controls="orders-admin" aria-selected="false" onclick="filterRows('admin')">BSCS</a>
-                <a class="flex-sm-fill text-sm-center nav-link" id="orders-user-tab" data-bs-toggle="tab" href="#orders-user" role="tab" aria-controls="orders-user" aria-selected="false" onclick="filterRows('user')">BLIS</a>
-                <a class="flex-sm-fill text-sm-center nav-link" id="orders-other-tab" data-bs-toggle="tab" href="#orders-other" role="tab" aria-controls="orders-other" aria-selected="false" onclick="filterRows('other')">BSIT</a>
+                <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" href="#" role="tab" aria-selected="true" onclick="filterRows('all'); setActiveTab(this);">All</a>
+
+                <!-- Dynamically generate course tabs -->
+                @foreach($courses as $course)
+                    @php
+                        // create a safe slug for the course to use for filtering
+                        $courseSlug = strtolower(str_replace(' ', '-', $course->course_name));
+                    @endphp
+                    <a class="flex-sm-fill text-sm-center nav-link" href="#" role="tab" onclick="filterRows('{{ $courseSlug }}'); setActiveTab(this);">
+                        {{ $course->course_name }}
+                    </a>
+                @endforeach
             </nav>
             <!--END Tab Selections -->
 
@@ -64,6 +72,7 @@
             <div class="app-card app-card-orders-table shadow-sm mb-5">
                 <div class="app-card-body">
                     <div class="table-responsive">
+                        <!-- Single table that will be filtered client-side -->
                         <table class="table app-table-hover mb-0 text-left table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -74,164 +83,49 @@
                                     <th class="cell">G cash/Contact Number</th>
                                     <th class="col-actions cell">Actions</th>    
                                 </tr>
-                                    </thead>
-                                    <tbody id="userTable">
-                                        @foreach($students as $student)                 
-                                                <tr>    
-                                                        <td>{{ $student->name }}</td>
-                                                        <td>
-                                                            @if($student->courses->course_name  == 'BSCS')   
-                                                                <span class="badge badge-pill badge-bscs">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                            @elseif ($student->courses->course_name == 'BSIT') 
-                                                                <span class="badge badge-pill badge-bsit">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                            @else 
-                                                                <span class="badge badge-pill badge-blis">{{$student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ $student->id_num }}</td>
-                                                        <td>{{ $student->social_acc }}</td>
-                                                        <td>{{ $student->payment_acc }}</td>
-                                                        <td class="cell">
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
-                                                        </td>            
-                                                    </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            </thead>
+                            <tbody id="userTable">
+                                @foreach($students as $student)
+                                    @php
+                                        $courseName = optional($student->courses)->course_name ?? 'Unknown';
+                                        $yearLevel = optional($student->courses)->year_level ?? '';
+                                        $courseSlug = strtolower(str_replace(' ', '-', $courseName));
+                                        // badge class based on course slug (fall back to generic)
+                                        $badgeClass = 'badge-' . $courseSlug;
+                                    @endphp
+                                    <tr data-course="{{ $courseSlug }}">
+                                        <td>{{ $student->name }}</td>
+                                        @php
+                                            $courseColor = optional($student->courses)->color ?? '#6c757d'; // fallback gray
+                                        @endphp
+                                        <td>
+                                            <span class="badge badge-pill"
+                                                style="background-color: {{ $courseColor }}; color: #fff;">
+                                                {{ $courseName }} {{ $yearLevel }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $student->id_num }}</td>
+                                        <td>{{ $student->social_acc }}</td>
+                                        <td>{{ $student->payment_acc }}</td>
+                                        <td class="cell">
+                                            <a class="btn-sm app-btn-secondary" href="{{ route('student.edit', ['id' => $student->id]) }}">Edit</a>
+                                            <a class="btn-sm app-btn-secondary" href="{{ route('student.view', ['id' => $student->id]) }}">View</a>
+                                            <a id="{{ $student->id }}" class="btn-sm app-btn-secondary app-btn-secondary-delete">Delete Student Info</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="tab-pane fade" id="orders-admin" role="tabpanel" aria-labelledby="orders-admin-tab">
-                    <div class="app-card app-card-orders-table shadow-sm mb-5">
-                        <div class="app-card-body">
-                            <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="cell">Name</th>
-                                            <th class="cell">Course</th>
-                                            <th class="cell">School ID Number</th>
-                                            <th class="cell">Facebook Account</th>
-                                            <th class="cell">G cash/Contact Number</th>
-                                            <th class="col-actions cell">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="userTable">
-                                        @foreach($students as $student)                 
-                                                <tr>    
-                                                  @if($student->courses->course_name  == 'BSCS')   
-                                                        <td>{{ $student->name }}</td>
-                                                        <td>   
-                                                                <span class="badge badge-pill badge-bscs">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                        </td>
-                                                        <td>{{ $student->id_num }}</td>
-                                                        <td>{{ $student->social_acc }}</td>
-                                                        <td>{{ $student->payment_acc }}</td>
-                                                        <td class="cell">
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
-                                                        </td> 
-                                                    </tr>
-                                                    @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="orders-user" role="tabpanel" aria-labelledby="orders-user-tab">
-                    <div class="app-card app-card-orders-table shadow-sm mb-5">
-                        <div class="app-card-body">
-                            <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="userTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="cell">Name</th>
-                                            <th class="cell">Course</th>
-                                            <th class="cell">School ID Number</th>
-                                            <th class="cell">Facebook Account</th>
-                                            <th class="cell">G cash/Contact Number</th>
-                                            <th class="col-actions cell">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="userTable">
-                                        @foreach($students as $student)                 
-                                                <tr>    
-                                                  @if($student->courses->course_name  == 'BLIS')   
-                                                        <td>{{ $student->name }}</td>
-                                                        <td>
-                                                                <span class="badge badge-pill badge-blis">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                        </td>
-                                                        <td>{{ $student->id_num }}</td>
-                                                        <td>{{ $student->social_acc }}</td>
-                                                        <td>{{ $student->payment_acc }}</td>
-                                                        <td class="cell">
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
-                                                        </td> 
-                                                    </tr>
-                                                    @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="orders-other" role="tabpanel" aria-labelledby="orders-other-tab">
-                    <div class="app-card app-card-orders-table shadow-sm mb-5">
-                        <div class="app-card-body">
-                            <div class="table-responsive">
-                                <table class="table app-table-hover mb-0 text-left table table-striped table-bordered" id="adminTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="cell">Name</th>
-                                            <th class="cell">Course</th>
-                                            <th class="cell">School ID Number</th>
-                                            <th class="cell">Facebook Account</th>
-                                            <th class="cell">G cash/Contact Number</th>
-                                            <th class="col-actions cell">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="userTable">
-                                        @foreach($students as $student)                 
-                                                <tr>    
-                                                  @if($student->courses->course_name  == 'BSIT')   
-                                                        <td>{{ $student->name }}</td>
-                                                        <td>   
-                                                                <span class="badge badge-pill badge-bsit">{{ $student->courses->course_name}} {{$student->courses->year_level}}</span>
-                                                        </td>
-                                                        <td>{{ $student->id_num }}</td>
-                                                        <td>{{ $student->social_acc }}</td>
-                                                        <td>{{ $student->payment_acc }}</td>
-                                                        <td class="cell">
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.edit', array('id' => $student->id))}}">Edit</a>
-                                                            <a class="btn-sm app-btn-secondary" href="{{route('student.view', array('id' => $student->id))}}">View</a>
-                                                            <a id="{{$student ['id']}}" class="btn-sm app-btn-secondary app-btn-secondary-delete" >Delete Student Info</a>
-                                                        </td> 
-                                                    </tr>
-                                                    @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
 
             </div>
         </div>
     </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -283,13 +177,23 @@
     </div>
 </div>
 
+<!-- small CSS for dynamic badge defaults (optional) -->
+<style>
+    /* fallback badge colors — adapt to your theme */
+    .badge-bscs { background: #007bff; color: #fff; }
+    .badge-blis { background: #28a745; color: #fff; }
+    .badge-bsit { background: #ffc107; color: #222; }
+    /* generic badge style for unknown slugs */
+    [class^="badge-"] { padding: 0.4rem 0.6rem; }
+</style>
+
 <script>
-    // Function to filter rows based on the selected filter
+    // filterRows now uses data-course attribute (course slug)
     function filterRows(filter) {
-        const rows = document.querySelectorAll('tr[data-role]');
+        const rows = document.querySelectorAll('#userTable tr[data-course]');
         rows.forEach((row) => {
-            const role = row.getAttribute('data-role');
-            if (filter === 'all' || role === filter || filter === 'admin' || role === filter || filter === 'user' || role === filter || filter === 'other' || role === filter) {
+            const course = row.getAttribute('data-course') || '';
+            if (filter === 'all' || course === filter) {
                 row.style.display = 'table-row';
             } else {
                 row.style.display = 'none';
@@ -297,19 +201,18 @@
         });
     }
 
-    // Event listener for the filter select
-    const filterSelect = document.getElementById('filter-select');
-    filterSelect.addEventListener('change', (event) => {
-        filterRows(event.target.value);
+    // helper to set active tab visually
+    function setActiveTab(el) {
+        // clear existing active classes
+        document.querySelectorAll('#orders-table-tab .nav-link').forEach(a => a.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    // initialize: if user clicks a generated tab it will call filterRows; default keep 'All' visible
+    document.addEventListener('DOMContentLoaded', function () {
+        filterRows('all');
     });
-
-
-
 </script>
-
-
-
-
 
 <!-- BEGIN: Page JS-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -317,7 +220,7 @@
 <!-- END: Page JS-->
 
 <script>    
-    // delete Branch ajax request
+    // delete Student ajax request (keeps same behavior but removes full page reload — fades row out)
     $(document).on('click', '.app-btn-secondary-delete', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
@@ -340,20 +243,21 @@
                         _token: csrf
                     },
                     success: function(response) {
-                        console.log(response);
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
-                        location.replace('{{route('student.index')}}');
+                        // fade out the row instead of full page reload
+                        const row = document.querySelector('[data-course] td a[id="'+id+'"]') 
+                            ? document.querySelector('[data-course] td a[id="'+id+'"]').closest('tr')
+                            : document.querySelector('a[id="'+id+'"]').closest('tr');
+                        if (row) $(row).fadeOut(240, function(){ $(this).remove(); });
+                        Swal.fire('Deleted!', 'Student has been deleted.', 'success');
+                    },
+                    error: function() {
+                        Swal.fire('Error!', 'Unable to delete student.', 'error');
                     }
                 });
             }
         })
     });
-
- </script>
+</script>
 
 <!-- Javascript -->          
 <script src="assets/plugins/popper.min.js"></script>
@@ -409,22 +313,36 @@
     });
 </script>
 
+<!-- small search helper (same as before) -->
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, j, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("userTable");
+  if (!table) return;
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    var found = false;
+    for (j = 0; j < tr[i].cells.length - 1; j++) {
+      td = tr[i].getElementsByTagName("td")[j];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
+        }
+      }
+    }
+
+    if (found) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+}
+</script>
 
 @endsection
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

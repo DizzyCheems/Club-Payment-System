@@ -18,7 +18,8 @@ class StudentController extends Controller
     {
         //
         $students = Student::with('courses')->get();
-        return view('student.list', compact('students'));
+        $courses = Course::all(); 
+        return view('student.list', compact('students', 'courses'));
     }
 
 
