@@ -45,6 +45,9 @@ Route::middleware(['auth'])->group(function() {
     // User payment
     Route::get('/payments/user', [PaymentController::class, 'index_user'])->name('payment.index.user');
     Route::post('/payments/create/registered', [PaymentController::class, 'store'])->name('payment.post');
+    Route::get('/payments/user/invoice/{id}', [PaymentController::class, 'user_invoice'])->name('payment.invoice.user');
+
+    Route::get('/check-payment-status/{student_id}/{agenda_id}', [App\Http\Controllers\PaymentController::class, 'checkPaymentStatus']);
 
     // Protect create/store/edit/delete routes with 'admin' middleware
     Route::middleware(['admin'])->group(function () {
@@ -90,12 +93,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/payments/add', [PaymentController::class, 'create'])->name('payment.create');
         Route::get('/payments/edit/{id}', [PaymentController::class, 'edit'])->name('payment.edit');
         Route::get('/payments/view/{id}', [PaymentController::class, 'view'])->name('payment.view');
-        Route::get('/payments/invoice/{id}', [PaymentController::class, 'invoice'])->name('payment.invoice');
         Route::post('/payments/updated', [PaymentController::class, 'update'])->name('payment.update');
         Route::get('/payments/delete', [PaymentController::class, 'delete'])->name('payment.destroy');
         Route::post('/update-payments', [PaymentController::class, 'updatePayments'])->name('payment.approve');
-        // payment remaining info for agenda+student
-        Route::get('/check-payment-status/{student_id}/{agenda_id}', [App\Http\Controllers\PaymentController::class, 'checkPaymentStatus']);
+        Route::get('/payments/invoice/{id}', [PaymentController::class, 'invoice'])->name('payment.invoice');
 
         // Agendas
         Route::get('/agendas', [AgendaController::class, 'index'])->name('agenda.index');

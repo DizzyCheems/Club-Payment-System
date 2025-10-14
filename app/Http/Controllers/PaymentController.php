@@ -101,50 +101,58 @@ class PaymentController extends Controller
             'method' => 'required',
         ], $message);
 
-        $payment = Payment::create([
-            'student_id' => $request->student_id,
-            'agenda_id' => $request->agenda_id,
-            'amount' => $request->amount,
-            'type' => Str::upper($request->type),
-            'method' => Str::upper($request->method),
-        ]);
-
-        $refNum = mt_rand(100000, 999999);
-
-        Pay::create([
-            'payment_id' => $payment->id,
-            'student_id' => $request->student_id,
-            'amount' => $request->amount,
-            'ref_num' => $refNum,
-        ]);
-
-        // If it's an AJAX request, return JSON with the minimal fields the client needs
-        if ($request->ajax()) {
-            // eager load relations for display
-            $payment->load('agendas', 'students');
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Payment Registered.',
-                'payment' => [
-                    'id' => $payment->id,
-                    'agenda_name' => $payment->agendas->agenda_name ?? '',
-                    'student_name' => $payment->students->name ?? '',
-                    'amount' => number_format($payment->amount, 2),
-                    'type' => $payment->type,
-                    'method' => $payment->method,
-                    // formatted date strings used by the front-end
-                    'created_at_formatted' => date('j M', strtotime($payment->created_at)),
-                    'created_at_time' => date('g:i A', strtotime($payment->created_at)),
-                ],
+        try {
+            $payment = Payment::create([
+                'student_id' => $request->student_id,
+                'agenda_id' => $request->agenda_id,
+                'amount' => $request->amount,
+                'type' => Str::upper($request->type),
+                'method' => Str::upper($request->method),
             ]);
-        }
 
-        // non-AJAX fallback
-        if ($payment) {
-            return back()->with('sweetAlert', true);
-        } else {
-            return back()->with('error', 'Failed to register agenda activity');
+            $refNum = mt_rand(100000, 999999);
+
+            Pay::create([
+                'payment_id' => $payment->id,
+                'student_id' => $request->student_id,
+                'amount' => $request->amount,
+                'ref_num' => $refNum,
+            ]);
+
+            // Force JSON if request came from AJAX or JS
+            // after creating $payment and Pay::create...
+            if ($request->expectsJson()) {
+                $payment->load('agendas', 'students');
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Payment Registered.',
+                    'payment' => [
+                        'id' => $payment->id,
+                        'agenda_name' => $payment->agendas->agenda_name ?? '',
+                        'student_name' => $payment->students->name ?? '',
+                        'amount' => number_format($payment->amount, 2),
+                        'type' => $payment->type,
+                        'method' => $payment->method,
+                        'created_at_formatted' => date('j M', strtotime($payment->created_at)),
+                        'created_at_time' => date('g:i A', strtotime($payment->created_at)),
+                    ],
+                ], 200);
+            }
+
+            // fallback for normal form submit
+            return redirect()->back()->with('success', 'Payment Registered Successfully.');
+        } catch (\Exception $e) {
+            // Always return JSON on AJAX errors
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'An unexpected server error occurred.',
+                    'error' => $e->getMessage(),
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', 'Unexpected error: ' . $e->getMessage());
         }
     }
 
@@ -265,4 +273,23 @@ class PaymentController extends Controller
             return response()->json(['status' => 'none']);
         }
     }
+
+    public function user_invoice($id)
+    {
+        $payments = Payment::with('agendas')->find($id);
+
+        if (!$payments) {
+            return redirect()->back()->with('error', 'Payment not found.');
+        }
+
+        $courses = $payments->course;
+        $pays = $payments->pays;
+        $students = $payments->students;
+        $agendas = $payments->agendas;
+        $subtotal = $payments->amount; 
+        $total = $subtotal - 0;
+
+        return view('pays.user_invoice', compact('courses', 'agendas', 'students', 'payments', 'pays', 'subtotal', 'total'));
+    }
+
 }

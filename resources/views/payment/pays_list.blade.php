@@ -225,7 +225,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{route('payment/destroy')}}',
+                    url: '{{route('payment.destroy')}}',
                     method: 'get',
                     data: {
                         id: id,
